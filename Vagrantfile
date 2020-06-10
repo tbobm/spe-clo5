@@ -9,24 +9,28 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
 
-  config.vm.define "node1" do |node1|
-    node1.vm.box = "node1"
-    node1.vm.box = "debian/stretch64"
-    node1.vm.network "private_network", ip: "192.168.50.4"
+  config.vm.define "vm1" do |vm1|
+    vm1.vm.box = "vm1"
+    vm1.vm.box = "debian/stretch64"
+    vm1.vm.network "private_network", ip: "192.168.50.4"
   end
-  config.vm.define "node2" do |node2|
-    node2.vm.box = "node2"
-    node2.vm.box = "debian/stretch64"
-    node2.vm.network "private_network", ip: "192.168.50.5"
+  config.vm.define "vm2" do |vm2|
+    vm2.vm.box = "vm2"
+    vm2.vm.box = "debian/stretch64"
+    vm2.vm.network "private_network", ip: "192.168.50.5"
   end
-  config.vm.define "node3" do |node3|
-    node3.vm.box = "node3"
-    node3.vm.box = "debian/stretch64"
-    node3.vm.network "private_network", ip: "192.168.50.6"
+  config.vm.define "vm3" do |vm3|
+    vm3.vm.box = "vm3"
+    vm3.vm.box = "debian/stretch64"
+    vm3.vm.network "private_network", ip: "192.168.50.6"
   end
-  # config.vm.provision "ansible" do |ansible|
-    # ansible.playbook = "playbook.yml"
-  # end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.groups = {
+      "docker_swarm_worker": ["vm1", "vm2"],
+      "docker_swarm_manager": ["vm3"]
+    }
+  end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
