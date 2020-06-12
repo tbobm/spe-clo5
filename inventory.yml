@@ -3,17 +3,17 @@ all:
   children:
     docker_swarm_manager:
       hosts:
-        VM3:
+        vm3:
           ansible_user: deploy
           ansible_host: 172.16.228.42
           ansible_become: true
     docker_swarm_worker:
       hosts:
-        VM1:
+        vm1:
           ansible_user: deploy
           ansible_host: 172.16.228.52
           ansible_become: true
-        VM2:
+        vm2:
           ansible_user: deploy
           ansible_host: 172.16.228.47
           ansible_become: true
