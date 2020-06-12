@@ -1,33 +1,7 @@
 ---
 # Install Docker
-- name: "docker: Get OS codename"
-  command: lsb_release -cs
-  register: codename
-  # NOTE: lsb_release does not modify system
-  changed_when: false
+- name: "Install docker"
+  include_tasks: "docker.yml"
 
-- name: "docker: Install dependencies"
-  apt:
-    update_cache: true
-    name:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg-agent
-      - software-properties-common
-
-- name: "docker: Add repository GPG key"
-  apt_key:
-    url: "https://download.docker.com/linux/debian/gpg"
-
-- name: "docker: Add stable repository"
-  apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ codename.stdout }} stable"
-
-- name: "docker: Install docker"
-  apt:
-    update_cache: true
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
+- name: "Configure swarm"
+  include_tasks: "swarm.yml"

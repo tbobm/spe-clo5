@@ -1,0 +1,37 @@
+---
+- name: "swarm: Install python dependency"
+  pip:
+    name: docker
+
+- name: "swarm: Configure manager"
+  docker_swarm:
+    state: present
+    advertise_addr: "{{ docker_swarm_addr }}"
+  delegate_facts: true
+  register: swarm_manager
+  when: "'docker_swarm_manager' in group_names"
+
+- name: "swarm: Set docker_manager_token and address"
+  set_fact:
+    docker_manager_address: "{{ docker_swarm_addr  }}:{{ docker_swarm_port  }}"
+    docker_manager_token: "{{ swarm_manager.swarm_facts.JoinTokens.Worker }}"
+    cacheable: true
+  when: "inventory_hostname == groups['docker_swarm_manager'][0]"
+
+- name: "swarm: Distribute docker_manager token and address facts to workers"
+  set_fact:
+    docker_manager_address: "{{ hostvars[groups['docker_swarm_manager'][0]]['docker_manager_address'] }}"
+    docker_manager_token: "{{ hostvars[groups['docker_swarm_manager'][0]]['docker_manager_token'] }}"
+    cacheable: true
+  when: "inventory_hostname == groups['docker_swarm_manager'][0]"
+
+- name: "swarm: Configure workers and join manager"
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ docker_swarm_addr }}"
+    join_token: "{{ hostvars[groups['docker_swarm_manager'][0]].docker_manager_token }}"
+    remote_addrs:
+      - "{{ hostvars[groups['docker_swarm_manager'][0]].docker_manager_address }}"
+  delegate_facts: true
+  register: swarm_manager
+  when: "'docker_swarm_worker' in group_names"
