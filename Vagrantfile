@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config|
     vm3.vm.network "private_network", ip: "192.168.50.6"
   end
   config.vm.provision "ansible" do |ansible|
+    ansible.limit = "all"
     ansible.playbook = "playbook.yml"
     ansible.groups = {
       "docker_swarm_worker": ["vm1", "vm2"],
