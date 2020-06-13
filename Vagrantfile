@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
   end
   config.vm.provision "ansible" do |ansible|
     ansible.limit = "all"
-    ansible.playbook = "playbook.yml"
+    ansible.playbook = "infrastructure.yml"
     ansible.groups = {
       "docker_swarm_worker": ["vm1", "vm2"],
       "docker_swarm_manager": ["vm3"]
