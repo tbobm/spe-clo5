@@ -31,6 +31,9 @@ Vagrant.configure("2") do |config|
       "docker_swarm_worker": ["vm1", "vm2"],
       "docker_swarm_manager": ["vm3"]
     }
+    ansible.host_vars = {
+      "vm3" => {"docker_swarm_addr": "192.168.50.6"}
+    }
   end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
