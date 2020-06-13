@@ -3,5 +3,6 @@
 - name: "Install docker"
   include_tasks: "docker.yml"
 
+# Install swarm
 - name: "Configure swarm"
   include_tasks: "swarm.yml"
