@@ -1,0 +1,10 @@
+---
+- name: "registry: Install dependency"
+  pip:
+    name:
+      - jsondiff
+      - pyyaml
+
+- name: "registry: Deploy docker registry"
+  include_tasks: "registry.yml"
+  when: "'docker_swarm_manager' in group_names"
