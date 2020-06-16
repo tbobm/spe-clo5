@@ -23,6 +23,17 @@ Vagrant.configure("2") do |config|
     vm3.vm.box = "vm3"
     vm3.vm.box = "debian/stretch64"
     vm3.vm.network "private_network", ip: "192.168.50.6"
+    vm3.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"
+      vb.cpus = 4
+  # config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+  #   vb.memory = "1024"
+  # end
+    end
   end
   config.vm.provision "ansible" do |ansible|
     ansible.limit = "all"
@@ -32,8 +43,27 @@ Vagrant.configure("2") do |config|
       "docker_swarm_manager": ["vm3"]
     }
     ansible.host_vars = {
-      "vm3" => {"docker_swarm_addr": "192.168.50.6"}
-    }
+      "vm3" => {
+        "docker_swarm_addr": "192.168.50.6",
+        "gitlab_addr": "192.168.50.6",
+        "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
+        "gitlab_users": [
+          {
+            "name": "test1",
+            "email": "test@loc.al",
+            "password": "P@SSW0RD",
+            "username": "test1"
+          },
+          {
+            "name": "test2",
+            "email": "test@loc.al",
+            "password": "P@SSW0RD",
+            "username": "test2"
+          }
+        ],
+        "gitlab_install": "no",
+      }
+  }
   end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
