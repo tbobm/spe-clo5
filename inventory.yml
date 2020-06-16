@@ -7,6 +7,24 @@ all:
           ansible_user: deploy
           ansible_host: 172.16.228.42
           ansible_become: true
+          gitlab_token: XedPjavJzTAjyuBo2-zt
+          gitlab_users:
+            - name: "consta_c"
+              username: "consta_c"
+              password: "P@SSW0RD"
+              email: "consta_c@etna-alternance.net"
+            - name: "rafina_d"
+              username: "rafina_d"
+              password: "P@SSW0RD"
+              email: "rafina_d@etna-alternance.net"
+            - name: "beauco_j"
+              username: "beauco_j"
+              password: "P@SSW0RD"
+              email: "beauco_j@etna-alternance.net"
+            - name: "le_j"
+              username: "le_j"
+              password: "P@SSW0RD"
+              email: "le_j@etna-alternance.net"
     docker_swarm_worker:
       hosts:
         vm1:
