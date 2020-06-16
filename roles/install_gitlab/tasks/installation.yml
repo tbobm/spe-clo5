@@ -1,0 +1,42 @@
+---
+- name: "gitlab: Install dependencies"
+  apt:
+    update_cache: true
+    name:
+      - ca-certificates
+
+- name: "gitlab: Fetch installation script to local host"
+  delegate_to: localhost
+  get_url:
+    url: "{{ gitlab_package_script_url }}"
+    dest: "{{ gitlab_tmp_script_location }}"
+
+- name: "gitlab: Execute configuration script"
+  script: "{{ gitlab_tmp_script_location }}"
+  environment:
+    EXTERNAL_URL: "{{ gitlab_addr }}"
+
+- name: "gitlab: Install Gitlab"
+  apt:
+    update_cache: true
+    name:
+      - gitlab-ce
+  environment:
+    EXTERNAL_URL: "{{ gitlab_addr }}"
+
+- name: "gitlab: Install python dependency"
+  pip:
+    name: "python-gitlab<1.13"
+
+- name: "gitlab: Copy Gitlab configuration"
+  template:
+    src: 'gitlab.rb.j2'
+    dest: '/etc/gitlab/gitlab.rb'
+  notify:
+    - "reconfigure gitlab"
+
+- name: "gitlab: Disclaimer"
+  debug:
+    msg: "Think about changing your password! Currently set as: {{ gitlab_password }}"
+
+

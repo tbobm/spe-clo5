@@ -1,0 +1,13 @@
+---
+- name: "gitlab: Create users"
+  gitlab_user:
+    api_url: "http://{{ gitlab_addr }}"
+    api_token: "{{ gitlab_token }}"
+    name: "{{ item.name }}"
+    username: "{{ item.username }}"
+    password: "{{ item.password }}"
+    email: "{{ item.email }}"
+    confirm: false
+    access_level: master
+    isadmin: true
+  loop: "{{ gitlab_users }}"
