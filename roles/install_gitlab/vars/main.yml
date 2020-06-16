@@ -1,0 +1,3 @@
+---
+gitlab_package_script_url: "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh"
+gitlab_tmp_script_location: "/tmp/gitlab.deb.sh"

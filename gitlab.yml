@@ -1,0 +1,5 @@
+- hosts: "vm3"
+  become: true
+  become_method: sudo
+  roles:
+    - install_gitlab

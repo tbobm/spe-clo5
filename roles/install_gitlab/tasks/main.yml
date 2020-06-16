@@ -1,0 +1,8 @@
+---
+- name: "Install gitlab"
+  include_tasks: "installation.yml"
+  when: "gitlab_install == 'yes'"
+
+- name: "Create users"
+  include_tasks: "users.yml"
+  when: "gitlab_token is defined"
