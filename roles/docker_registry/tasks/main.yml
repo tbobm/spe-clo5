@@ -1,9 +1,6 @@
 ---
-- name: "registry: Install dependency"
-  pip:
-    name:
-      - jsondiff
-      - pyyaml
+- name: "registry: Deploy docker registry"
+  include_tasks: "certificates.yml"
 
 - name: "registry: Deploy docker registry"
   include_tasks: "registry.yml"
