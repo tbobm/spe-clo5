@@ -5,14 +5,49 @@
       - jsondiff
       - pyyaml
 
+- name: "registry: Create data directory"
+  file:
+    path: "{{ registry_storage_directory }}"
+    state: directory
+    recurse: true
+
+- name: "registry: Fetch secrets content"
+  slurp:
+    src: "{{ item }}"
+  register: certificate_infos
+  loop:
+    - "{{ registry_working_directory }}/{{ registry_common_name }}.crt"
+    - "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
+
+- name: "registry: Create secrets"
+  docker_secret:
+    name: "{{ item.source | basename }}"
+    data: "{{ item.content }}"
+    data_is_b64: true
+    state: present
+  loop: "{{ certificate_infos.results }}"
+
+
+  # - meta: end_play
 - name: "registry: Deploy the registry"
   docker_swarm_service:
     state: present
     name: registry
     image: "registry:2"
+    mounts:
+      - type: bind
+        source: "{{ registry_storage_directory }}"
+        target: /var/lib/registry
+    secrets:
+      - secret_name: "{{ registry_common_name }}.crt"
+      - secret_name: "{{ registry_common_name }}.pem"
     publish:
-      - published_port: 5000
-        target_port: 5000
+      - published_port: "{{ registry_http_port }}"
+        target_port: "{{ registry_http_port }}"
+    env:
+      REGISTRY_HTTP_ADDR: "0.0.0.0:{{ registry_http_port }}"
+      REGISTRY_HTTP_TLS_CERTIFICATE: "/run/secrets/{{ registry_common_name }}.crt"
+      REGISTRY_HTTP_TLS_KEY: "/run/secrets/{{ registry_common_name }}.pem"
     placement:
       constraints:
         - "node.role == manager"
