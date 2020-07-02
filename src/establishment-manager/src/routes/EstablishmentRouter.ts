@@ -2,8 +2,7 @@ import { EstablishmentController } from "../controllers/EstablishmentController"
 import express from "express";
 import { Route } from "./Route";
 import { EMethod } from "./EMethod";
-import { Establishment } from "../models/entities/Establishment";
-import { DomainEstablishment } from "../domain/entities/establishment";
+import { DomainEstablishment } from "../controllers/types/EstablishmentResource";
 
 export class EstablishmentRouter {
 

@@ -1,16 +1,18 @@
 import { EstablishmentServiceImpl } from "../models/services/EstablishmentServiceImpl";
 import { Establishment } from "../models/entities/Establishment";
-import { EstablishmentResource } from "./types/EstablishmentResource";
+import { EstablishmentResource, DomainEstablishment } from "./types/EstablishmentResource";
 import { EstablishmentAddress } from "../models/entities/EstablishmentAddress";
 import { EstablishmentService } from "../models/entities/EstablishmentService";
-import { DomainEstablishment } from "../domain/entities/establishment";
+import { AddressService } from "../models/services/AddressService";
 
 export class EstablishmentController {
 
     private esService: EstablishmentServiceImpl;
+    private addressService: AddressService;
 
     constructor(){
         this.esService = new EstablishmentServiceImpl();
+        this.addressService = new AddressService();
     }
 
     async getAll(){
@@ -25,12 +27,37 @@ export class EstablishmentController {
             o.phoneNumber = item.phoneNumber;
             o.addresses = [];
             o.services = [];
-            item.addresses.forEach((addr) => {
-                o.addresses.push({
-                    address_id: addr.addressId,
-                    establishment_id: addr.establishmentId
-                });
+            const fetch = ((saved: Establishment) => {
+                return (new Promise(async (resolve, reject) => {
+                    const list = saved.addresses;
+    
+                    for (let addr of list){
+                        try {
+                            const response = await this.addressService.findOne(addr.addressId);
+            
+                            if (response.status === 200){
+                                o.addresses.push(response.data.data);
+                            }
+                            else {
+                                o.addresses.push({
+                                    address_id: addr.addressId,
+                                    establishment_id: addr.establishmentId
+                                });
+                            }
+                        }
+                        catch (e){
+                            o.addresses.push({
+                                address_id: addr.addressId,
+                                establishment_id: addr.establishmentId
+                            });
+                        }
+                        if (o.addresses.length == saved.addresses.length){
+                            return resolve();
+                        }
+                    }
+                }));
             });
+            await fetch(item);
             item.services.forEach((serv) => {
                 o.services.push({
                     service_id: serv.serviceId,
@@ -53,17 +80,45 @@ export class EstablishmentController {
         const establishment = await this.esService.getOne(id);
         const o :any = {};
 
+        if (establishment == null){
+            return null;
+        }
         o.name = establishment.name;
         o.id = establishment.id;
         o.phoneNumber = establishment.phoneNumber;
         o.addresses = [];
         o.services = [];
-        establishment.addresses.forEach((addr) => {
-            o.addresses.push({
-                address_id: addr.addressId,
-                establishment_id: addr.establishmentId
-            });
+        const fetch = ((saved: Establishment) => {
+            return (new Promise(async (resolve, reject) => {
+                const list = saved.addresses;
+
+                for (let addr of list){
+                    try {
+                        const response = await this.addressService.findOne(addr.addressId);
+        
+                        if (response.status === 200){
+                            o.addresses.push(response.data.data);
+                        }
+                        else {
+                            o.addresses.push({
+                                address_id: addr.addressId,
+                                establishment_id: addr.establishmentId
+                            });
+                        }
+                    }
+                    catch (e){
+                        o.addresses.push({
+                            address_id: addr.addressId,
+                            establishment_id: addr.establishmentId
+                        });
+                    }
+                    if (o.addresses.length == saved.addresses.length){
+                        return resolve();
+                    }
+                }
+            }));
         });
+        await fetch(establishment);
         establishment.services.forEach((serv) => {
             o.services.push({
                 service_id: serv.serviceId,
@@ -111,12 +166,37 @@ export class EstablishmentController {
         o.phoneNumber = saved.phoneNumber;
         o.addresses = [];
         o.services = [];
-        saved.addresses.forEach((addr) => {
-            o.addresses.push({
-                address_id: addr.addressId,
-                establishment_id: addr.establishmentId
-            });
+        const fetch = ((saved: Establishment) => {
+            return (new Promise(async (resolve, reject) => {
+                const list = saved.addresses;
+
+                for (let addr of list){
+                    try {
+                        const response = await this.addressService.findOne(addr.addressId);
+        
+                        if (response.status === 200){
+                            o.addresses.push(response.data.data);
+                        }
+                        else {
+                            o.addresses.push({
+                                address_id: addr.addressId,
+                                establishment_id: addr.establishmentId
+                            });
+                        }
+                    }
+                    catch (e){
+                        o.addresses.push({
+                            address_id: addr.addressId,
+                            establishment_id: addr.establishmentId
+                        });
+                    }
+                    if (o.addresses.length == saved.addresses.length){
+                        return resolve();
+                    }
+                }
+            }));
         });
+        await fetch(saved);
         saved.services.forEach((serv) => {
             o.services.push({
                 service_id: serv.serviceId,
@@ -136,6 +216,8 @@ export class EstablishmentController {
         if(establishment == null){
             return (null);
         }
+        await this.esService.deleteAddress(id);
+        await this.esService.deleteService(id);
         return (this.esService.delete(id));
     }
 
@@ -177,12 +259,37 @@ export class EstablishmentController {
         o.phoneNumber = saved.phoneNumber;
         o.addresses = [];
         o.services = [];
-        saved.addresses.forEach((addr) => {
-            o.addresses.push({
-                address_id: addr.addressId,
-                establishment_id: addr.establishmentId
-            });
+        const fetch = ((saved: Establishment) => {
+            return (new Promise(async (resolve, reject) => {
+                const list = saved.addresses;
+
+                for (let addr of list){
+                    try {
+                        const response = await this.addressService.findOne(addr.addressId);
+        
+                        if (response.status === 200){
+                            o.addresses.push(response.data.data);
+                        }
+                        else {
+                            o.addresses.push({
+                                address_id: addr.addressId,
+                                establishment_id: addr.establishmentId
+                            });
+                        }
+                    }
+                    catch (e){
+                        o.addresses.push({
+                            address_id: addr.addressId,
+                            establishment_id: addr.establishmentId
+                        });
+                    }
+                    if (o.addresses.length == saved.addresses.length){
+                        return resolve();
+                    }
+                }
+            }));
         });
+        await fetch(saved);
         saved.services.forEach((serv) => {
             o.services.push({
                 service_id: serv.serviceId,
