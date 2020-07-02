@@ -14,12 +14,12 @@ export class Period {
     @Column({
         name: "from"
     })
-    from: Date;
+    from: number;
 
     @Column({
         name: "to"
     })
-    to: Date;
+    to: number;
 
     @Column({
         name: "sign"

@@ -17,12 +17,12 @@ export class period1593687684846 implements MigrationInterface {
                 },
                 {
                     name: "from",
-                    type: "timestamp",
+                    type: "int",
                     isNullable: false
                 },
                 {
                     name: "to",
-                    type: "timestamp",
+                    type: "int",
                     isNullable: false
                 },
                 {

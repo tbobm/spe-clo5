@@ -184,11 +184,8 @@ export class PolicyPriceService implements IPolicyPriceService {
             if (!periodEntity || !period.id){
                 const toSave = new Period();
 
-                toSave.from = new Date(period.from);
-                toSave.to = new Date(period.to);
-                console.log(toSave);
-                console.log(toSave.from.getDay());
-                console.log(toSave.to.getDay());
+                toSave.from = period.from;
+                toSave.to = period.to;
                 toSave.percent = period.percent;
                 toSave.sign = period.sign;
                 const tmp = await this.periodRepository.save(toSave);
@@ -282,11 +279,8 @@ export class PolicyPriceService implements IPolicyPriceService {
             const periodEntity = new Period();
 
             periodEntity.id = period.id;
-            periodEntity.from = new Date((period.from));
-            periodEntity.to = new Date(period.to);
-            console.log(periodEntity);
-            console.log(periodEntity.from.getDay());
-            console.log(periodEntity.to.getDay());
+            periodEntity.from = period.from;
+            periodEntity.to = period.to;
             periodEntity.sign = period.sign;
             periodEntity.percent = period.percent;
             let fetchDB = null;
