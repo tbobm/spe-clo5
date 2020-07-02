@@ -2,7 +2,7 @@ import { IAddressService } from "../models/services/IAddressService";
 import { AddressService } from "../models/services/AddressService";
 import { AddressResource } from "./types/AddressResource";
 import { Address } from "../models/entities/Address";
-import { DomainAddress } from "../domain/entities/address";
+import { DomainAddress } from "./types/AddressResource";
 
 export class AddressController {
     private addressService: IAddressService;
