@@ -10,3 +10,4 @@ cd build
 npm i
 docker build -t policy-price-manager .
 cd ..
+rm -rf build

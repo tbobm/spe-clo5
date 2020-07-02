@@ -10,3 +10,4 @@ cd build
 npm i
 docker build -t address-manager .
 cd ..
+rm -rf build

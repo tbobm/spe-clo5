@@ -10,3 +10,4 @@ cd build
 npm i
 docker build -t establishment-manager .
 cd ..
+rm -rf build
