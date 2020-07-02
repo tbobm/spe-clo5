@@ -37,6 +37,7 @@ Vagrant.configure("2") do |config|
   end
   config.vm.provision "ansible" do |ansible|
     ansible.limit = "all"
+    ansible.verbose = "v"
     ansible.playbook = "infrastructure.yml"
     ansible.groups = {
       "docker_swarm_worker": ["vm1", "vm2"],
@@ -46,6 +47,7 @@ Vagrant.configure("2") do |config|
       "vm3" => {
         "docker_swarm_addr": "192.168.50.6",
         "gitlab_addr": "192.168.50.6",
+        "registry_addr": "192.168.50.6",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
         "gitlab_users": [
           {
@@ -62,6 +64,12 @@ Vagrant.configure("2") do |config|
           }
         ],
         "gitlab_install": "no",
+      },
+      "vm2" => {
+        "registry_addr": "192.168.50.6",
+      },
+      "vm1" => {
+        "registry_addr": "192.168.50.6",
       }
   }
   end
