@@ -4,21 +4,27 @@ import { EstablishmentResource, DomainEstablishment } from "./types/Establishmen
 import { EstablishmentAddress } from "../models/entities/EstablishmentAddress";
 import { EstablishmentService } from "../models/entities/EstablishmentService";
 import { AddressService } from "../models/services/AddressService";
+import { PolicyPriceService } from "../models/services/PolicyPriceService";
 
 export class EstablishmentController {
 
     private esService: EstablishmentServiceImpl;
     private addressService: AddressService;
+    private policyPriceService: PolicyPriceService;
 
     constructor(){
         this.esService = new EstablishmentServiceImpl();
         this.addressService = new AddressService();
+        this.policyPriceService = new PolicyPriceService();
     }
 
     async getAll(){
         const domains = [];
-        const list = await this.esService.getAll();
+        let list = await this.esService.getAll();
 
+        if (!list){
+            list = [];
+        }
         for (let item of list){
             const o :any = {};
 
@@ -29,8 +35,12 @@ export class EstablishmentController {
             o.services = [];
             const fetch = ((saved: Establishment) => {
                 return (new Promise(async (resolve, reject) => {
-                    const list = saved.addresses;
-    
+                    let list = item.addresses;
+
+                    if (!list || !list.length){
+                        resolve();
+                        return;
+                    }
                     for (let addr of list){
                         try {
                             const response = await this.addressService.findOne(addr.addressId);
@@ -58,6 +68,9 @@ export class EstablishmentController {
                 }));
             });
             await fetch(item);
+            if (!item.services){
+                item.services = [];
+            }
             item.services.forEach((serv) => {
                 o.services.push({
                     service_id: serv.serviceId,
@@ -67,6 +80,14 @@ export class EstablishmentController {
                     interval: serv.interval
                 });
             });
+            const response = await this.policyPriceService.findOne(item.id);
+            if (response.status == 200){
+                const policyPrices = response.data.data;
+
+                if (policyPrices && policyPrices.length){
+                    o.policyPrices = policyPrices;
+                }
+            }
             domains.push(new DomainEstablishment(o));
         }
         return (domains);
@@ -92,6 +113,10 @@ export class EstablishmentController {
             return (new Promise(async (resolve, reject) => {
                 const list = saved.addresses;
 
+                if (!list || !list.length){
+                    resolve();
+                    return;
+                }
                 for (let addr of list){
                     try {
                         const response = await this.addressService.findOne(addr.addressId);
@@ -128,6 +153,14 @@ export class EstablishmentController {
                 interval: serv.interval
             });
         });
+        const response = await this.policyPriceService.findOne(id);
+        if (response.status === 200){
+            const policyPrices = response.data.data;
+
+            if (policyPrices && policyPrices.length){
+                o.policyPrices = policyPrices;
+            }
+        }
         return (new DomainEstablishment(o));
     }
 
@@ -159,7 +192,14 @@ export class EstablishmentController {
             esService.overridePrice = serv.overridePrice;
             return (esService);
         });
-        const saved = await this.esService.save(establishment);
+        let saved = null;
+        try {
+            saved = await this.esService.save(establishment);
+        }
+        catch (e){
+            console.log(e.message);
+            return (null);
+        }
         const o :any = {};
         o.name = saved.name;
         o.id = saved.id;
@@ -168,8 +208,12 @@ export class EstablishmentController {
         o.services = [];
         const fetch = ((saved: Establishment) => {
             return (new Promise(async (resolve, reject) => {
-                const list = saved.addresses;
+                let list = saved.addresses;
 
+                if (!list || !list.length){
+                    resolve();
+                    return;
+                }
                 for (let addr of list){
                     try {
                         const response = await this.addressService.findOne(addr.addressId);
@@ -197,6 +241,9 @@ export class EstablishmentController {
             }));
         });
         await fetch(saved);
+        if (!saved.services){
+            saved.services = [];
+        }
         saved.services.forEach((serv) => {
             o.services.push({
                 service_id: serv.serviceId,

@@ -25,11 +25,11 @@ export class EstablishmentRouter {
     }
 
     async save(req: express.Request, res: express.Response){
-        const domainEstablishment = new DomainEstablishment(req.body); 
+        const domainEstablishment = new DomainEstablishment(req.body);
         const saved = await this.controller.save(domainEstablishment);
 
-        res.status(201).json({
-            message: "Establishment saved",
+        res.status(saved == null ? 400 : 201).json({
+            message: saved == null ? "Error on save" : "Establishment saved",
             data: saved
         });
     }

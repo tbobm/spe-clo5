@@ -19,13 +19,45 @@ class EstablishmentServiceResource {
     overridePrice: number
 }
 
+class PeriodResource {
+    id: number;
+    from: number;
+    to: number;
+    sign: number;
+    percent: number;
+}
+
+const DomainPeriod = attributes({
+    id: Number,
+    from: Number,
+    to: Number,
+    sign: Number,
+    percent: Number
+})(PeriodResource);
+
+class EstablishmentPolicyPriceResource {
+    id: number;
+    key: string;
+    periods: Array<PeriodResource>;
+}
+
 class EstablishmentResource {
     id: number;
     name: string;
     phoneNumber: string;
     addresses: Array<EstablishmentAddressResource>;
     services: Array<EstablishmentServiceResource>;
+    policyPrices: EstablishmentPolicyPriceResource;
 }
+
+const DomainEstablishmentPolicy = attributes({
+    id: Number,
+    key: String,
+    periods: {
+        type: Array,
+        itemType: DomainPeriod
+    }
+})(EstablishmentPolicyPriceResource);
 
 const DomainEstablishmentAddress = attributes({
     establishment_id: Number,
@@ -57,6 +89,10 @@ const DomainEstablishment = attributes({
     services: {
         type: Array,
         itemType: DomainEstablishmentService
+    },
+    policyPrices: {
+        type: Array,
+        itemType: DomainEstablishmentPolicy
     }
 })(EstablishmentResource)
 
@@ -66,5 +102,9 @@ export {
     DomainEstablishmentService,
     EstablishmentServiceResource,
     DomainEstablishmentAddress,
-    EstablishmentAddressResource
+    EstablishmentAddressResource,
+    EstablishmentPolicyPriceResource,
+    DomainEstablishmentPolicy,
+    DomainPeriod,
+    PeriodResource
 }
