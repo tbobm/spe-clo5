@@ -12,17 +12,17 @@ Vagrant.configure("2") do |config|
   config.vm.define "vm1" do |vm1|
     vm1.vm.box = "vm1"
     vm1.vm.box = "debian/stretch64"
-    vm1.vm.network "private_network", ip: "192.168.50.4"
+    vm1.vm.network "private_network", ip: "172.16.228.52"
   end
   config.vm.define "vm2" do |vm2|
     vm2.vm.box = "vm2"
     vm2.vm.box = "debian/stretch64"
-    vm2.vm.network "private_network", ip: "192.168.50.5"
+    vm2.vm.network "private_network", ip: "172.16.228.47"
   end
   config.vm.define "vm3" do |vm3|
     vm3.vm.box = "vm3"
     vm3.vm.box = "debian/stretch64"
-    vm3.vm.network "private_network", ip: "192.168.50.6"
+    vm3.vm.network "private_network", ip: "172.16.228.42"
     vm3.vm.provider "virtualbox" do |vb|
       vb.memory = "4096"
       vb.cpus = 4
