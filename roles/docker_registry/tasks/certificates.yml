@@ -10,6 +10,7 @@
   file:
     path: "{{ registry_working_directory }}"
     state: directory
+    recurse: true
 
 - name: "certificates: Create private key"
   openssl_privatekey:
@@ -22,7 +23,6 @@
     privatekey_path: "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
     subject_alt_name: "IP:{{ registry_common_name | urlsplit('path')}}"
   when: "inventory_hostname == registry_host"
-
 
 - name: "certificates: Self-sign the certificate"
   openssl_certificate:
