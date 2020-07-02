@@ -5,5 +5,5 @@ registry_local_tmp_directory: /tmp/ansible-docker-registry
 registry_working_directory: "/opt/certs"
 registry_storage_directory: "/var/lib/registry/"
 registry_interface: "{{ ansible_default_ipv4['interface']  }}"
-registry_addr: "{{ hostvars[inventory_hostname]['ansible_' + registry_interface]['ipv4']['address']  }}"
+registry_addr: "{{ hostvars[registry_host]['ansible_' + registry_interface]['ipv4']['address']  }}"
 registry_common_name: "{{ registry_addr }}"
