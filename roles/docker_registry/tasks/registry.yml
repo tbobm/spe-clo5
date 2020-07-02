@@ -27,8 +27,6 @@
     state: present
   loop: "{{ certificate_infos.results }}"
 
-
-  # - meta: end_play
 - name: "registry: Deploy the registry"
   docker_swarm_service:
     state: present
