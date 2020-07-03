@@ -1,5 +1,7 @@
 FROM alpine:3.12
 
+LABEL maintainer="massar_t@etna-alternance.net"
+
 ENV GRAFANA_VERSION={{ grafana_version | default(7.0.5) }}
 ENV GRAFANA_URL={{ grafana_url | default("https://dl.grafana.com/oss/release/grafana-7.0.5.linux-amd64.tar.gz")}}
 
