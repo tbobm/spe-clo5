@@ -1,0 +1,34 @@
+FROM alpine:3.12
+
+ENV PROMETHEUS_VERSION={{ prometheus_version | default(2.19.2) }}
+ENV PROMETHEUS_URL={{ prometheus_url | default("https://github.com/prometheus/prometheus/releases/download/v2.19.2/prometheus-2.19.2.linux-amd64.tar.gz")}}
+
+# Update the package manager and scaffold the alpine system
+RUN apk update && apk add wget && mkdir -p \
+    /tmp/prometheus/ /etc/prometheus/ /var/lib/prometheus/data/
+
+# Install prometheus and move its components to their respective loactions
+RUN wget -q -O - $PROMETHEUS_URL | \
+    tar x -zC/tmp/prometheus/ -f - --strip-components=1 && \
+    mv /tmp/prometheus/consoles /var/lib/prometheus/ && \
+    mv /tmp/prometheus/prometheus.yml /etc/prometheus/prometheus.yml && \
+    mv /tmp/prometheus/console_libraries /var/lib/prometheus/ && \
+    mv /tmp/prometheus/prometheus /usr/bin/prometheus && \
+    mv /tmp/prometheus/promtool /usr/bin/promtool
+
+# Expose default prometheus port
+EXPOSE 9090
+VOLUME /var/lib/prometheus/data
+
+ENTRYPOINT ["/usr/bin/prometheus"]
+
+CMD [ \
+    "--config.file", \
+    "/etc/prometheus/prometheus.yml", \
+    "--storage.tsdb.path", \
+    "/var/lib/prometheus/data", \
+    "--web.console.templates", \
+    "/var/lib/prometheus/consoles", \
+    "--web.console.libraries", \
+    "/var/lib/prometheus/console_libraries" \
+]

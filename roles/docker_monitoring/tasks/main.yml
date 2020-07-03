@@ -1,0 +1,7 @@
+---
+- name: "monitoring: Build the monitoring stack"
+  include_tasks: "build.yml"
+  when: "inventory_hostname == registry_host"
+  loop:
+    - prometheus
+    - grafana
