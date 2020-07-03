@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { PolicyPriceEstablishment } from "./PolicyPriceEstablishment";
 import { PolicyPricePeriod } from "./PolicyPricePeriod";
 import { EKeyPolicy } from "../../controllers/types/EPolicyPrice";
+import { PolicyPricePerson } from "./PolicyPricePerson";
 
 @Entity({
     name: "policy_price"
@@ -27,6 +28,11 @@ export class PolicyPrice {
         cascade: true
     })
     policyPricePeriods: Array<PolicyPricePeriod>;
+
+    @OneToMany(type => PolicyPricePerson, ppp => ppp.policyPrice, {
+        cascade: true
+    })
+    policyPricePersons: Array<PolicyPricePerson>;
     
 }
 

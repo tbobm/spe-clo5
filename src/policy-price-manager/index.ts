@@ -10,4 +10,3 @@ import { Application } from "./src/app";
         console.log(`Error ${e.message}`);
     }
 })();
-

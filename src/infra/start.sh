@@ -8,4 +8,4 @@ docker network create -d bridge room
 docker network create -d bridge user
 docker network create -d bridge policy-price
 
-cd .docker && docker-compose up -d --build --remove-orphans
+cd .docker && docker-compose up --build --remove-orphans

@@ -49,6 +49,8 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
+        ports: 
+            - "5432:5432"
         networks:
             - policy-price
         container_name: policy-price-db
