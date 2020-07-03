@@ -9,7 +9,8 @@ ENV GRAFANA_URL={{ grafana_url | default("https://dl.grafana.com/oss/release/gra
 RUN apk update && apk add wget && mkdir -p \
     /opt/grafana/ /lib64 && \
     ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
-# Install grafana and move its components to their respective loactions
+
+# Install grafana and move its components to their respective locations
 RUN wget -q -O - $GRAFANA_URL | \
     tar x -zC/opt/grafana/ -f - --strip-components=1
 

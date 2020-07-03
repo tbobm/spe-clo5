@@ -5,3 +5,5 @@
   loop:
     - prometheus
     - grafana
+    - node_exporter
+    - cadvisor

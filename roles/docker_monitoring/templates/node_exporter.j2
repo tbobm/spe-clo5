@@ -8,7 +8,7 @@ ENV NODE_EXPORTER_URL={{ node_exporter_url | default("https://github.com/prometh
 # Update the package manager and scaffold the alpine system
 RUN apk update && apk add wget && mkdir -p /tmp/node_exporter/
 
-# Install node_exporter and move its components to their respective loactions
+# Install node_exporter
 RUN wget -q -O - $NODE_EXPORTER_URL | \
     tar x -zC/tmp/node_exporter/ -f - --strip-components=1 && \
     mv /tmp/node_exporter/node_exporter /usr/bin/node_exporter

@@ -1,0 +1,19 @@
+FROM alpine:3.12
+
+LABEL maintainer="massar_t@etna-alternance.net"
+
+ENV CADVISOR_VERSION={{ cadvisor_version | default(0.35.0) }}
+ENV CADVISOR_URL={{ cadvisor_url | default("https://github.com/google/cadvisor/releases/download/v0.35.0/cadvisor")}}
+
+# Update the package manager and scaffold the alpine system
+RUN apk update && apk add wget && mkdir -p /tmp/cadvisor/ /lib64/ && \
+    ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+
+# Install cadvisor
+RUN wget -q -O /tmp/cadvisor/cadvisor $CADVISOR_URL && \
+    mv /tmp/cadvisor/cadvisor /usr/bin/cadvisor
+
+# Expose default cadvisor port
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/bin/cadvisor"]
