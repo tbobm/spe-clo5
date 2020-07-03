@@ -3,5 +3,7 @@ prometheus_version: 2.19.2
 prometheus_download_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
 grafana_version: 7.0.5
 grafana_download_url: "https://dl.grafana.com/oss/release/grafana-{{ grafana_version }}.linux-amd64.tar.gz"
+node_exporter_version: 1.0.1
+node_exporter_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
 registry_url: "localhost:5000"
 registry_host: vm3
