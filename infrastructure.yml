@@ -1,6 +1,8 @@
+---
 - hosts: "all"
   become: true
   become_method: sudo
   roles:
     - docker_swarm
     - docker_registry
+    - docker_monitoring
