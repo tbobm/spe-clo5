@@ -6,11 +6,14 @@ import { PolicyPriceResource, DomainPolicyPrice } from "../../controllers/types/
 import { PolicyPrice } from "../entities/PolicyPrice";
 import { IPolicyPriceService } from "./IPolicyPriceService";
 import { DTOPolicyPriceKey, DTOKeyPolicyPrice } from "../../controllers/types/EPolicyPrice"
+import { PolicyPricePerson } from "../entities/PolicyPricePerson";
+import { Person } from "../entities/Person";
 
 export class PolicyPriceService implements IPolicyPriceService {
 
     private policyPriceRepository: Repository<PolicyPrice>;
     private periodRepository: Repository<Period>;
+    private personRepository: Repository<Person>;
     private policyPriceEstablishmenteRepository: Repository<PolicyPriceEstablishment>;
     private policyPricePeriodRepository: Repository<PolicyPricePeriod>;
 
@@ -27,6 +30,8 @@ export class PolicyPriceService implements IPolicyPriceService {
             .leftJoinAndSelect("policy.policyPriceEstablishments", "policyPriceEstablishments")
             .leftJoinAndSelect("policy.policyPricePeriods", "policyPricePeriods")
             .leftJoinAndSelect("policyPricePeriods.period", "period")
+            .leftJoinAndSelect("policy.policyPricePersons", "policyPricePersons")
+            .leftJoinAndSelect("policyPricePersons.person", "person")
             .where("policyPriceEstablishments.establishmentId = :id", {
             "id": establishmentId
         }).getMany();
@@ -56,6 +61,18 @@ export class PolicyPriceService implements IPolicyPriceService {
                     percent: policyPeriod.period.percent
                 });
             }
+            if (!policy.policyPricePersons){
+                policy.policyPricePersons = [];
+            }
+            o.persons = [];
+            for (let policyPerson of policy.policyPricePersons){
+                o.persons.push({
+                    id: policyPerson.person.id,
+                    nb: policyPerson.person.nb,
+                    percent: policyPerson.person.percent,
+                    sign: policyPerson.person.sign
+                });
+            }
             ret.push(new DomainPolicyPrice(o));
         }
         return (ret);
@@ -64,6 +81,19 @@ export class PolicyPriceService implements IPolicyPriceService {
     async deleteEstablishmentPolicy(id: number){
         try {
             await this.policyPriceRepository.createQueryBuilder().from(PolicyPriceEstablishment, "pe").delete().where("policy_price_establishment.policy_price_id = :id", {
+                id: id
+            }).execute();
+    
+            return (true);
+        }
+        catch (e){
+            return (false);
+        }
+    }
+
+    async deletePersonPolicy(id: number){
+        try {
+            await this.policyPriceRepository.createQueryBuilder().from(PolicyPricePerson, "ppp").delete().where("policy_price_person.policy_price_id = :id", {
                 id: id
             }).execute();
     
@@ -91,7 +121,8 @@ export class PolicyPriceService implements IPolicyPriceService {
         const policyPrice = await this.policyPriceRepository.findOne(id, {
             relations: [
                 "policyPricePeriods",
-                "policyPriceEstablishments"
+                "policyPriceEstablishments",
+                "policyPricePersons"
             ]
         });
         const o: any = {};
@@ -107,7 +138,11 @@ export class PolicyPriceService implements IPolicyPriceService {
         if (!policyPrice.policyPricePeriods){
             policyPrice.policyPricePeriods = [];
         }
+        if (!policyPrice.policyPricePersons){
+            policyPrice.policyPricePersons = [];
+        }
         o.periods = [];
+        o.persons = [];
         o.establishments = [];
         for (let policyPriceEstablishment of policyPrice.policyPriceEstablishments){
             const establishment = {
@@ -127,13 +162,24 @@ export class PolicyPriceService implements IPolicyPriceService {
 
             o.periods.push(period);
         }
+        for (let policyPricePerson of policyPrice.policyPricePersons){
+            const person = {
+                id: policyPricePerson.person.id,
+                nb: policyPricePerson.person.nb,
+                sign: policyPricePerson.person.sign,
+                percent: policyPricePerson.person.percent
+            };
+
+            o.persons.push(person);
+        }
         return (new DomainPolicyPrice(o));
     }
 
     async getAll() {
         let policies = await this.policyPriceRepository.find({
             relations: [
-                "policyPricePeriods"
+                "policyPricePeriods",
+                "policyPricePersons"
             ]
         });
         console.log(policies);
@@ -162,6 +208,17 @@ export class PolicyPriceService implements IPolicyPriceService {
     
                 o.periods.push(period);
             }
+            o.persons = [];
+            for (let policyPricePerson of policy.policyPricePersons){
+                const person = {
+                    id: policyPricePerson.person.id,
+                    nb: policyPricePerson.person.nb,
+                    sign: policyPricePerson.person.sign,
+                    percent: policyPricePerson.person.percent,
+                };
+
+                o.persons.push(person);
+            }
             list.push(new DomainPolicyPrice(o));
         }
         return (list);
@@ -177,6 +234,9 @@ export class PolicyPriceService implements IPolicyPriceService {
         policyPrice.policyPricePeriods = [];
         if(!resource.periods){
             resource.periods = [];
+        }
+        if (!resource.persons){
+            resource.persons = [];
         }
         for (let period of resource.periods){
             const periodEntity = await this.periodRepository.findOne(period.id);
@@ -208,6 +268,25 @@ export class PolicyPriceService implements IPolicyPriceService {
             policyPriceEstablishment.establishmentId = establishment.establishmentId;
             policyPrice.policyPriceEstablishments.push(policyPriceEstablishment);
         }
+        policyPrice.policyPricePersons = [];
+        for (let person of resource.persons){
+            const personEntity = await this.personRepository.findOne(person.id);
+
+            if (!personEntity || !person.id){
+                const toSave = new Person();
+
+                toSave.nb = person.nb;
+                toSave.percent = person.percent;
+                toSave.sign = person.sign;
+                const tmp = await this.periodRepository.save(toSave);
+                person.id = tmp.id;
+            }
+            const policyPricePerson = new PolicyPricePerson();
+
+            policyPricePerson.person_id = person.id;
+            policyPricePerson.policyPrice = policyPrice;
+            policyPrice.policyPricePersons.push(policyPricePerson);
+        }
         try {
             const saved = await this.policyPriceRepository.save(policyPrice);
             const o: any = {};
@@ -220,6 +299,9 @@ export class PolicyPriceService implements IPolicyPriceService {
             }
             if (!saved.policyPriceEstablishments){
                 saved.policyPriceEstablishments = [];
+            }
+            if (!saved.policyPricePersons){
+                saved.policyPricePersons = [];
             }
             for (let policyPricePeriod of saved.policyPricePeriods){
                 const periodEntity = await this.periodRepository.findOne(policyPricePeriod.periodId);
@@ -241,6 +323,17 @@ export class PolicyPriceService implements IPolicyPriceService {
                 };
     
                 o.establishments.push(establishment);
+            }
+            o.persons = [];
+            for (let policyPricePerson of saved.policyPricePersons){
+                const personEntity = await this.personRepository.findOne(policyPricePerson.person_id);
+
+                o.persons.push({
+                    id: personEntity.id,
+                    nb: personEntity.nb,
+                    percent: personEntity.percent,
+                    sign: personEntity.sign
+                });
             }
             return (new DomainPolicyPrice(o));
         }
@@ -264,10 +357,15 @@ export class PolicyPriceService implements IPolicyPriceService {
         if (!resource.periods){
             resource.periods = [];
         }
+        if (!resource.persons){
+            resource.persons = [];
+        }
         policy.policyPriceEstablishments = [];
         policy.policyPricePeriods = [];
+        policy.policyPricePersons = [];
         await this.deletePeriodPolicy(policy.id);
         await this.deleteEstablishmentPolicy(policy.id);
+        await this.deletePersonPolicy(policy.id);
         for (let establishment of resource.establishments){
             const policyPriceEstablishment = new PolicyPriceEstablishment();
 
@@ -301,6 +399,31 @@ export class PolicyPriceService implements IPolicyPriceService {
             policyPeriod.policyPrice = policy;
             policy.policyPricePeriods.push(policyPeriod);
         }
+        for (let person of resource.persons){
+            const personEntity = new Person();
+
+            personEntity.id = person.id;
+            personEntity.nb = person.nb;
+            personEntity.percent = person.percent;
+            personEntity.sign = person.sign;
+            let fetchDB = null;
+            if (!personEntity.id){
+                fetchDB = await this.personRepository.findOne(person.id);
+            }
+            if (!fetchDB){
+                const tmp = await this.periodRepository.save(personEntity);
+
+                personEntity.id = tmp.id;
+            }
+            else {
+                await this.periodRepository.update(personEntity.id, personEntity);
+            }
+            const policyPricePerson = new PolicyPricePerson();
+
+            policyPricePerson.person_id = personEntity.id;
+            policyPricePerson.policyPrice = policy;
+            policy.policyPricePersons.push(policyPricePerson);
+        }
         try {
             await this.policyPriceRepository.save(policy);
             const o: any = {};
@@ -329,6 +452,17 @@ export class PolicyPriceService implements IPolicyPriceService {
     
                 o.establishments.push(establishment);
             }
+            o.persons = [];
+            for (let policyPricePerson of policy.policyPricePersons){
+                const person = {
+                    id: policyPricePerson.person.id,
+                    nb: policyPricePerson.person.nb,
+                    percent: policyPricePerson.person.percent,
+                    sign: policyPricePerson.person.sign
+                };
+    
+                o.persons.push(person);
+            }
             return (new DomainPolicyPrice(o));
         }
         catch (e){
@@ -339,6 +473,7 @@ export class PolicyPriceService implements IPolicyPriceService {
     async delete(id: number) {
         try {
             await this.deletePeriodPolicy(id);
+            await this.deletePersonPolicy(id);
             await this.deleteEstablishmentPolicy(id);
             await this.policyPriceRepository.delete(id);
 

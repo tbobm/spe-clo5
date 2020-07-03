@@ -10,10 +10,18 @@ class PeriodResource {
     percent: number;
 }
 
+class PersonResource {
+    id: number;
+    nb: number;
+    percent: number;
+    sign: number;
+}
+
 class PolicyPriceResource {
     id: number;
     key: EPolicyPrice;
     periods: Array<PeriodResource>;
+    persons: Array<PersonResource>;
     establishments: Array<PolicyPriceEstablishmentResource>;
 }
 
@@ -30,6 +38,13 @@ const DomainPeriod = attributes({
     percent: Number
 })(PeriodResource);
 
+const DomainPerson = attributes({
+    id: Number,
+    nb: Number,
+    sign: Number,
+    percent: Number
+})(PersonResource);
+
 const DomainPolicyPriceEstablishment = attributes({
     policyPriceId: Number,
     establishmentId: Number,
@@ -42,6 +57,10 @@ const DomainPolicyPrice = attributes({
         type: Array,
         itemType: DomainPeriod
     },
+    persons: {
+        type: Array,
+        itemType: DomainPerson
+    },
     establishments: {
         type: Array,
         itemType: DomainPolicyPriceEstablishment
@@ -50,9 +69,11 @@ const DomainPolicyPrice = attributes({
 
 export {
     PeriodResource,
+    PersonResource,
     PolicyPriceResource,
     DomainPeriod,
     DomainPolicyPrice,
+    DomainPerson,
     PolicyPriceEstablishmentResource,
     DomainPolicyPriceEstablishment
 };
