@@ -48,6 +48,7 @@ Vagrant.configure("2") do |config|
         "docker_swarm_addr": "192.168.50.6",
         "gitlab_addr": "192.168.50.6",
         "registry_addr": "192.168.50.6",
+        "registry_url": "192.168.50.6:443",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
         "gitlab_users": [
           {
@@ -67,9 +68,11 @@ Vagrant.configure("2") do |config|
       },
       "vm2" => {
         "registry_addr": "192.168.50.6",
+        "registry_url": "192.168.50.6:443",
       },
       "vm1" => {
         "registry_addr": "192.168.50.6",
+        "registry_url": "192.168.50.6:443",
       }
   }
   end
