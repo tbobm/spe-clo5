@@ -3,15 +3,19 @@ import { AddressService } from "../models/services/AddressService";
 import { AddressResource } from "./types/AddressResource";
 import { Address } from "../models/entities/Address";
 import { DomainAddress } from "./types/AddressResource";
+import { Route, Post, Body, Put, Delete, Path, Get, Controller } from "tsoa";
 
-export class AddressController {
+@Route("/")
+export class AddressController extends Controller {
     private addressService: IAddressService;
 
     constructor(){
+        super();
         this.addressService = new AddressService();
     }
 
-    async save(addressResource: AddressResource){
+    @Post()
+    async save(@Body() addressResource: AddressResource){
         const address = new Address();
 
         address.road = addressResource.road;
@@ -23,18 +27,19 @@ export class AddressController {
         if (saved){
             const domain = new DomainAddress(saved);
 
-            return {
+            return Promise.resolve({
                 message: "address saved",
                 data: domain
-            };
+            });
         }
-        return {
+        return Promise.resolve({
             message: "error on save"
-        };
+        });
     }
 
 
-    async update(addressResource: AddressResource){
+    @Put()
+    async update(@Body() addressResource: AddressResource){
         const address = new Address();
 
         address.id = addressResource.id;
@@ -47,55 +52,58 @@ export class AddressController {
         if (updated){
             const domain = new DomainAddress(updated);
 
-            return {
+            return Promise.resolve({
                 message: "address saved",
                 data: domain
-            };
+            });
         }
-        return {
+        return Promise.resolve({
             message: "error on save"
-        };
+        });
     }
 
-    async delete(id: number){
+    @Delete("{id}")
+    async delete(@Path() id: number){
         const flag = await this.addressService.delete(id);
 
         if (flag){
-            return ({
+            return Promise.resolve({
                 message: "address deleted",
                 action: true
             });
         }
         else {
-            return ({
+            return Promise.resolve({
                 message: "error on delete"
             })
         }
     }
 
-    async findOne(id: number){
+    @Get("{id}")
+    async findOne(@Path() id: number){
         const address = await this.addressService.findOne(id);
         
         if (address){
             const domain = new DomainAddress(address);
 
-            return ({
+            return Promise.resolve({
                 message: "get address",
                 data: domain
             });
         }
         else {
-            return ({
+            return Promise.resolve({
                 message: "failed to get address"
             });
         }
     }
 
+    @Get()
     async getAll(){
         const list = await this.addressService.getAll();
 
         if (!list || !list.length){
-            return ({
+            return Promise.resolve({
                 message: "no content"
             });
         }
@@ -103,13 +111,13 @@ export class AddressController {
         for (let item of list){
             domains.push(new DomainAddress(item));
         }
-        return ({
+        return Promise.resolve({
             message: "address list",
             data: domains
         });
     }
 
     hello(){
-        return ("address");
+        return Promise.resolve("address");
     }
 }

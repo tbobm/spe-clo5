@@ -6,6 +6,7 @@ cp Dockerfile build
 cp .env build
 cp ormconfig.prod.json build/ormconfig.json
 cp package.json build
+cp -r public build
 cd build
 npm i
 docker build -t address-manager .
