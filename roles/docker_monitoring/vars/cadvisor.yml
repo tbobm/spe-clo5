@@ -1,0 +1,28 @@
+---
+name: cadvisor
+image: "{{ registry_url }}/cadvisor"
+mode: global
+networks:
+  - ingress
+  - docker_gwbridge
+mounts:
+  - type: bind
+    readonly: true
+    source: /
+    target: /rootfs
+  - type: bind
+    readonly: true
+    source: /sys
+    target: /sys
+  - type: bind
+    readonly: true
+    source: /var/lib/docker
+    target: /var/lib/docker
+  - type: bind
+    readonly: true
+    source: /dev/disk
+    target: /dev/disk
+  - type: bind
+    readonly: true
+    source: /var/run/docker.sock
+    target: /var/run/docker.sock

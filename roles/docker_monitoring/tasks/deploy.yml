@@ -11,11 +11,13 @@
   docker_image:
     name: "{{ config.image }}"
     tag: "{{ item.tag | default('latest') }}"
+    repository: "{{ registry_url }}/{{ item.name }}"
     source: pull
     force_source: true
 
 - debug:
     var: config
+    verbosity: 2
 
 - name: "deploy: Deploy the service"
   docker_swarm_service:
@@ -23,4 +25,5 @@
     image: "{{ config.image }}:{{ item.tag | default('latest') }}"
     mode: "{{ config.mode | default(omit) }}"
     mounts: "{{ config.mounts | default(omit) }}"
+    networks: "{{ config.netwowkrs | default(omit) }}"
     resolve_image: true

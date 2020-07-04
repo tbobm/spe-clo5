@@ -16,9 +16,18 @@
     build:
       path: "/tmp/{{ item.name }}"
       rm: true
-      pull: true
     force_source: true
-    name: "{{ registry_url }}/{{ item.name }}:{{ item.tag | default('latest') }}"
+    name: "{{ registry_url }}/{{ item.name }}"
+    tag: "{{ item.tag | default('latest') }}"
+    repository: "{{ registry_url }}/{{ item.name }}"
     push: true
-    repository: "{{ registry_url }}/{{ item.name }}:{{ item.tag | default('latest') }}"
-    tag: "latest"
+    force_tag: true
+    state: present
+
+- name: "build: Update the registry"
+  docker_image:
+    source: local
+    name: "{{ registry_url }}/{{ item.name }}"
+    push: true
+    tag: "{{ item.tag | default('latest') }}"
+    repository: "{{ registry_url }}/{{ item.name }}"
