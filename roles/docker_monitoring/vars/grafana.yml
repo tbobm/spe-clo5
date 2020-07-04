@@ -1,0 +1,4 @@
+---
+name: grafana
+image: "{{ registry_url }}/grafana"
+mode: replicated

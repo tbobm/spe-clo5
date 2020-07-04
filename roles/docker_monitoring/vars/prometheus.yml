@@ -1,0 +1,4 @@
+---
+name: prometheus
+image: "{{ registry_url }}/prometheus"
+mode: replicated

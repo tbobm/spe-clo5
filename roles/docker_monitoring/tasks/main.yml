@@ -1,9 +1,20 @@
 ---
 - name: "monitoring: Build the monitoring stack"
   include_tasks: "build.yml"
+  when: false # "inventory_hostname == registry_host"
+  loop:
+    - name: prometheus
+      tag: 1.0
+    - name: grafana
+    - name: node_exporter
+    - name: cadvisor
+
+- name: "monitoring: Deploy the stack"
+  include_tasks: "deploy.yml"
   when: "inventory_hostname == registry_host"
   loop:
-    - prometheus
-    - grafana
-    - node_exporter
-    - cadvisor
+    - name: prometheus
+      tag: 1.0
+    - name: grafana
+    - name: node_exporter
+    - name: cadvisor

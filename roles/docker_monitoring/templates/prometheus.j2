@@ -1,6 +1,6 @@
 FROM alpine:3.12
 
-LABEL maintainer="massar_t@etna-alternance.net"
+# LABEL maintainer="massar_t@etna-alternance.net"
 
 ENV PROMETHEUS_VERSION={{ prometheus_version | default(2.19.2) }}
 ENV PROMETHEUS_URL={{ prometheus_url | default("https://github.com/prometheus/prometheus/releases/download/v2.19.2/prometheus-2.19.2.linux-amd64.tar.gz")}}
@@ -24,13 +24,7 @@ VOLUME /var/lib/prometheus/data
 
 ENTRYPOINT ["/usr/bin/prometheus"]
 
-CMD [ \
-    "--config.file", \
-    "/etc/prometheus/prometheus.yml", \
-    "--storage.tsdb.path", \
-    "/var/lib/prometheus/data", \
-    "--web.console.templates", \
-    "/var/lib/prometheus/consoles", \
-    "--web.console.libraries", \
-    "/var/lib/prometheus/console_libraries" \
-]
+CMD [ "--config.file=/etc/prometheus/prometheus.yml", \
+    "--storage.tsdb.path=/var/lib/prometheus/data", \
+    "--web.console.templates=/var/lib/prometheus/consoles", \
+    "--web.console.libraries=/var/lib/prometheus/console_libraries" ]

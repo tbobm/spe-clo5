@@ -1,24 +1,24 @@
 ---
 - name: "build: Create temporary directories"
   file:
-    path: "/tmp/{{ item }}"
+    path: "/tmp/{{ item.name }}"
     state: directory
     recurse: true
 
 - name: "build: Copy templates to remote host"
   template:
-    src: "{{ item }}.j2"
-    dest: "/tmp/{{ item }}/Dockerfile"
+    src: "{{ item.name }}.j2"
+    dest: "/tmp/{{ item.name }}/Dockerfile"
 
 - name: "build: Build images"
   docker_image:
     source: build
     build:
-      path: "/tmp/{{ item }}"
+      path: "/tmp/{{ item.name }}"
       rm: true
       pull: true
     force_source: true
-    name: "{{ item }}"
+    name: "{{ registry_url }}/{{ item.name }}:{{ item.tag | default('latest') }}"
     push: true
-    repository: "{{ registry_url }}/{{ item }}"
+    repository: "{{ registry_url }}/{{ item.name }}:{{ item.tag | default('latest') }}"
     tag: "latest"
