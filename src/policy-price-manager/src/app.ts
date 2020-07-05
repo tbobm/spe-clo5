@@ -2,6 +2,8 @@ import express from "express";
 import { config } from "dotenv";
 import { createConnection, Connection } from "typeorm";
 import { RegisterRoutes } from "../routes";
+import { absolutePath } from "swagger-ui-dist";
+import { join } from "path";
 
 export class Application  {
 
@@ -18,6 +20,8 @@ export class Application  {
         const bodyParser = require("body-parser");
 
         this.app.use(bodyParser.json());
+        this.app.use("/swagger", express.static(absolutePath()));
+        this.app.use("/public", express.static(join(__dirname, "..", "public")));
     }
 
     async start(){
