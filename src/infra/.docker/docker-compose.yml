@@ -49,8 +49,6 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        ports: 
-            - "5432:5432"
         networks:
             - policy-price
         container_name: policy-price-db
@@ -65,6 +63,29 @@ services:
             - clo
             - policy-price
         container_name: policy-price-manager
+    room-manager:
+        image: room-manager
+        ports: 
+            - "83:80"
+        restart: always
+        networks: 
+            - clo
+        container_name: room-manager
+        networks: 
+            - clo
+            - room
+    room-db:
+        image: postgres:11
+        ports: 
+            - "5432:5432"
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        container_name: room-db
+        networks: 
+            - room
 
 networks: 
     clo:
@@ -74,4 +95,6 @@ networks:
     establishment:
         external: true
     policy-price:
+        external: true
+    room:
         external: true
