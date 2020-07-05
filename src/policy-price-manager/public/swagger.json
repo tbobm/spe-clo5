@@ -1,0 +1,396 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"EPolicyPrice": {
+				"enum": [
+					"NIGHT_MAJOR_15_PERCENT",
+					"NIGHT_MINOR_1O_PERCENT",
+					"NIGHT_MINOR_5_PERCENT"
+				],
+				"type": "string"
+			},
+			"PeriodResource": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"from": {
+						"type": "number",
+						"format": "double"
+					},
+					"to": {
+						"type": "number",
+						"format": "double"
+					},
+					"sign": {
+						"type": "number",
+						"format": "double"
+					},
+					"percent": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"from",
+					"to",
+					"sign",
+					"percent"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"PersonResource": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nb": {
+						"type": "number",
+						"format": "double"
+					},
+					"percent": {
+						"type": "number",
+						"format": "double"
+					},
+					"sign": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"nb",
+					"percent",
+					"sign"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"PolicyPriceEstablishmentResource": {
+				"properties": {
+					"policyPriceId": {
+						"type": "number",
+						"format": "double"
+					},
+					"establishmentId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"policyPriceId",
+					"establishmentId"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"PolicyPriceResource": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"key": {
+						"$ref": "#/components/schemas/EPolicyPrice"
+					},
+					"periods": {
+						"items": {
+							"$ref": "#/components/schemas/PeriodResource"
+						},
+						"type": "array"
+					},
+					"persons": {
+						"items": {
+							"$ref": "#/components/schemas/PersonResource"
+						},
+						"type": "array"
+					},
+					"establishments": {
+						"items": {
+							"$ref": "#/components/schemas/PolicyPriceEstablishmentResource"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"key",
+					"periods",
+					"persons",
+					"establishments"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "policy-price-manager",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/hello": {
+			"get": {
+				"operationId": "Hello",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"httpCode"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Save",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"httpCode",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PolicyPriceResource"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"httpCode",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PolicyPriceResource"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/establishmment/{establishmentId}": {
+			"get": {
+				"operationId": "FindByEstablishment",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"httpCode"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "establishmentId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/{id}": {
+			"get": {
+				"operationId": "FindOne",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										}
+									},
+									"required": [
+										"httpCode"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"httpCode",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
