@@ -17,6 +17,7 @@ pytz = "*"
 python-dotenv = "*"
 flask-swagger = "*"
 psycopg2-binary = "*"
+flask-restx = "*"
 
 [dev-packages]
 rope = "*"
