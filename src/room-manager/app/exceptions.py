@@ -24,7 +24,6 @@ class AppError(Exception):
         response.status_code = self.status_code
         return response
 
-
 class InvalidFieldError(AppError):
     def __init__(self, field_name, message=""):
         AppError.__init__(
@@ -34,17 +33,14 @@ class InvalidFieldError(AppError):
             message=f"Invalid '{field_name}''. {message}",
         )
 
-
 class BadRequestError(AppError):
     def __init__(self, message="Malformed request."):
         AppError.__init__(
             self, status_code=400, error_code="BAD_REQUEST", message=message
         )
 
-
 class NotFoundError(AppError):
     def __init__(self, message="Requested resource not found."):
         AppError.__init__(
             self, status_code=404, error_code="NOT_FOUND", message=message
         )
-
