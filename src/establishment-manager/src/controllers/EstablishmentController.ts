@@ -5,7 +5,9 @@ import { EstablishmentAddress } from "../models/entities/EstablishmentAddress";
 import { EstablishmentService } from "../models/entities/EstablishmentService";
 import { AddressService } from "../models/services/AddressService";
 import { PolicyPriceService } from "../models/services/PolicyPriceService";
+import { Route, Get, Path, Post, Body, Delete, Put } from "tsoa";
 
+@Route("/")
 export class EstablishmentController {
 
     private esService: EstablishmentServiceImpl;
@@ -18,6 +20,7 @@ export class EstablishmentController {
         this.policyPriceService = new PolicyPriceService();
     }
 
+    @Get()
     async getAll(){
         const domains = [];
         let list = await this.esService.getAll();
@@ -90,19 +93,31 @@ export class EstablishmentController {
             }
             domains.push(new DomainEstablishment(o));
         }
-        return (domains);
+        if (domains.length == 0){
+            return Promise.resolve({
+                message: "empty establishment"
+            });
+        }
+        return Promise.resolve({
+            message: "List establishment",
+            data: domains
+        });
     }
 
+    @Get("hello")
     hello(){
-        return ("establishment");
+        return Promise.resolve("establishment");
     }
 
-    async getOne(id: number){
+    @Get("{id}")
+    async getOne(@Path("id") id: number){
         const establishment = await this.esService.getOne(id);
         const o :any = {};
 
         if (establishment == null){
-            return null;
+            return Promise.resolve({
+                message: "no content"
+            });
         }
         o.name = establishment.name;
         o.id = establishment.id;
@@ -161,10 +176,15 @@ export class EstablishmentController {
                 o.policyPrices = policyPrices;
             }
         }
-        return (new DomainEstablishment(o));
+        const e = new DomainEstablishment(o);
+        return Promise.resolve({
+            message: "Get establishment",
+            data: e
+        })
     }
 
-    async save(domainEstablishment: EstablishmentResource){
+    @Post()
+    async save(@Body() domainEstablishment: EstablishmentResource){
         const establishment = new Establishment();
 
         establishment.name = domainEstablishment.name;
@@ -198,7 +218,9 @@ export class EstablishmentController {
         }
         catch (e){
             console.log(e.message);
-            return (null);
+            return Promise.resolve({
+                message: "Failed to save"
+            });
         }
         const o :any = {};
         o.name = saved.name;
@@ -254,21 +276,31 @@ export class EstablishmentController {
             });
         });
         const savedEs = new DomainEstablishment(o);
-        return (savedEs);
+        return Promise.resolve({
+            message: "Establishment saved",
+            data: savedEs
+        });
     }
 
-    async delete(id: number){
+    @Delete("{id}")
+    async delete(@Path("id") id: number){
         const establishment = await this.esService.getOne(id);
         
         if(establishment == null){
-            return (null);
+            return Promise.resolve({
+                message: "no content"
+            });
         }
         await this.esService.deleteAddress(id);
         await this.esService.deleteService(id);
-        return (this.esService.delete(id));
+        await this.esService.delete(id);
+        return Promise.resolve({
+            message: "Establishment deleted",
+        });
     }
 
-    async update(domainEstablishment: EstablishmentResource){
+    @Put()
+    async update(@Body() domainEstablishment: EstablishmentResource){
         const establishment = new Establishment();
 
         establishment.id = domainEstablishment.id;
@@ -347,7 +379,10 @@ export class EstablishmentController {
             });
         });
         const savedEs = new DomainEstablishment(o);
-        return (savedEs);
+        return Promise.resolve({
+            message: "Establishment updated",
+            data: savedEs
+        });
     }
 
 }
