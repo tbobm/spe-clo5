@@ -24,7 +24,7 @@ room_fields = api.model('Room', {
     'id': fields.Integer(min=0),
     'name': fields.String,
     'roomCategory': room_category_fields,
-    'establishments': fields.List(room_establishments)
+    'establishments': fields.List(fields.Nested(room_establishments))
 })
 
 class RoomCategoryResource:
@@ -60,6 +60,7 @@ class Rooms(Resource):
         list = self.roomDAO.list()
         rooms = []
 
+        print(list)
         if (list != None and len(list)):
             for item in list:
                 es = self.roomEstablishmmentDAO.getByRoomId(item.id)
