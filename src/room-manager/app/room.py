@@ -24,7 +24,7 @@ room_fields = api.model('Room', {
     'id': fields.Integer(min=0),
     'name': fields.String,
     'roomCategory': room_category_fields,
-    'establishments': room_establishments
+    'establishments': fields.List(room_establishments)
 })
 
 class RoomCategoryResource:
@@ -71,6 +71,14 @@ class Rooms(Resource):
 
     @room.expect(room_fields)
     def post(self, room):
+        roomModel = RoomModel(room.name, room.roomCategory.id)
+        if (room.roomCategory.id <= 0 or room.roomCategory.id != None and self.roomCategoryDAO.read(room.roomCategory.id) == None):
+            roomCategoryModel = RoomCategoryModel(room.roomCategory.key, room.roomCategory.maxLength, room.roomCategory.basePrice)
+            self.roomCategoryDAO.save(roomCategoryModel)
+        if (room.establishments != None and len(room.establishments)):
+            for establishment in room.establishments:
+                roomEstablishmentModel = RoomEstablishmentModel(establishment.roomId, establishment.establishmentId, establishment.overridePrice)
+                self.roomEstablishmmentDAO.save(roomEstablishmentModel)
         flag = self.roomDAO.save(room)
 
         return ({
@@ -79,6 +87,14 @@ class Rooms(Resource):
     
     @room.expect(room_fields)
     def put(self, room):
+        roomModel = RoomModel(room.name, room.roomCategory.id)
+        if (room.roomCategory.id <= 0 or room.roomCategory.id != None and self.roomCategoryDAO.read(room.roomCategory.id) == None):
+            roomCategoryModel = RoomCategoryModel(room.roomCategory.key, room.roomCategory.maxLength, room.roomCategory.basePrice)
+            self.roomCategoryDAO.save(roomCategoryModel)
+        if (room.establishments != None and len(room.establishments)):
+            for establishment in room.establishments:
+                roomEstablishmentModel = RoomEstablishmentModel(establishment.roomId, establishment.establishmentId, establishment.overridePrice)
+                self.roomEstablishmmentDAO.save(roomEstablishmentModel)
         flag = self.roomDAO.update(room)
 
         return ({
