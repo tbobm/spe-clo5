@@ -117,4 +117,3 @@ class Room(Resource):
         return ({
             "message": "Room deleted"
         }), 200
-
