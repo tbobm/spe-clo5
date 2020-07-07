@@ -8,6 +8,7 @@ import { join } from "path";
 export class Application  {
 
     public app: express.Express;
+    public server: any;
 
     constructor(){
         config();
@@ -26,17 +27,25 @@ export class Application  {
 
     async start(){
         return new Promise(async (resolve, reject) => {
-            const connection : Connection = await createConnection(process.env.NODE_ENV || "development");
+            let connection = await createConnection(process.env.NODE_ENV || "development");
 
             await connection.runMigrations({
                 transaction: "all"
             });
             RegisterRoutes(this.app);
-            this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
+            this.server = this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
                 console.log(`The application is started on port ${process.env.PORT}`);
                 resolve(connection);
             });
         });
+    }
+
+    async stop(){
+        return (new Promise((resolve, reject) => {
+            this.server.close(() => {
+                resolve(true)
+            });
+        }))
     }
 
 }
