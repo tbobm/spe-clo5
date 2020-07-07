@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "key": "NIGHT_MAJOR_15_PERCENT",
+        "key": 1,
         "policyPriceEstablishments": [
             {
                 "establishmentId": 1
@@ -23,7 +23,7 @@
     },
     {
         "id": 2,
-        "key": "NIGHT_MINOR_1O_PERCENT",
+        "key": 2,
         "policyPriceEstablishments": [
             {
                 "establishmentId": 1
@@ -32,6 +32,7 @@
         "policyPricePeriods": [],
         "policyPricePersons": [
             {
+                "personId": 1,    
                 "person": {
                     "id": 1,
                     "nb": 3,

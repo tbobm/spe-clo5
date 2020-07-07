@@ -25,12 +25,12 @@ export class PolicyPriceService implements IPolicyPriceService {
     constructor(policyPriceRepository: PolicyPriceRepository, 
         periodRepository: PeriodRepository, 
         personRepository: PersonRepository, 
-        policyPriceEstablishmenteRepository: PolicyPriceEstablishmentRepository, 
+        policyPriceEstablishmentRepository: PolicyPriceEstablishmentRepository, 
         policyPricePeriodRepository: PolicyPricePeriodRepository){
         this.policyPriceRepository = policyPriceRepository;
         this.periodRepository = periodRepository;
         this.personRepository = personRepository;
-        this.policyPriceEstablishmenteRepository = policyPriceEstablishmenteRepository;
+        this.policyPriceEstablishmenteRepository = policyPriceEstablishmentRepository;
         this.policyPricePeriodRepository = policyPricePeriodRepository;
     }
 
@@ -192,7 +192,6 @@ export class PolicyPriceService implements IPolicyPriceService {
                 "policyPricePersons"
             ]
         });
-        console.log(policies);
         const list = [];
 
         if (!policies){

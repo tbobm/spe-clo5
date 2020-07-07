@@ -18,6 +18,7 @@ export class Application  {
 
     public app: express.Express;
     public container: AwilixContainer;
+    public server: any;
 
     constructor(){
         config();
@@ -53,11 +54,19 @@ export class Application  {
             await connection.runMigrations({
                 transaction: "all"
             });
-            this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
+            this.server = this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
                 console.log(`The application is started on port ${process.env.PORT}`);
                 resolve(connection);
             });
         });
+    }
+
+    async stop(){
+        return (new Promise((resolve, reject) => {
+            this.server.close(() => {
+                resolve(true);
+            });
+        }));
     }
 
 }

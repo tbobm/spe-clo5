@@ -10,17 +10,6 @@ services:
         networks:
             - address
         container_name: address-db
-    address-manager:
-        image: address-manager
-        ports: 
-            - "81:80"
-        environment: 
-            NODE_ENV: development
-        restart: always
-        networks:
-            - address
-            - clo
-        container_name: address-manager
     establishment-db:
         image: postgres:11
         environment: 
@@ -31,18 +20,17 @@ services:
         networks:
             - establishment
         container_name: establishment-db
-    establishment-manager:
-        image: establishment-manager
-        ports: 
-            - "80:80"
+    policy-price-db:
+        image: postgres:11
         environment: 
-            NODE_ENV: development
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
         restart: always
         networks:
-            - clo
-            - establishment
-        container_name: establishment-manager
-    policy-price-db:
+            - policy-price
+        container_name: policy-price-db
+    policy-price-test-db:
         image: postgres:11
         environment: 
             POSTGRES_USER: clo
@@ -53,19 +41,7 @@ services:
             - "5432:5432"
         networks:
             - policy-price
-        container_name: policy-price-db
-    policy-price-manager:
-        image: policy-price-manager
-        ports: 
-            - "82:80"
-        environment: 
-            NODE_ENV: development
-        restart: always
-        networks:
-            - clo
-            - policy-price
-        container_name: policy-price-manager
-
+        container_name:  policy-price-test-db
 networks: 
     clo:
         external: true
