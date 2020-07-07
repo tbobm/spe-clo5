@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "key": "NIGHT_MAJOR_15_PERCENT",
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 1
+            }
+        ],
+        "policyPricePeriods": [
+            {
+                "periodId": 1,
+                "period": {
+                    "id": 1,
+                    "from": 4,
+                    "to": 5,
+                    "sign": 1,
+                    "percent": 15
+                }
+            }
+        ],
+        "policyPricePersons": []
+    },
+    {
+        "id": 2,
+        "key": "NIGHT_MINOR_1O_PERCENT",
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 1
+            }
+        ],
+        "policyPricePeriods": [],
+        "policyPricePersons": [
+            {
+                "person": {
+                    "id": 1,
+                    "nb": 3,
+                    "sign": 1,
+                    "percent": 10
+                }
+            }
+        ]
+    }
+]

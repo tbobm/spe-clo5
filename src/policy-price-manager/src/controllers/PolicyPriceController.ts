@@ -1,5 +1,4 @@
 import { IPolicyPriceService } from "../models/services/IPolicyPriceService";
-import { PolicyPriceService } from "../models/services/PolicyPriceService";
 import { PolicyPriceResource } from "./types/PolicyPriceResource";
 import { Route, Get, Path, Delete, Post, Body, Put } from "tsoa";
 
@@ -8,8 +7,8 @@ export class PolicyPriceController {
 
     private policyPriceService: IPolicyPriceService;
 
-    constructor(){
-        this.policyPriceService = new PolicyPriceService();
+    constructor(policyPriceService: IPolicyPriceService){
+        this.policyPriceService = policyPriceService;
     }
 
     @Get("hello")

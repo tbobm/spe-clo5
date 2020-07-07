@@ -8,20 +8,30 @@ import { IPolicyPriceService } from "./IPolicyPriceService";
 import { DTOPolicyPriceKey, DTOKeyPolicyPrice } from "../../controllers/types/EPolicyPrice"
 import { PolicyPricePerson } from "../entities/PolicyPricePerson";
 import { Person } from "../entities/Person";
+import { PolicyPriceRepository } from "../repositories/PolicyPriceRepository";
+import { PeriodRepository } from "../repositories/PeriodRepository";
+import { PolicyPriceEstablishmentRepository } from "../repositories/PolicyPriceEstablishmentRepository";
+import { PolicyPricePeriodRepository } from "../repositories/PolicyPricePeriodRepository";
+import { PersonRepository } from "../repositories/PersonRepository";
 
 export class PolicyPriceService implements IPolicyPriceService {
 
-    private policyPriceRepository: Repository<PolicyPrice>;
-    private periodRepository: Repository<Period>;
-    private personRepository: Repository<Person>;
-    private policyPriceEstablishmenteRepository: Repository<PolicyPriceEstablishment>;
-    private policyPricePeriodRepository: Repository<PolicyPricePeriod>;
+    private policyPriceRepository: PolicyPriceRepository
+    private periodRepository: PeriodRepository;
+    private personRepository: PersonRepository;
+    private policyPriceEstablishmenteRepository: PolicyPriceEstablishmentRepository;
+    private policyPricePeriodRepository: PolicyPricePeriodRepository;
 
-    constructor(){
-        this.policyPriceRepository = getRepository(PolicyPrice, process.env.NODE_ENV || "development");
-        this.periodRepository = getRepository(Period, process.env.NODE_ENV || "development");
-        this.policyPriceEstablishmenteRepository = getRepository(PolicyPriceEstablishment, process.env.NODE_ENV || "development");
-        this.policyPricePeriodRepository = getRepository(PolicyPricePeriod, process.env.NODE_ENV || "development");
+    constructor(policyPriceRepository: PolicyPriceRepository, 
+        periodRepository: PeriodRepository, 
+        personRepository: PersonRepository, 
+        policyPriceEstablishmenteRepository: PolicyPriceEstablishmentRepository, 
+        policyPricePeriodRepository: PolicyPricePeriodRepository){
+        this.policyPriceRepository = policyPriceRepository;
+        this.periodRepository = periodRepository;
+        this.personRepository = personRepository;
+        this.policyPriceEstablishmenteRepository = policyPriceEstablishmenteRepository;
+        this.policyPricePeriodRepository = policyPricePeriodRepository;
     }
 
     async findByEstablishment(establishmentId: number) {
