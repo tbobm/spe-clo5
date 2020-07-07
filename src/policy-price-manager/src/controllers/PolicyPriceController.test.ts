@@ -104,9 +104,7 @@ describe("Test - Policy Price Controller", () => {
             }
         })
         .catch((error) => {
-            console.log(error.message);
-
-        
+            console.log(error.message);        
         });
     });
 
