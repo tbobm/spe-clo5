@@ -9,3 +9,7 @@ cadvisor_version: 0.35.0
 cadvisor_url: "https://github.com/google/cadvisor/releases/download/v{{ cadvisor_version }}/cadvisor"
 registry_url: "localhost:5000"
 registry_host: vm3
+
+target_node_a: 172.16.228.52
+target_node_b: 172.16.228.47
+target_node_c: 172.16.228.42

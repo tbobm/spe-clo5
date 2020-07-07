@@ -2,3 +2,8 @@
 name: grafana
 image: "{{ registry_url }}/grafana"
 mode: replicated
+labels:
+  "traefik.http.routers.grafana.rule": "Host(`grafana.clo5.local`)"
+placement:
+  constraints:
+    - "node.role == manager"

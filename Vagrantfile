@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
     ansible.host_vars = {
       "vm3" => {
         "docker_swarm_addr": "192.168.50.6",
+        "docker_swarm_port": "2377",
         "gitlab_addr": "192.168.50.6",
         "registry_addr": "192.168.50.6",
         "registry_url": "192.168.50.6:443",
@@ -65,6 +66,9 @@ Vagrant.configure("2") do |config|
           }
         ],
         "gitlab_install": "no",
+        "target_node_a": "192.168.50.4",
+        "target_node_b": "192.168.50.5",
+        "target_node_c": "192.168.50.6",
       },
       "vm2" => {
         "registry_addr": "192.168.50.6",
