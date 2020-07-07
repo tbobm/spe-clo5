@@ -20,7 +20,7 @@ class RoomDAO:
         return (room.id)
 
     def update(self, room):
-        db.session.query(RoomModel).filter(id==room.id).update({
+        db.session.query(RoomModel).filter_by(id=room.id).update({
             'name': room.name
         })
 
@@ -38,7 +38,7 @@ class RoomDAO:
 class RoomCategoryDAO:
 
     def read(self, id):
-        item = RoomCategoryModel.query.get(id)
+        item = db.session.query(RoomCategoryModel).get(id)
 
         return (item)
     
@@ -53,7 +53,7 @@ class RoomCategoryDAO:
         return (roomCategory.id)
     
     def update(self, roomCategory):
-        RoomCategoryModel.query.filter(id==roomCategory.id).update(roomCategory)
+        RoomCategoryModel.query.filter(RoomCategoryModel.id == roomCategory.id).update(roomCategory)
 
         return True
 
@@ -72,17 +72,17 @@ class RoomCategoryDAO:
 class RoomEstablishmentDAO:
 
     def getByRoomId(self, roomId):
-        roomsEstablishment = RoomEstablishmentModel.filter_by(roomId==roomId).all()
+        roomEstablishments = RoomEstablishmentModel.query.filter(RoomEstablishmentModel.roomId == roomId).all()
 
-        return (roomsEstablishment)
-    
+        return(roomEstablishments)
+
     def list(self):
         list = RoomEstablishmentModel.query.all()
 
         return (list)
 
     def deleteByRoomId(self, roomId):
-        RoomEstablishmentModel.query.filter_by(roomId=roomId).delete()
+        db.session.query(RoomEstablishmentModel).filter_by(roomId=roomId).delete()
 
         return (True)
 

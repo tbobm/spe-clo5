@@ -39,11 +39,31 @@ class Rooms(Resource):
         list = self.roomDAO.list()
         rooms = []
 
-        print(list)
         if (list != None and len(list)):
             for item in list:
                 es = self.roomEstablishmmentDAO.getByRoomId(item.id)
-                rooms.append(RoomResource(item.id, item.name, self.roomCategoryDAO.read(item.roomCategoryId), es)) 
+                roomCategory = self.roomCategoryDAO.read(item.roomCategoryId)
+                room = {
+                    "id": item.id,
+                    "name": item.name,
+                }
+                if (roomCategory != None):
+                    room["roomCategory"] = {
+                        "id": roomCategory.id,
+                        "key": roomCategory.key,
+                        "maxLength": roomCategory.maxLength,
+                        "basePrice": roomCategory.basePrice
+                    }
+                if (es != None and len(es) > 0):
+                    room["establishments"] = []
+                    for e in es:
+                        print(e.roomId)
+                        room["establishments"].append({
+                            "roomId": e.roomId,
+                            "establishmentId": e.establishmentId,
+                            "overridePrice": e.overridePrice
+                        })
+                rooms.append(room) 
         return ({
             "data": rooms,
             "message": "Room list"
@@ -141,7 +161,6 @@ class Rooms(Resource):
             "establishments": resourceEstablishments,
             "id": roomModel.id
         }
-        print(roomModel.id)
         return ({
             "message": "Room updated"
         }), 200
@@ -162,10 +181,28 @@ class Room(Resource):
             }), 404
         establishments = self.roomEstablishmmentDAO.getByRoomId(item.id)
         category = self.roomCategoryDAO.read(item.roomCategoryId)
-        resource = RoomResource(item.id, item.name, category, establishments)
+        room = {
+            "id": item.id,
+            "name": item.name,
+        }
+        if (category != None):
+            room["roomCategory"] = {
+                "id": category.id,
+                "key": category.key,
+                "maxLength": category.maxLength,
+                "basePrice": category.basePrice
+            }
+        if (establishments != None and len(establishments) > 0):
+            room["establishments"] = []
+            for establishment in establishments:
+                room["establishments"].append({
+                    "roomId": establishment.roomId,
+                    "establishmentId": establishment.establishmentId,
+                    "overridePrice": establishment.overridePrice
+                })
         return ({
-            "data": resource,
-            "message": "Room finded"
+            "message": "room details",
+            "data": room
         }), 200
     
     def delete(self, id):
