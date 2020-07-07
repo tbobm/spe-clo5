@@ -2,60 +2,39 @@ from flask_restx import Resource, Namespace, fields
 from flask import jsonify, request, Response
 from .api import api
 from .RoomDAO import RoomDAO, RoomCategoryDAO, RoomEstablishmentDAO
+from .models import RoomModel, RoomCategoryModel, RoomEstablishmentModel
 
 room = Namespace(name="room", description="Related room endpoints", path="")
 
 api.add_namespace(room)
 
-room_category_fields = api.model('RoomCategory', {
+room_category_fields = room.model('RoomCategory', {
     'id': fields.Integer(min=0),
     'key': fields.String,
     'maxLength': fields.Integer(min=0),
     'basePrice': fields.Integer(min=0)
 })
 
-room_establishments = api.model('RoomEstablishment', {
+room_establishments = room.model('RoomEstablishment', {
     'roomId': fields.Integer(min=0),
     'establishmentId': fields.Integer(min=0),
     'overridePrice': fields.Integer(min=0)
 })
 
-room_fields = api.model('Room', {
+room_fields = room.model('Room', {
     'id': fields.Integer(min=0),
     'name': fields.String,
     'roomCategory': room_category_fields,
     'establishments': fields.List(fields.Nested(room_establishments))
 })
 
-class RoomCategoryResource:
-    id = 0
-    key = ""
-    maxLength = 0
-    basePrice = 0
-
-class RoomEstablishmentResource:
-    roomId = 0
-    establishmentId = 0
-    overridePrice = 0
-
-class RoomResource:
-    id = 0
-    name = ""
-    category = None
-    establishments = None
-
-    def __init__(self, id, name, category, establishments):
-        self.id = id
-        self.name = name
-        self.category = category
-        self.establishments = establishments
-
 @room.route("/")
 class Rooms(Resource):
+
     roomDAO = RoomDAO()
     roomCategoryDAO = RoomCategoryDAO()
     roomEstablishmmentDAO = RoomEstablishmentDAO()
-
+    
     def get(self):
         list = self.roomDAO.list()
         rooms = []
@@ -70,34 +49,99 @@ class Rooms(Resource):
             "message": "Room list"
         }), 200
 
-    @room.expect(room_fields)
-    def post(self, room):
-        roomModel = RoomModel(room.name, room.roomCategory.id)
-        if (room.roomCategory.id <= 0 or room.roomCategory.id != None and self.roomCategoryDAO.read(room.roomCategory.id) == None):
-            roomCategoryModel = RoomCategoryModel(room.roomCategory.key, room.roomCategory.maxLength, room.roomCategory.basePrice)
-            self.roomCategoryDAO.save(roomCategoryModel)
-        if (room.establishments != None and len(room.establishments)):
-            for establishment in room.establishments:
-                roomEstablishmentModel = RoomEstablishmentModel(establishment.roomId, establishment.establishmentId, establishment.overridePrice)
+    def post(self):
+        room = request.json
+        roomCategoryId = 0
+        roomCategoryModel = None
+        if (room['roomCategory'] != None and 'id' not in room['roomCategory']):
+            roomCategoryModel = RoomCategoryModel(room['roomCategory']['key'], room['roomCategory']['maxLength'], room['roomCategory']['basePrice'])
+            roomCategoryId = self.roomCategoryDAO.save(roomCategoryModel)
+        elif ('id' in room['roomCategory'] and room['roomCategory']['id'] > 0):
+            roomCategoryId = room['roomCategory']['id']
+            roomCategoryModel = self.roomCategoryDAO.read(roomCategoryId)
+        else:
+            return ({
+                "message": "invalid input"
+            }), 400
+        roomModel = RoomModel(room['name'], roomCategoryId)
+        self.roomDAO.save(roomModel)
+        establishments = []
+        if (room['establishments'] != None and len(room['establishments']) > 0):
+            for establishment in room['establishments']:
+                roomEstablishmentModel = RoomEstablishmentModel(roomModel.id, establishment['establishmentId'], establishment['overridePrice'])
                 self.roomEstablishmmentDAO.save(roomEstablishmentModel)
-        flag = self.roomDAO.save(room)
-
+                establishments.append(roomEstablishmentModel)
+        resourceCategory = {
+            "key": roomCategoryModel.key,
+            "maxLength": roomCategoryModel.maxLength,
+            "basePrice": roomCategoryModel.basePrice,
+            "id": roomCategoryId
+        }
+        resourceEstablishments = []
+        for establishment in establishments:
+            resourceEstablishment = {
+                "roomId": roomModel.id, 
+                "establishmentId": establishment.establishmentId,
+                "overridePrice": establishment.overridePrice
+            }
+            resourceEstablishments.append(resourceEstablishment)
+        roomResource = {
+            "name": roomModel.name,
+            "resourceCategory": resourceCategory,
+            "establishments": resourceEstablishments,
+            "id": roomModel.id
+        }
         return ({
-            "message": "Room inserted"
+            "message": "Room updated",
+            "data": roomResource
         }), 201
     
-    @room.expect(room_fields)
-    def put(self, room):
-        roomModel = RoomModel(room.name, room.roomCategory.id)
-        if (room.roomCategory.id <= 0 or room.roomCategory.id != None and self.roomCategoryDAO.read(room.roomCategory.id) == None):
-            roomCategoryModel = RoomCategoryModel(room.roomCategory.key, room.roomCategory.maxLength, room.roomCategory.basePrice)
-            self.roomCategoryDAO.save(roomCategoryModel)
-        if (room.establishments != None and len(room.establishments)):
-            for establishment in room.establishments:
-                roomEstablishmentModel = RoomEstablishmentModel(establishment.roomId, establishment.establishmentId, establishment.overridePrice)
+   # @room.expect(room_fields)
+    def put(self):
+        room = request.json
+        roomCategoryId = 0
+        roomCategoryModel = None
+        if (room['roomCategory'] != None and 'id' not in room['roomCategory']):
+            roomCategoryModel = RoomCategoryModel(room['roomCategory']['key'], room['roomCategory']['maxLength'], room['roomCategory']['basePrice'])
+            roomCategoryId = self.roomCategoryDAO.save(roomCategoryModel)
+        elif ('id' in room['roomCategory'] and room['roomCategory']['id'] > 0):
+            roomCategoryId = room['roomCategory']['id']
+            roomCategoryModel = self.roomCategoryDAO.read(roomCategoryId)
+        else:
+            return ({
+                "message": "invalid input"
+            }), 400
+        roomModel = RoomModel(room['name'], roomCategoryId)
+        roomModel.id = room['id']
+        self.roomDAO.update(roomModel)
+        self.roomEstablishmmentDAO.deleteByRoomId(roomModel.id)
+        establishments = []
+        if (room['establishments'] != None and len(room['establishments']) > 0):
+            for establishment in room['establishments']:
+                roomEstablishmentModel = RoomEstablishmentModel(roomModel.id, establishment['establishmentId'], establishment['overridePrice'])
                 self.roomEstablishmmentDAO.save(roomEstablishmentModel)
-        flag = self.roomDAO.update(room)
-
+                establishments.append(roomEstablishmentModel)
+        resourceCategory = {
+            "key": roomCategoryModel.key,
+            "maxLength": roomCategoryModel.maxLength,
+            "basePrice": roomCategoryModel.basePrice,
+            "id": roomCategoryId
+        }
+        resourceEstablishments = []
+        for establishment in establishments:
+            resourceEstablishment = {
+                "roomId": roomModel.id, 
+                "establishmentId": establishment.establishmentId,
+                "overridePrice": establishment.overridePrice
+            }
+            resourceEstablishments.append(resourceEstablishment)
+        roomResource = {
+            "name": roomModel.name,
+            "resourceCategory": resourceCategory,
+            "establishments": resourceEstablishments,
+            "id": roomModel.id
+        }
+        print(roomModel.id)
         return ({
             "message": "Room updated"
         }), 200

@@ -16,11 +16,14 @@ class RoomDAO:
     def save(self, room):
         db.session.add(room)
         db.session.commit()
-        return (True)
+
+        return (room.id)
 
     def update(self, room):
-        db.session.add(room)
-        db.session.commit()
+        db.session.query(RoomModel).filter(id==room.id).update({
+            'name': room.name
+        })
+
         return (True)
 
     def delete(self, id):
@@ -47,17 +50,16 @@ class RoomCategoryDAO:
     def save(self, roomCategory):
         db.session.add(roomCategory)
         db.session.commit()
-        return (True)
+        return (roomCategory.id)
     
     def update(self, roomCategory):
-        item = RoomCategoryModel.query.get(roomCategory.id)
+        RoomCategoryModel.query.filter(id==roomCategory.id).update(roomCategory)
 
-        if (item == None):
-            return (False)
-        db.session.add(roomCategory)
-        db.session.commit()
-        return (True)
-    
+        return True
+
+    def deleteByRoomId(self, roomId):
+        pass
+
     def delete(self, id):
         item = RoomCategoryModel.query.get(id)
 
@@ -70,7 +72,7 @@ class RoomCategoryDAO:
 class RoomEstablishmentDAO:
 
     def getByRoomId(self, roomId):
-        roomsEstablishment = RoomEstablishmentModel.filter_by(roomId=roomId).all()
+        roomsEstablishment = RoomEstablishmentModel.filter_by(roomId==roomId).all()
 
         return (roomsEstablishment)
     
@@ -80,10 +82,11 @@ class RoomEstablishmentDAO:
         return (list)
 
     def deleteByRoomId(self, roomId):
-        RoomEstablishmentModel.filter_by(roomId=roomId).delete()
+        RoomEstablishmentModel.query.filter_by(roomId=roomId).delete()
 
         return (True)
 
     def save(self, roomEstablishment):
         db.session.add(roomEstablishment)
         db.session.commit()
+        return (True)
