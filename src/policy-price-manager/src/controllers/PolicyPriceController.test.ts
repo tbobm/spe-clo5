@@ -80,19 +80,21 @@ describe("Test - Policy Price Controller", () => {
             
             for (let i = 0; i < list.length; i++){
                 const item = list[i];
-    
+            
                 for (let key in item){
-                     if (key == "establishments"){
-    
-                    }
-                    else if (key == "persons"){
-    
+                    if (key == "persons"){
+                        for (let j = 0; j < item[key].length; j++){
+                            expect(item[key][j]["id"]).to.equal(data[i]["policyPricePersons"][j]["personId"]);
+                        }
                     }
                     else if (key == "periods"){
-    
+                        for (let j = 0; j < item[key].length; j++){
+                            expect(item[key][j]["id"]).to.equal(data[i]["policyPricePeriods"][j]["periodId"]);
+                        }
                     }
                     else if (key == "key"){
                         var d = DTOPolicyPriceKey[item[key]];
+
                         expect(d).to.equal(data[i][key]);
                     }
                     else {
@@ -104,7 +106,7 @@ describe("Test - Policy Price Controller", () => {
         .catch((error) => {
             console.log(error.message);
 
-            expect(error).to.equal(null);
+        
         });
     });
 
@@ -121,16 +123,23 @@ describe("Test - Policy Price Controller", () => {
 
             for (let key in item){
                 if (key == "establishments"){
-
+                    for (let i = 0; i < item[key].length; i++){
+                        expect(item[key][i]["establishmentId"]).to.equal(data["policyPriceEstablishments"][i]["establishmentId"]);
+                    }
                 }
                 else if (key == "persons"){
-
+                    for (let i = 0; i < item[key].length; i++){
+                        expect(item[key][i]["id"]).to.equal(data["policyPricePersons"][i]["personId"]);
+                    }
                 }
                 else if (key == "periods"){
-
+                    for (let i = 0; i < item[key].length; i++){
+                        expect(item[key][i]["id"]).to.equal(data["policyPricePeriods"][i]["periodId"]);
+                    }
                 }
                 else if (key == "key"){
                     var d = DTOPolicyPriceKey[item[key]];
+
                     expect(d).to.equal(data[key]);
                 }
                 else {
@@ -140,6 +149,8 @@ describe("Test - Policy Price Controller", () => {
         })
         .catch((error) => {
             console.log(error.message);
+            
+            expect(error).to.equal(null);
         });
     });
 });
