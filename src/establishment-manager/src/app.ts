@@ -1,14 +1,19 @@
 import express from "express";
 import { config } from "dotenv";
-import { createConnection, Connection } from "typeorm";
-import { RegisterRoutes } from "../routes";
+import { createConnection } from "typeorm";
 import { absolutePath } from "swagger-ui-dist";
 import { join } from "path";
+import { createContainer, AwilixContainer, asClass, InjectionMode, Lifetime } from "awilix";
+import { EstablishmentRepository } from "./models/repositories/EstablishmentRepository";
+import { EstablishmentServiceImpl } from "./models/services/EstablishmentServiceImpl";
+import { EstablishmentController } from "./controllers/EstablishmentController";
+import { RegisterRoute } from "./routes/index";
 
 export class Application  {
 
     public app: express.Express;
     public server: any;
+    public container: AwilixContainer;
 
     constructor(){
         config();
@@ -20,6 +25,7 @@ export class Application  {
     config(){
         const bodyParser = require("body-parser");
 
+        this.container = createContainer();
         this.app.use(bodyParser.json());
         this.app.use("/public", express.static(join(__dirname, "..", "public")));
         this.app.use("/swagger", express.static(absolutePath()));
@@ -32,7 +38,12 @@ export class Application  {
             await connection.runMigrations({
                 transaction: "all"
             });
-            RegisterRoutes(this.app);
+            this.container.register({
+                "establishmentRepository": asClass(EstablishmentRepository).setInjectionMode(InjectionMode.CLASSIC).setLifetime(Lifetime.SINGLETON),
+                "establishmentService": asClass(EstablishmentServiceImpl).setInjectionMode(InjectionMode.CLASSIC).setLifetime(Lifetime.SINGLETON),
+                "establishmentController": asClass(EstablishmentController).setInjectionMode(InjectionMode.CLASSIC).setLifetime(Lifetime.SINGLETON)
+            });
+            RegisterRoute(this);
             this.server = this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
                 console.log(`The application is started on port ${process.env.PORT}`);
                 resolve(connection);

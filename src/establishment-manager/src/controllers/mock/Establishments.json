@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Hotel 01",
+        "phoneNumber": "0123456789",
+        "addresses": [
+            {
+                "addressId": 3
+            }
+        ],
+        "services": [
+            {
+                "serviceId": 2,
+                "overridePrice": 45,
+                "model": 1,
+                "interval": 30
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Hotel 02",
+        "phoneNumber": "0123456789",
+        "addresses": [
+            {
+                "addressId": 4
+            }
+        ],
+        "services": [
+            {
+                "serviceId": 2,
+                "overridePrice": 45,
+                "model": 1,
+                "interval": 30
+            }
+        ]
+    }
+]

@@ -14,8 +14,8 @@ export class EstablishmentController {
     private addressService: AddressService;
     private policyPriceService: PolicyPriceService;
 
-    constructor(){
-        this.esService = new EstablishmentServiceImpl();
+    constructor(establishmentService: EstablishmentServiceImpl){
+        this.esService = establishmentService;
         this.addressService = new AddressService();
         this.policyPriceService = new PolicyPriceService();
     }
@@ -84,7 +84,7 @@ export class EstablishmentController {
                 });
             });
             const response = await this.policyPriceService.findOne(item.id);
-            if (response.status == 200){
+            if (response && response.status == 200){
                 const policyPrices = response.data.data;
 
                 if (policyPrices && policyPrices.length){
@@ -136,7 +136,7 @@ export class EstablishmentController {
                     try {
                         const response = await this.addressService.findOne(addr.addressId);
         
-                        if (response.status === 200){
+                        if (response && response.status === 200){
                             o.addresses.push(response.data.data);
                         }
                         else {
@@ -169,7 +169,7 @@ export class EstablishmentController {
             });
         });
         const response = await this.policyPriceService.findOne(id);
-        if (response.status === 200){
+        if (response && response.status === 200){
             const policyPrices = response.data.data;
 
             if (policyPrices && policyPrices.length){

@@ -1,6 +1,7 @@
-import { Repository, EntityManager, EntityMetadata, getManager, getConnection } from "typeorm";
+import { Repository, EntityManager, EntityMetadata, getManager, getConnection, EntityRepository } from "typeorm";
 import { Establishment } from "../entities/Establishment";
 
+@EntityRepository(Establishment)
 export class EstablishmentRepository extends Repository<Establishment> {
     public manager: EntityManager;
     public metadata: EntityMetadata;

@@ -7,8 +7,8 @@ export class EstablishmentServiceImpl {
 
     private establishmentRepository: EstablishmentRepository;
 
-    constructor(){
-        this.establishmentRepository = new EstablishmentRepository();
+    constructor(establishmentRepository: EstablishmentRepository){
+        this.establishmentRepository = establishmentRepository;
     }
 
     async getAll(){

@@ -1,7 +1,7 @@
 [{
     "name": "development",
     "type": "postgres",
-    "host": "establishment-db",
+    "host": "localhost",
     "port": 5432,
     "username": "clo",
     "password": "clo",
