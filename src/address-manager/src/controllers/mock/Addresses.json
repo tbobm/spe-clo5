@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "road": "Ouvrecourt",
+        "postalCode": 93400,
+        "roadNumber": 3,
+        "city": "Paris",
+        "country": "France"
+    },
+    {
+        "id": 2,
+        "road": "Evreytour",
+        "postalCode": 93400,
+        "roadNumber": 3,
+        "city": "Paris",
+        "country": "France"
+    }
+]
