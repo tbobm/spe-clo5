@@ -9,7 +9,6 @@ def client():
     with app.test_client() as client:
         yield client
 
-
 def test(client, mocker):
     def getOption(self, id):
         with open("./tests/mock/Option.json") as file:
