@@ -18,6 +18,7 @@ psycopg2-binary = "*"
 flask-restx = "*"
 flask-sqlalchemy = "*"
 sqlalchemy = "*"
+pytest-mock = "*"
 
 [dev-packages]
 rope = "*"

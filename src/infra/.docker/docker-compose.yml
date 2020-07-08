@@ -76,6 +76,16 @@ services:
             - room
     room-db:
         image: postgres:11
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        container_name: room-db
+        networks: 
+            - room
+    room-test-db:
+        image: postgres:11
         ports: 
             - "5432:5432"
         environment: 
@@ -83,7 +93,7 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        container_name: room-db
+        container_name: room-test-db
         networks: 
             - room
     swagger:
