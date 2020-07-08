@@ -2,6 +2,7 @@ import { Address } from "../models/entities/Address";
 import { DomainAddress, AddressResource } from "./types/AddressResource";
 import { Route, Post, Body, Put, Delete, Path, Get, Controller } from "tsoa";
 import { AddressService } from "../models/services/AddressService";
+import { AdvancedConsoleLogger } from "typeorm";
 
 @Route("/")
 export class AddressController extends Controller {

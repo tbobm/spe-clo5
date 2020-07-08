@@ -21,8 +21,8 @@ export class AddressService implements IAddressService {
         }
     }
 
-    getAll() {
-        return (this.addressRepository.find());
+    async getAll() {
+        return (await this.addressRepository.find());
     }
 
     async save(address: Address) {

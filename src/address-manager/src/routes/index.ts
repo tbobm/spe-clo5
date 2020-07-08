@@ -8,9 +8,9 @@ export function RegisterRoutes(application: Application){
     const app = application.app;
     const container = application.container;
 
-    app.get("/", (req: express.Request, res: express.Response) => {
+    app.get("/", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any= addressController.getAll();
+        const ret : any= await addressController.getAll();
 
         if (!ret.data){
             res.status(204).json(ret);
@@ -20,9 +20,9 @@ export function RegisterRoutes(application: Application){
         }
     });
 
-    app.get("/:id", (req: express.Request, res: express.Response) => {
+    app.get("/:id", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any= addressController.findOne(Number(req.params.id));
+        const ret : any= await addressController.findOne(Number(req.params.id));
 
         if (!ret.data){
             res.status(204).json(ret);
@@ -32,9 +32,9 @@ export function RegisterRoutes(application: Application){
         }
     });
 
-    app.post("/", (req: express.Request, res: express.Response) => {
+    app.post("/", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any = addressController.save(new DomainAddress(req.body));
+        const ret : any = await addressController.save(new DomainAddress(req.body));
 
         if (!ret.data){
             res.status(400).json(ret);
@@ -44,9 +44,9 @@ export function RegisterRoutes(application: Application){
         }
     });
 
-    app.put("/", (req: express.Request, res: express.Response) => {
+    app.put("/", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any = addressController.update(new DomainAddress(req.body));
+        const ret : any = await addressController.update(new DomainAddress(req.body));
 
         if (!ret.data){
             res.status(400).json(ret);
@@ -56,9 +56,9 @@ export function RegisterRoutes(application: Application){
         }
     });
 
-    app.delete("/:id", (req: express.Request, res: express.Response) => {
+    app.delete("/:id", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any= addressController.delete(Number(parseInt(req.params.id)));
+        const ret : any= await addressController.delete(Number(parseInt(req.params.id)));
 
         if (!ret.action){
             res.status(400).json(ret);
