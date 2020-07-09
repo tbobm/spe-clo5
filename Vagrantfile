@@ -65,18 +65,26 @@ Vagrant.configure("2") do |config|
             "username": "test2"
           }
         ],
-        "gitlab_install": "no",
+        "gitlab_install": "plz dont",
+        "gitlab_setup_users": "plz dont",
         "target_node_a": "192.168.50.4",
         "target_node_b": "192.168.50.5",
         "target_node_c": "192.168.50.6",
+        "gitlab_runner_register_token": "EdBmZmspGq-9feFfVyxV",
       },
       "vm2" => {
         "registry_addr": "192.168.50.6",
         "registry_url": "192.168.50.6:443",
+        "gitlab_addr": "192.168.50.6",
+        "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
+        "gitlab_runner_register_token": "EdBmZmspGq-9feFfVyxV",
       },
       "vm1" => {
         "registry_addr": "192.168.50.6",
         "registry_url": "192.168.50.6:443",
+        "gitlab_addr": "192.168.50.6",
+        "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
+        "gitlab_runner_register_token": "EdBmZmspGq-9feFfVyxV",
       }
   }
   end
