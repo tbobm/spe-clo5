@@ -60,7 +60,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
             return (Promise.resolve(arr));
         });
         sinon.stub(repository, "findOne").callsFake((param) => {
-            const filename = `${MOCK_REPOSITORY}/EstablishmentId.json`
+            const filename = `${MOCK_REPOSITORY}/Establishment.json`
             const data = fs.readFileSync(filename, {
                 encoding: "utf8"
             });
@@ -113,8 +113,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
         expect(nb).equal(12);
     });
 
-    it("details establishment", (done) => {
-        console.log(`http://localhost:${process.env.PORT}/`);
+    it("list establishments", (done) => {
         supertest(app.app).get(`/`).expect(200).then(response => {
             const body = response.body;
             const establishments = body.data;
@@ -153,6 +152,53 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                         expect(o[key]).equal(establishments[i][key]);
                     }
                 }
+            }
+            done();
+        }).catch((error) => {
+            expect(error).equal(null);
+            done();
+        });
+    });
+
+    it("details establishment", (done) => {
+        const filename = `${MOCK_REPOSITORY}/EstablishmentId.json`;
+        const obj = JSON.parse(fs.readFileSync(filename, {
+            encoding: "utf8"
+        }));
+        supertest(app.app).get(`/${obj.id}`).expect(200).then(response => {
+            const body = response.body;
+            const establishment = body.data;
+            const filename = `${MOCK_REPOSITORY}/Establishment.json`
+            const data = fs.readFileSync(filename, {
+                encoding: "utf8"
+            });
+            const o = JSON.parse(data);
+                for (let key in o){
+                    if (key == "addresses"){
+                        let addresses = o[key];
+
+                        for (let i = 0; i < addresses.length; i++){
+                            const addr = addresses[i];
+
+                            for (let k in addr){
+                                expect(addr[k], establishment["addresses"][i][k]);
+                            }
+                        }
+                    }
+                    else if (key == "services"){
+                        let services = o[key];
+
+                        for (let i = 0; i < services.length; i++){
+                            const service = services[i];
+
+                            for (let k in service){
+                                expect(service[k], establishment["services"][i][k]);
+                            }
+                        }
+                    }
+                    else {
+                        expect(o[key]).equal(establishment[key]);
+                    }
             }
             done();
         }).catch((error) => {

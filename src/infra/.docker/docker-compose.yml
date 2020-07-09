@@ -30,6 +30,8 @@ services:
         restart: always
         networks:
             - establishment
+        ports: 
+            - "5432:5432"
         container_name: establishment-db
     establishment-test-db:
         image: postgres:11
@@ -57,8 +59,6 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        ports: 
-            - "5432:5432"
         networks:
             - policy-price
         container_name: policy-price-db

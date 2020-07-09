@@ -1,18 +1,18 @@
 {
-    "id": 1,
-    "name": "Hotel 01",
-    "phoneNumber": "0123456789",
+    "id": 16608,
+    "name": "Rousseau - Mathieu",
+    "phoneNumber": "fr",
     "addresses": [
         {
-            "addressId": 3
+            "addressId": 7171
         }
     ],
     "services": [
         {
-            "serviceId": 2,
-            "overridePrice": 45,
-            "model": 1,
-            "interval": 30
+            "serviceId": 89220,
+            "overridePrice": 321,
+            "model": 9648,
+            "interval": 77957
         }
     ]
 }
