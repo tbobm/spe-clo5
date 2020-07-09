@@ -12,4 +12,7 @@ registry_host: vm3
 
 target_node_a: 172.16.228.52
 target_node_b: 172.16.228.47
+# node_c is the master node here
 target_node_c: 172.16.228.42
+
+prometheus_addr: "{{ target_node_c }}:9090"

@@ -1,4 +1,5 @@
 ---
+# vim: set ft=yaml:
 version: "3.3"
 
 networks:
@@ -12,14 +13,14 @@ services:
     image: "{{ registry_url }}/prometheus"
     networks:
       - net
+    volumes:
+      - '/tmp/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
     ports:
       - "9090:9090"
       - target: 9090
         published: 19090
         mode: host
         protocol: tcp
-    volumes:
-      - '/tmp/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
     deploy:
       placement:
         constraints:
@@ -32,6 +33,9 @@ services:
     image: "{{ registry_url }}/grafana"
     networks:
       - net
+    volumes:
+      - '/tmp/grafana.ini:/etc/grafana.init:ro'
+      - '/tmp/grafana.datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro'
     ports:
       - "3000:3000"
       - target: 3000
@@ -39,12 +43,17 @@ services:
         mode: host
         protocol: tcp
     deploy:
+      placement:
+        constraints:  # TODO: yuk, no hardcoderino
+          - "node.role == manager"
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.grafana.rule=Host(`grafana.clo5.local`)"
         - "traefik.http.services.grafana-service.loadbalancer.server.port=3000"
   node_exporter:
     image: "{{ registry_url }}/node_exporter"
+    networks:
+      - net
     ports:
       - "9100:9100"
       - target: 9100
@@ -81,6 +90,8 @@ services:
         - "traefik.enable=true"
   cadvisor:
     image: "{{ registry_url }}/cadvisor"
+    networks:
+      - net
     volumes:  # TODO: Using variables?
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro

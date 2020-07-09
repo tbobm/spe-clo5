@@ -6,8 +6,15 @@
 
 - name: "monitoring: Copy the extra configuration files"
   template:
-    src: 'prometheus.yml.j2'
-    dest: '/tmp/prometheus.yml'
+    src: "{{ item.name }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - name: 'prometheus.yml.j2'
+      dest: '/tmp/prometheus.yml'
+    - name: 'grafana.ini.j2'
+      dest: '/tmp/grafana.ini'
+    - name: 'grafana.datasource.yml.j2'
+      dest: '/tmp/grafana.datasource.yml'
 
 - name: "monitoring: Create the public traefik network"
   docker_network:
