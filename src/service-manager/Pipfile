@@ -20,6 +20,7 @@ pytest-mock = "*"
 flask-swagger = "*"
 flask-migrate = "*"
 alembic = "*"
+faker = "*"
 
 [dev-packages]
 rope = "*"
