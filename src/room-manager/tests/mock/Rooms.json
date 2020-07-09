@@ -1,12 +1,12 @@
 [
     {
-        "id": 1,
-        "name": "Room 01",
+        "id": 45,
+        "name": "Woods-Williams",
         "room_category_id": 1
     },
     {
-        "id": 2,
-        "name": "Room 02",
+        "id": 27,
+        "name": "Walker-Spencer",
         "room_category_id": 1
     }
 ]

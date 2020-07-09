@@ -19,6 +19,7 @@ flask-restx = "*"
 flask-sqlalchemy = "*"
 sqlalchemy = "*"
 pytest-mock = "*"
+faker = "*"
 
 [dev-packages]
 rope = "*"
