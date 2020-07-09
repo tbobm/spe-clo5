@@ -1,0 +1,5 @@
+---
+gitlab_apt_pref_file: /etc/apt/preferences.d/pin-gitlab-runner.pref
+gitlab_apt_list_file: /etc/apt/sources.list.d/runner_gitlab-runner.list
+gitlab_runner_config_file: /etc/gitlab-runner/config.toml
+gitlab_runner_post_inst_script: /usr/share/gitlab-runner/post-install

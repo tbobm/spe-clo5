@@ -1,8 +1,8 @@
 ---
 - name: "Install gitlab"
   include_tasks: "installation.yml"
-  when: "gitlab_install == 'yes'"
+  when: "gitlab_install == 'yes' and inventory_hostname == gitlab_host"
 
 - name: "Create users"
   include_tasks: "users.yml"
-  when: "gitlab_token is defined"
+  when: "gitlab_setup_users == 'yes' and gitlab_token is defined and inventory_hostname == gitlab_host"
