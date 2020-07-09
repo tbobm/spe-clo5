@@ -1,22 +1,22 @@
 {
-        "id": 1,
-        "key": 1,
-        "policyPriceEstablishments": [
-            {
-                "establishmentId": 1
+    "id": 56291,
+    "key": 1,
+    "policyPriceEstablishments": [
+        {
+            "establishmentId": 36186
+        }
+    ],
+    "policyPricePeriods": [
+        {
+            "periodId": 53383,
+            "period": {
+                "id": 53383,
+                "from": 69615,
+                "to": 75107,
+                "sign": 0,
+                "percent": 83
             }
-        ],
-        "policyPricePeriods": [
-            {
-                "periodId": 1,
-                "period": {
-                    "id": 1,
-                    "from": 4,
-                    "to": 5,
-                    "sign": 1,
-                    "percent": 15
-                }
-            }
-        ],
-       "policyPricePersons": []
+        }
+    ],
+    "policyPricePersons": []
 }
