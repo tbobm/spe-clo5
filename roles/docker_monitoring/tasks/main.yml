@@ -3,10 +3,10 @@
   include_tasks: "build.yml"
   when: "inventory_hostname == registry_host"
   loop:
-    # - name: prometheus
+    - name: prometheus
     - name: grafana
-    # - name: node_exporter
-    # - name: cadvisor
+    - name: node_exporter
+    - name: cadvisor
     - name: traefik
 
 - name: "monitoring: Deploy the services"
@@ -15,12 +15,12 @@
   # TODO: Rename deploy -> service
   # TODO: Load deploy with name, type attributes
   include_tasks: "deploy.yml"
-  when: false # "inventory_hostname == registry_host"
+  when: "inventory_hostname == registry_host"
   loop:
-    # - name: prometheus
+    - name: prometheus
     - name: grafana
-      # - name: node_exporter
-      # - name: cadvisor
+    - name: node_exporter
+    - name: cadvisor
     - name: traefik
 
 - name: "monitoring: Deploy the stack"
