@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "userId": 1,
+    "roomId": 2,
+    "code": "LLOPX",
+    "totalPrice": 34,
+    "from": 13333,
+    "to": 14444,
+    "createdAt": 122222,
+    "updatedAt": 2333331
+}
