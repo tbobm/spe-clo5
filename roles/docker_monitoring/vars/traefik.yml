@@ -1,0 +1,18 @@
+---
+name: traefik
+image: "{{ registry_url }}/traefik"
+mode: global
+publish:
+  - published_port: "80"
+    target_port: "80"
+  - published_port: "8080"
+    target_port: "8080"
+mounts:
+  - type: bind
+    readonly: true
+    source: /var/run/docker.sock
+    target: /var/run/docker.sock
+# TODO: edit placement
+placement:
+  constraints:
+    - "node.role == manager"

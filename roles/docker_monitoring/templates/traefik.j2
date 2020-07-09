@@ -1,0 +1,7 @@
+FROM traefik:2.2
+
+CMD [ "--providers.docker.swarmMode=true", \
+	  "--providers.docker.exposedByDefault=true", \
+      "--api.insecure=true", \
+	  "--accesslog=true" \
+]
