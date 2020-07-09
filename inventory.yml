@@ -7,6 +7,8 @@ all:
           ansible_user: deploy
           ansible_host: 172.16.228.42
           ansible_become: true
+          registry_addr: 172.16.228.42
+          registry_url: 172.16.228.42:443
           gitlab_token: XedPjavJzTAjyuBo2-zt
           gitlab_users:
             - name: "consta_c"
@@ -25,14 +27,38 @@ all:
               username: "le_j"
               password: "P@SSW0RD"
               email: "le_j@etna-alternance.net"
+            - name: "rouman_s"
+              username: "rouman_s"
+              password: "P@SSW0RD"
+              email: "rouman_s@etna-alternance.net"
+            - name: "simoes_t"
+              username: "simoes_t"
+              password: "P@SSW0RD"
+              email: "simoes_t@etna-alternance.net"
+            - name: "bincza_m"
+              username: "bincza_m"
+              password: "P@SSW0RD"
+              email: "bincza_m@etna-alternance.net"
+            - name: "legal_q"
+              username: "legal_q"
+              password: "P@SSW0RD"
+              email: "legal_q@etna-alternance.net"
+            - name: "massar_t"
+              username: "massar_t"
+              password: "P@SSW0RD"
+              email: "massar_t@etna-alternance.net"
     docker_swarm_worker:
       hosts:
         vm1:
           ansible_user: deploy
           ansible_host: 172.16.228.52
           ansible_become: true
+          registry_addr: 172.16.228.42
+          registry_url: 172.16.228.42:443
         vm2:
           ansible_user: deploy
           ansible_host: 172.16.228.47
           ansible_become: true
+          registry_addr: 172.16.228.42
+          registry_url: 172.16.228.42:443
 ...
