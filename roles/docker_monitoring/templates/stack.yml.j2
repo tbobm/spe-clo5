@@ -36,6 +36,8 @@ services:
     volumes:
       - '/tmp/grafana.ini:/etc/grafana.init:ro'
       - '/tmp/grafana.datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro'
+      - '/tmp/grafana.dashboard.node_exporter.json:/etc/grafana/provisioning/dashboards/node_exporter.json:ro'
+      - '/tmp/grafana.dashboard.provisioning.yml:/etc/grafana/provisioning/dashboards/provisioning.yml:ro'
     ports:
       - "3000:3000"
       - target: 3000
@@ -52,6 +54,7 @@ services:
         - "traefik.http.services.grafana-service.loadbalancer.server.port=3000"
   node_exporter:
     image: "{{ registry_url }}/node_exporter"
+    hostname: "{{ '{{' }}.Node.Hostname{{ '}}' }}-{{ '{{' }}.Service.Name{{ '}}' }}"
     networks:
       - net
     ports:

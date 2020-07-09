@@ -20,7 +20,7 @@ RUN wget -q -O - $GRAFANA_URL | \
 EXPOSE 3000
 
 ENV PATH="/opt/grafana/bin:${PATH}"
-ENV GF_PATHS_DATA="/opt/grafan/grafana" \
+ENV GF_PATHS_DATA="/opt/grafana/data" \
     GF_PATHS_HOME="/opt/grafana" \
     GF_PATHS_LOGS="/var/log/grafana" \
     GF_PATHS_PROVISIONING="/etc/grafana/provisioning"

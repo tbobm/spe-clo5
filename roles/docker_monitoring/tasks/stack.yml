@@ -16,6 +16,16 @@
     - name: 'grafana.datasource.yml.j2'
       dest: '/tmp/grafana.datasource.yml'
 
+- name: "monitoring: Copy the extra configuration files"
+  copy:
+    src: "{{ item.name }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - name: 'grafana.dashboard.node_exporter.json'
+      dest: '/tmp/grafana.dashboard.node_exporter.json'
+    - name: 'grafana.dashboard.provisioning.yml'
+      dest: '/tmp/grafana.dashboard.provisioning.yml'
+
 - name: "monitoring: Create the public traefik network"
   docker_network:
     name: traefik-public
