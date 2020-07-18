@@ -24,3 +24,7 @@ If the code is validated, it will trigger a blue/green deployment in "production
 
 - [install\_gitlab](./roles/install_gitlab/README.md)
 - [gitlab\_runner](./roles/gitlab_runner/README.md)
+
+### Utility roles
+
+- [setup\_net\_fs](./roles/setup_net_fs/README.md)
