@@ -1,7 +1,7 @@
 ---
 - name: "monitoring: Build the monitoring stack"
   include_tasks: "build.yml"
-  when: "inventory_hostname == registry_host"
+  when: "inventory_hostname == swarm_master"
   loop:
     - name: prometheus
     - name: grafana
@@ -15,7 +15,7 @@
   # TODO: Rename deploy -> service
   # TODO: Load deploy with name, type attributes
   include_tasks: "deploy.yml"
-  when: "inventory_hostname == registry_host"
+  when: "inventory_hostname == swarm_master"
   loop:
     - name: prometheus
     - name: grafana
@@ -25,4 +25,4 @@
 
 - name: "monitoring: Deploy the stack"
   include_tasks: "stack.yml"
-  when: "inventory_hostname == registry_host"
+  when: "inventory_hostname == swarm_master"

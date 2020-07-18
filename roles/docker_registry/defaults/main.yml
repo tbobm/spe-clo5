@@ -1,9 +1,16 @@
 ---
+# network variables
+registry_interface: "{{ ansible_default_ipv4['interface']  }}"
+registry_addr: "{{ hostvars[registry_host]['ansible_' + registry_interface]['ipv4']['address']  }}"
+
+# registry target
 registry_host: "vm3"
+
+# registry configuration
 registry_http_port: 443
+registry_common_name: "{{ registry_addr }}"
+
+# working directories
 registry_local_tmp_directory: /tmp/ansible-docker-registry
 registry_working_directory: "/opt/certs"
 registry_storage_directory: "/var/lib/registry/"
-registry_interface: "{{ ansible_default_ipv4['interface']  }}"
-registry_addr: "{{ hostvars[registry_host]['ansible_' + registry_interface]['ipv4']['address']  }}"
-registry_common_name: "{{ registry_addr }}"

@@ -1,7 +1,17 @@
 ---
+# default networking values
 gitlab_interface: "{{ ansible_default_ipv4['interface'] }}"
 gitlab_addr: "{{ hostvars[inventory_hostname]['ansible_' + gitlab_interface]['ipv4']['address']  }}"
-gitlab_password: "SamplePassword"
+
+# step management
 gitlab_install: "yes"
 gitlab_setup_users: "yes"
+
+# choose the host where the gitlab installation should take place
 gitlab_host: "vm3"
+
+# default password
+gitlab_password: "SamplePassword"
+
+# local script location
+gitlab_tmp_script_location: "/tmp/gitlab.deb.sh"

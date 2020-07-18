@@ -1,30 +1,30 @@
 ---
-- name: "certificates: Install dependency"
+- name: "certificates: Install pyOpenSSL dependency"
   pip:
     name:
       - pyOpenSSL
     state: present
   when: "inventory_hostname == registry_host"
 
-- name: "certificates: Create working directory"
+- name: "certificates: Create working directory in {{ registry_working_directory }}"
   file:
     path: "{{ registry_working_directory }}"
     state: directory
     recurse: true
 
-- name: "certificates: Create private key"
+- name: "certificates: Create private key for {{ registry_common_name }}"
   openssl_privatekey:
     path: "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
   when: "inventory_hostname == registry_host"
 
-- name: "certificates: Create the certificate request"
+- name: "certificates: Create the certificate request for {{ registry_common_name }}"
   openssl_csr:
     path: "{{ registry_working_directory }}/{{ registry_common_name }}.csr"
     privatekey_path: "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
     subject_alt_name: "IP:{{ registry_common_name | urlsplit('path')}}"
   when: "inventory_hostname == registry_host"
 
-- name: "certificates: Self-sign the certificate"
+- name: "certificates: Self-sign the certificate for {{ registry_common_name }}"
   openssl_certificate:
     path: "{{ registry_working_directory }}/{{ registry_common_name }}.crt"
     csr_path: "{{ registry_working_directory }}/{{ registry_common_name }}.csr"
@@ -45,13 +45,13 @@
     flat: true
   when: "inventory_hostname == registry_host"
 
-- name: "certificates: Create certificates directory"
+- name: "certificates: Create certificates directory for {{ registry_common_name }}:{{ registry_http_port }}"
   file:
     path: "/etc/docker/certs.d/{{ registry_common_name }}:{{ registry_http_port }}/"
     state: directory
     recurse: true
 
-- name: "certificates: Propagate to docker daemons"
+- name: "certificates: Propagate the certififates to every docker daemons"
   copy:
     src: "{{ registry_local_tmp_directory }}/{{ registry_common_name }}.crt"
     dest: "/etc/docker/certs.d/{{ registry_common_name }}:{{ registry_http_port }}/ca.crt"
