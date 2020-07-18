@@ -1,0 +1,37 @@
+---
+- name: "install: Fetch the gitlab-runner repository configuration script to localhost"
+  delegate_to: localhost
+  get_url:
+    url: "{{ gitlab_runner_package_script_url }}"
+    dest: "{{ gitlab_runner_tmp_script_location }}"
+
+- name: "install: Run the repository configuration script"
+  script: "{{ gitlab_runner_tmp_script_location }}"
+  args:
+    creates: "{{ gitlab_apt_list_file }}"
+
+- name: "install: Check if the {{ gitlab_apt_pref_file }} apt preference file exist"
+  stat:
+    path: "{{ gitlab_apt_pref_file }}"
+  register: apt_file
+
+- name: "install: Create the {{ gitlab_apt_pref_file }} apt preference file if it does not exist"
+  file:
+    path: "{{ gitlab_apt_pref_file }}"
+    state: touch
+  when: "apt_file is defined and not apt_file.stat.exists"
+
+- name: "install: Prioritize Gitlab's repositories over Debian's"
+  blockinfile:
+    path: "{{ gitlab_apt_pref_file }}"
+    block: |
+      Explanation: Prefer GitLab provided packages over the Debian native ones
+      Package: gitlab-runner
+      Pin: origin packages.gitlab.com
+      Pin-Priority: 1001
+
+- name: "install: Install the gitlab-runner package through apt"
+  apt:
+    update_cache: true
+    name:
+      - "gitlab-runner"
