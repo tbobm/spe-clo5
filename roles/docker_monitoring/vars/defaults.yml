@@ -1,4 +1,5 @@
 ---
+# default service creation
 name: "{{ item.name }}"
 image: "{{ registry_url }}/{{ item.name }}"
 mode: replicated
