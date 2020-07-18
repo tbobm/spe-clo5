@@ -1,0 +1,47 @@
+---
+- name: "part: Create the main glusterfs directory"
+  file:
+    path: "{{ glusterfs_part_directory }}"
+    state: directory
+    recurse: true
+    owner: "root"
+    group: "docker"
+    mode: 0775
+
+- name: "part: Create the {{ glusterfs_partition }} file"
+  command:
+    cmd: "dd if=/dev/zero of={{ glusterfs_partition }} bs=1 count=0 seek={{ glusterfs_data_size }}"
+  args:
+    creates: "{{ glusterfs_partition }}"
+
+- name: "part: Create /mnt directory"
+  file:
+    path: "/mnt"
+    owner: "root"
+    group: "docker"
+    mode: 0775
+
+- name: "part: Create the mount point at {{ glusterfs_working_directory }}"
+  file:
+    path: "{{ glusterfs_working_directory }}"
+    owner: "root"
+    group: "docker"
+    mode: 0775
+
+- name: "part: Format the glusterfs partition {{ glusterfs_partition }}"
+  filesystem:
+    device: "{{ glusterfs_partition }}"
+    fstype: "ext4"
+
+- name: "part: Register {{ glusterfs_partition }} in fstab"
+  lineinfile:
+    path: "/etc/fstab"
+    line: "{{ glusterfs_partition }}  {{ glusterfs_working_directory }} ext4  loop  0 0"
+
+- name: "part: Mount the partition"
+  mount:
+    path: "{{ glusterfs_working_directory }}"
+    src: "{{ glusterfs_partition }}"
+    state: mounted
+    fstype: ext4
+    opts: loop
