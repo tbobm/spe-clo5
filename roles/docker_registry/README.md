@@ -33,7 +33,7 @@ SSL is enabled by default, as well as self-signed certificates, when using this 
 # working directories
 registry_local_tmp_directory: /tmp/ansible-docker-registry
 registry_working_directory: "/opt/certs"
-registry_storage_directory: "/var/lib/registry/"
+registry_storage_directory: "/mnt/shared/registry/"
 ```
 `registry_local_tmp_directory` is the directory on your ansible controller host where the temporary files for certificate creation will be stored. Considering this is a temporary directory, you can find leftovers of the certificate signing there.
 `registry_working_directory` is the directory where the certificate-related files will be stored before being copied in the docker secret environment.
