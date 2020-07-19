@@ -1,0 +1,3 @@
+---
+glusterfs_shared_production: "{{ glusterfs_working_directory }}/production"
+glusterfs_shared_beta: "{{ glusterfs_working_directory }}/beta"

@@ -1,16 +1,16 @@
 ---
-- name: "build: Create temporary directories"
+- name: "build: Create temporary directories for building {{ item.name }}"
   file:
     path: "/tmp/{{ item.name }}"
     state: directory
     recurse: true
 
-- name: "build: Copy templates to remote host"
+- name: "build: Copy templates related to {{ item.name }} to remote host"
   template:
     src: "{{ item.name }}.j2"
     dest: "/tmp/{{ item.name }}/Dockerfile"
 
-- name: "build: Build images"
+- name: "build: Build image for {{ item.name }}"
   docker_image:
     source: build
     build:
@@ -24,7 +24,7 @@
     force_tag: true
     state: present
 
-- name: "build: Update the registry"
+- name: "build: Update the registry for image {{ registry_url }}/{{ item.name }}"
   docker_image:
     source: local
     name: "{{ registry_url }}/{{ item.name }}"
