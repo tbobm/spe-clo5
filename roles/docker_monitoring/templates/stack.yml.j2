@@ -14,7 +14,8 @@ services:
     networks:
       - net
     volumes:
-      - '/tmp/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
+      - '{{ prometheus_shared_conf }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
+      - '{{ prometheus_shared_data }}:/var/lib/prometheus/data'
     ports:
       - "9090:9090"
       - target: 9090
@@ -34,10 +35,11 @@ services:
     networks:
       - net
     volumes:
-      - '/tmp/grafana.ini:/etc/grafana.init:ro'
-      - '/tmp/grafana.datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro'
-      - '/tmp/grafana.dashboard.node_exporter.json:/etc/grafana/provisioning/dashboards/node_exporter.json:ro'
-      - '/tmp/grafana.dashboard.provisioning.yml:/etc/grafana/provisioning/dashboards/provisioning.yml:ro'
+      - '{{ grafana_shared_conf }}/grafana.ini:/etc/grafana.init:ro'
+      - '{{ grafana_shared_conf }}/grafana.datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro'
+      - '{{ grafana_shared_conf }}/grafana.dashboard.node_exporter.json:/etc/grafana/provisioning/dashboards/node_exporter.json:ro'
+      - '{{ grafana_shared_conf }}/grafana.dashboard.provisioning.yml:/etc/grafana/provisioning/dashboards/provisioning.yml:ro'
+      - '{{ grafana_shared_data }}:/opt/grafana/data'
     ports:
       - "3000:3000"
       - target: 3000

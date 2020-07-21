@@ -1,5 +1,5 @@
 ---
-- name: "gitlab: Create users"
+- name: "users: Create users at {{ gitlab_addr }}"
   gitlab_user:
     api_url: "http://{{ gitlab_addr }}"
     api_token: "{{ gitlab_token }}"

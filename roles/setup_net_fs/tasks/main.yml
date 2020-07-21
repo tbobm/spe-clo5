@@ -1,0 +1,92 @@
+---
+- name: "pre-install: Create the pseudo partition"
+  include_tasks: "part.yml"
+
+
+- name: "install: Install the glusterfs-server package"
+  apt:
+    update_cache: true
+    name:
+      - glusterfs-server
+
+- name: "configure: Ensure the glusterd service is enabled"
+  systemd:
+    name: glusterfs-server
+    state: started
+    enabled: true
+
+- name: "configure: Create the shared bricks directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "docker"
+    mode: 0775
+  loop:
+    - "{{ glusterfs_shared_monitoring }}"
+    - "{{ glusterfs_shared_registry }}"
+    - "{{ glusterfs_shared_beta }}"
+    - "{{ glusterfs_shared_production }}"
+
+- name: "configure: Create the shared subdirectories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "docker"
+    mode: 0775
+  loop:
+    - "{{ glusterfs_base_mountpoint }}"
+
+- name: "configure: Probe peer A and peer B"
+  gluster_peer:
+    state: present
+    nodes:
+      - "{{ glusterfs_peer_a }}"
+      - "{{ glusterfs_peer_b }}"
+  when: "inventory_hostname == glusterfs_single"
+
+- name: "configure: Probe back to peer C"
+  gluster_peer:
+    state: present
+    nodes:
+      - "{{ glusterfs_peer_c }}"
+  when: "inventory_hostname != glusterfs_single"
+
+- name: "volumes: Create the monitoring volume"
+  run_once: true
+  gluster_volume:
+    state: present
+    force: true
+    name: "{{ item.name }}"
+    bricks: "{{ item.brick }}"
+    replicas: 3
+    cluster:
+      - "{{ glusterfs_peer_a }}"
+      - "{{ glusterfs_peer_b }}"
+      - "{{ glusterfs_peer_c }}"
+  loop:
+    - name: "monitoring"
+      brick: "{{ glusterfs_shared_monitoring }}"
+    - name: "registry"
+      brick: "{{ glusterfs_shared_registry }}"
+    - name: "beta"
+      brick: "{{ glusterfs_shared_beta }}"
+    - name: "production"
+      brick: "{{ glusterfs_shared_production }}"
+
+- name: Ensure Gluster volume is mounted.
+  mount:
+    path: "{{ item.path }}"
+    src: "localhost:/{{ item.name }}"
+    fstype: glusterfs
+    state: mounted
+  loop:
+    - name: "monitoring"
+      path: "{{ glusterfs_mounted_monitoring }}"
+    - name: "registry"
+      path: "{{ glusterfs_mounted_registry }}"
+    - name: "beta"
+      path: "{{ glusterfs_mounted_beta }}"
+    - name: "production"
+      path: "{{ glusterfs_mounted_production }}"
