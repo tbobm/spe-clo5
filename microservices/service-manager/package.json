@@ -1,0 +1,28 @@
+{
+  "name": "service-manager",
+  "version": "1.0.0",
+  "description": "Service manager",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "createdb": "sequelize-cli db:create",
+    "dropdb": "sequelize-cli db:drop",
+    "migrate": "sequelize-cli db:migrate",
+    "clean": "npm run dropdb && npm run createdb",
+    "fclean": "npm run dropdb && npm run createdb && npm run migrate"
+  },
+  "author": "Morraycage",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
+    "nodemon": "^2.0.4",
+    "sequelize": "^5.21.2",
+    "sequelize-auto-migrations": "^1.0.3",
+    "sequelize-cli": "^5.5.1"
+  }
+}

@@ -1,0 +1,23 @@
+{
+    "development": {
+        "username": "unicorn_user",
+        "password": "magical_password",
+        "database": "rainbow_database",
+        "host": "localhost",
+        "dialect": "postgresql"
+    },
+    "test": {
+        "username": "unicorn_user",
+        "password": "magical_password",
+        "database": "rainbow_database",
+        "host": "postgres",
+        "dialect": "postgresql"
+    },
+    "production": {
+        "username": "unicorn_user",
+        "password": "magical_password",
+        "database": "rainbow_database",
+        "host": "postgres",
+        "dialect": "postgresql"
+    }
+}
