@@ -215,3 +215,16 @@ class Room(Resource):
         return ({
             "message": "Room deleted"
         }), 200
+
+__all__ = [
+    api, 
+    room, 
+    Room, 
+    Rooms, 
+    RoomDAO, 
+    RoomCategoryDAO, 
+    RoomEstablishmentDAO, 
+    RoomModel, 
+    RoomCategoryModel, 
+    RoomEstablishmentModel
+]

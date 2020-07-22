@@ -4,3 +4,7 @@ from flask_migrate import Migrate
 
 db = SQLAlchemy(app)
 Migrate(app, db)
+
+__all__ = [
+    db, app, SQLAlchemy, Migrate
+]

@@ -90,3 +90,13 @@ class RoomEstablishmentDAO:
         db.session.add(roomEstablishment)
         db.session.commit()
         return (True)
+
+__all__ = [
+    db,
+    RoomModel,
+    RoomCategoryModel,
+    RoomEstablishmentModel,
+    RoomDAO,
+    RoomCategoryDAO,
+    RoomEstablishmentDAO
+]

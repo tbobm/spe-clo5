@@ -11,3 +11,7 @@ class Ping(Resource):
         return (jsonify({
             "status": "ok"
         }))
+
+__all__ = [
+    api, tool, Ping
+]
