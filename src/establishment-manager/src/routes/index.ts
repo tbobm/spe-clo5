@@ -19,14 +19,14 @@ export function RegisterRoute(application: Application) {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
         const ret = await controller.save(new DomainEstablishment(req.body));
 
-        res.status(200).json(ret);
+        res.status(201).json(ret);
     });
 
     app.put("/", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
         const ret = await controller.update(new DomainEstablishment(req.body));
 
-        res.status(201).json(ret);
+        res.status(200).json(ret);
     });
 
     app.delete("/:id", async (req: express.Request, res: express.Response) => {

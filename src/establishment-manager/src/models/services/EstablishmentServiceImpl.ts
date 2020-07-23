@@ -12,12 +12,14 @@ export class EstablishmentServiceImpl {
     }
 
     async getAll(){
-        return (await this.establishmentRepository.find({
+        const list =  (await this.establishmentRepository.find({
             relations: [
                 "addresses",
                 "services"
             ]
         }));
+
+        return (list);
     }
 
     async save(establishment: Establishment){
