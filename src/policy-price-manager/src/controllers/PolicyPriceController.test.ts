@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Application } from "../app";
-import { DTOKeyPolicyPrice, DTOPolicyPriceKey } from "./types/EPolicyPrice";
+import { DTOPolicyPriceKey } from "./types/EPolicyPrice";
 import * as Constants from "../models/utils/Constants";
 import sinon from "sinon";
 import { PolicyPriceRepository } from "../models/repositories/PolicyPriceRepository";
@@ -10,6 +10,7 @@ import { PolicyPriceEstablishmentRepository } from "../models/repositories/Polic
 import { PolicyPricePeriodRepository } from "../models/repositories/PolicyPricePeriodRepository";
 import * as fs from "fs";
 import supertest from "supertest";
+import { PolicyPrice } from "../models/entities/PolicyPrice";
 
 describe("Test - Policy Price Controller", () => {
 
@@ -28,29 +29,31 @@ describe("Test - Policy Price Controller", () => {
         const data = JSON.parse(fs.readFileSync(policyPrices, {
             encoding: "utf-8"
         }));
-
         policyPriceRepository = container.resolve(Constants.POLICY_PRICE_REPOSITORY);
         periodRepository = container.resolve(Constants.PERIOD_REPOSITORY);
         personRepository = container.resolve(Constants.PERSON_REPOSITORY);
         policyPricePeriodRepository = container.resolve(Constants.POLICY_PRICE_PERIOD_REPOSITORY);
         policyPriceEstablishmentRepository = container.resolve(Constants.POLICY_PRICE_ESTABLISHMENT_REPOSITORY);
+        const mock = sinon.mock(policyPriceRepository);
 
-        sinon.stub(policyPriceRepository, 'count').callsFake((param) => {
-            return (Promise.resolve(12));
-        });
-
-        sinon.stub(policyPriceRepository, "find").callsFake((param) => {
-            return (Promise.resolve(data));
-        });
-
+        mock.expects("count").returns(12);
+        mock.expects("find").withExactArgs({
+            relations: [
+                "policyPricePeriods",
+                "policyPricePersons"
+            ]
+        }).returns(data as PolicyPrice);
         const policyPrice = `${MOCK_DIR}/PolicyPrice.json`;
         const item = JSON.parse(fs.readFileSync(policyPrice, {
             encoding: "utf-8"
         }));
-
-        sinon.stub(policyPriceRepository, "findOne").callsFake((param) => {
-            return (Promise.resolve(item));
-        })
+        mock.expects("findOne").withExactArgs(item.id, {
+            relations: [
+                "policyPricePeriods",
+                "policyPriceEstablishments",
+                "policyPricePersons"
+            ]
+        }).returns(item as PolicyPrice);
     })
 
     after(async () => {
@@ -68,8 +71,8 @@ describe("Test - Policy Price Controller", () => {
     });
 
     it("check list of policy prices", async () => {
-        supertest(app.app).get("/").expect(200)
-        .then((response) => {
+        try {
+            const response = await supertest(app.app).get("/").expect(200);
             const body = response.body;
             const list = body.data;
             const MOCK_DIR = `${__dirname}/mock`;
@@ -102,22 +105,23 @@ describe("Test - Policy Price Controller", () => {
                     }
                 }
             }
-        })
-        .catch((error) => {
-            expect(error).to.equal(null);
-        });
+        }
+        catch (e){
+            expect(e).to.equal(null);
+        }
     });
 
     it("check policy price", async () => {
-        supertest(app.app).get("/1").expect(200)
-        .then((response) => {
-            const body = response.body;
-            const item = body.data;
+        try {
             const MOCK_DIR = `${__dirname}/mock`;
             const policyPrices = `${MOCK_DIR}/PolicyPrice.json`;
             const data = JSON.parse(fs.readFileSync(policyPrices, {
                 encoding: "utf-8"
             }));
+            const response = await supertest(app.app).get(`/${data.id}`).expect(200);
+            const body = response.body;
+            const item = body.data;
+
 
             for (let key in item){
                 if (key == "establishments"){
@@ -144,11 +148,11 @@ describe("Test - Policy Price Controller", () => {
                     expect(item[key]).to.equal(data[key]);
                 }
             }
-        })
-        .catch((error) => {
+        }
+        catch (error){
             console.log(error.message);
             
             expect(error).to.equal(null);
-        });
+        }
     });
 });

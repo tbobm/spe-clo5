@@ -1,25 +1,5 @@
 version: '3.6'
 services: 
-    address-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - address
-        container_name: address-db
-    establishment-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - establishment
-        container_name: establishment-db
     policy-price-db:
         image: postgres:11
         environment: 
