@@ -1,25 +1,24 @@
-const EstablishmentService = require('../models').EstablishmentService;
+const Model = require('../models').ModelOption;
 
 module.exports = {
     list(req, res) {
-        return EstablishmentService
-            .findAll({
-            })
-            .then((services) =>
+        return Model
+            .findAll({})
+            .then((models) =>
                 res.status(200).json({
-                messages: "List of establishment_service",
-                data: services
-            }))
+                    messages: "List of Models",
+                    data: models
+                }))
             .catch((error) => { res.status(400).send(error); });
     },
 
     getById(req, res) {
-        return EstablishmentService
+        return Model
             .findByPk(req.params.id)
             .then((service) => {
                 if (!service) {
                     return res.status(404).send({
-                        message: 'Establishment Service Not Found',
+                        message: 'Model Not Found',
                     });
                 }
                 return res.status(200).send(service);
@@ -28,13 +27,10 @@ module.exports = {
     },
 
     add(req, res) {
-        return EstablishmentService
+        return Model
             .create({
-                establishment_id: req.body.establishment_id,
-                service_id: req.body.service_id,
-                override_price: req.body.override_price,
-                model: req.body.model,
-                interval: req.body.interval,
+                key: req.body.key,
+                code: req.body.code,
                 createdAt: new Date(),
                 updatedAt: new Date()
             })
@@ -43,27 +39,23 @@ module.exports = {
     },
 
     update(req, res) {
-        return EstablishmentService
+        return Model
             .findByPk(req.params.id)
-            .then(service => {
-                if (!service) {
+            .then(model => {
+                if (!model) {
                     return res.status(404).send({
-                        message: 'Establishment Service Not Found',
+                        message: 'Model Not Found',
                     });
                 }
-                return service
+                return model
                     .update({
-                        establishment_id: req.body.establishment_id,
-                        service_id: Number(req.body.service_id),
-                        overridePrice: req.body.overridePrice,
-                        model: req.body.model,
-                        interval: req.body.interval,
-                        createdAt: new Date(),
+                        key: req.body.key,
+                        code: req.body.code,
                         updatedAt: new Date()
                     })
                     .then(() => res.status(200).json({
-                        message: `Updated Establishment Service with id ${req.params.id}`,
-                        data: service
+                        message: `Updated Model with id ${req.params.id}`,
+                        data: model
                     }))
                     .catch((error) => res.status(400).send(error));
             })
@@ -71,12 +63,12 @@ module.exports = {
     },
 
     delete(req, res) {
-        return EstablishmentService
+        return Model
             .findByPk(req.params.id)
             .then(course => {
                 if (!course) {
                     return res.status(400).send({
-                        message: 'Establishment Service Not Found',
+                        message: 'Model Not Found',
                     });
                 }
                 return course
