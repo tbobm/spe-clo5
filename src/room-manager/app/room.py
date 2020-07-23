@@ -38,7 +38,7 @@ class Rooms(Resource):
         list = self.roomDAO.list()
         rooms = []
 
-        if (list != None and len(list)):
+        if (list is not None and len(list)):
             for item in list:
                 es = self.roomEstablishmmentDAO.getByRoomId(item.id)
                 roomCategory = self.roomCategoryDAO.read(item.roomCategoryId)
@@ -46,14 +46,14 @@ class Rooms(Resource):
                     "id": item.id,
                     "name": item.name,
                 }
-                if (roomCategory != None):
+                if (roomCategory is not None):
                     room["roomCategory"] = {
                         "id": roomCategory.id,
                         "key": roomCategory.key,
                         "maxLength": roomCategory.maxLength,
                         "basePrice": roomCategory.basePrice
                     }
-                if (es != None and len(es) > 0):
+                if (es is not None and len(es) > 0):
                     room["establishments"] = []
                     for e in es:
                         print(e.roomId)
@@ -174,7 +174,7 @@ class Room(Resource):
     def get(self, id):
         item = self.roomDAO.read(id)
 
-        if (item == None):
+        if (item is None):
             return ({
                 "message": "Room not finded"
             }), 404
@@ -184,14 +184,14 @@ class Room(Resource):
             "id": item.id,
             "name": item.name,
         }
-        if (category != None):
+        if (category is not None):
             room["roomCategory"] = {
                 "id": category.id,
                 "key": category.key,
                 "maxLength": category.maxLength,
                 "basePrice": category.basePrice
             }
-        if (establishments != None and len(establishments) > 0):
+        if (establishments is not None and len(establishments) > 0):
             room["establishments"] = []
             for establishment in establishments:
                 room["establishments"].append({
