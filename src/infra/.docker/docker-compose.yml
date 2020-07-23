@@ -63,17 +63,6 @@ services:
 #            - clo
 #            - policy-price
 #        container_name: policy-price-manager
-    room-manager:
-        image: room-manager
-        ports: 
-            - "83:80"
-        restart: always
-        networks: 
-            - clo
-        container_name: room-manager
-        networks: 
-            - clo
-            - room
     room-db:
         image: postgres:11
         environment: 

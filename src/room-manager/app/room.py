@@ -30,7 +30,6 @@ room_fields = room.model('Room', {
 
 @room.route("/")
 class Rooms(Resource):
-
     roomDAO = RoomDAO()
     roomCategoryDAO = RoomCategoryDAO()
     roomEstablishmmentDAO = RoomEstablishmentDAO()

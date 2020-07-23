@@ -6,5 +6,5 @@ from .models import RoomModel
 from .RoomDAO import RoomDAO
 
 __all__ = [
-    db, app, tool, room, RoomMode, RoomDAO
+    db, app, tool, room, RoomModel, RoomDAO
 ]
