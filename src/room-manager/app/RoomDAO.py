@@ -29,7 +29,7 @@ class RoomDAO:
     def delete(self, id):
         item = self.read(id)
 
-        if (item == None):
+        if (item is None):
             return (False)
         db.session.delete(item)
         db.session.commit()
@@ -63,7 +63,7 @@ class RoomCategoryDAO:
     def delete(self, id):
         item = RoomCategoryModel.query.get(id)
 
-        if (item == None):
+        if (item is None):
             return (False)
         db.session.delete(item)
         db.session.commit()
