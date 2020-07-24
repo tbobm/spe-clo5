@@ -28,7 +28,7 @@ export class Application  {
         const bodyParser = require("body-parser");
 
         this.container = createContainer();
-        this.app.use(morgan("combined", {
+        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]", {
             stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
                 flags: "a+"
             })
