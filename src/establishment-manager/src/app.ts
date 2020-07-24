@@ -8,6 +8,8 @@ import { EstablishmentRepository } from "./models/repositories/EstablishmentRepo
 import { EstablishmentServiceImpl } from "./models/services/EstablishmentServiceImpl";
 import { EstablishmentController } from "./controllers/EstablishmentController";
 import { RegisterRoute } from "./routes/index";
+import morgan from "morgan";
+import { createWriteStream, createReadStream } from "fs";
 
 export class Application  {
 
@@ -26,9 +28,17 @@ export class Application  {
         const bodyParser = require("body-parser");
 
         this.container = createContainer();
+        this.app.use(morgan("combined", {
+            stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
+                flags: "a+"
+            })
+        }));
         this.app.use(bodyParser.json());
         this.app.use("/public", express.static(join(__dirname, "..", "public")));
         this.app.use("/swagger", express.static(absolutePath()));
+        this.app.use("/logs", (req: express.Request, res: express.Response) => {
+            createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
+        });
     }
 
     async start(){
