@@ -1,23 +1,25 @@
-import { Repository, getRepository } from "typeorm";
 import { Establishment } from "../entities/Establishment";
 import { EstablishmentAddress } from "../entities/EstablishmentAddress";
 import { EstablishmentService } from "../entities/EstablishmentService";
+import { EstablishmentRepository } from "../repositories/EstablishmentRepository";
 
 export class EstablishmentServiceImpl {
 
-    private establishmentRepository: Repository<Establishment>;
+    private establishmentRepository: EstablishmentRepository;
 
-    constructor(){
-        this.establishmentRepository = getRepository(Establishment, process.env.NODE_ENV || "development");
+    constructor(establishmentRepository: EstablishmentRepository){
+        this.establishmentRepository = establishmentRepository;
     }
 
     async getAll(){
-        return (await this.establishmentRepository.find({
+        const list =  (await this.establishmentRepository.find({
             relations: [
                 "addresses",
                 "services"
             ]
         }));
+
+        return (list);
     }
 
     async save(establishment: Establishment){

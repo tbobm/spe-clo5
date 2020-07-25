@@ -28,4 +28,3 @@ export {
     DTOKeyPolicyPrice,
     DTOPolicyPriceKey
 };
-

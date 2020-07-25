@@ -1,0 +1,18 @@
+{
+    "id": 16608,
+    "name": "Rousseau - Mathieu",
+    "phoneNumber": "fr",
+    "addresses": [
+        {
+            "addressId": 7171
+        }
+    ],
+    "services": [
+        {
+            "serviceId": 89220,
+            "overridePrice": 321,
+            "model": 9648,
+            "interval": 77957
+        }
+    ]
+}

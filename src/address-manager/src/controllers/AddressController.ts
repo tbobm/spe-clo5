@@ -1,17 +1,16 @@
-import { IAddressService } from "../models/services/IAddressService";
-import { AddressService } from "../models/services/AddressService";
-import { AddressResource } from "./types/AddressResource";
 import { Address } from "../models/entities/Address";
-import { DomainAddress } from "./types/AddressResource";
+import { DomainAddress, AddressResource } from "./types/AddressResource";
 import { Route, Post, Body, Put, Delete, Path, Get, Controller } from "tsoa";
+import { AddressService } from "../models/services/AddressService";
+import { AdvancedConsoleLogger } from "typeorm";
 
 @Route("/")
 export class AddressController extends Controller {
-    private addressService: IAddressService;
+    private addressService: AddressService;
 
-    constructor(){
+    constructor(addressService: AddressService){
         super();
-        this.addressService = new AddressService();
+        this.addressService = addressService;
     }
 
     @Post()
