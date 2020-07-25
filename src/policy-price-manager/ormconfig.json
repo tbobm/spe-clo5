@@ -22,4 +22,29 @@
         "migrationsDir": "src/models/migrations",
         "entitiesDir": "src/models/entities"
     }
- }]
+ },
+ {
+   "name": "test",
+   "type": "postgres",
+   "host": "localhost",
+   "port": 5432,
+   "username": "clo",
+   "password": "clo",
+   "database": "clo",
+   "synchronize": false,
+   "migrationsRun": true,
+   "logging": true,
+   "entities": [
+      "src/models/entities/**/*.ts"
+   ],
+   "migrations": [
+      "src/models/migrations/**/*.ts"
+   ],
+   "subscribers": [
+      "src/models/subscribers/**/*.ts"
+   ],
+   "cli": {
+       "migrationsDir": "src/models/migrations",
+       "entitiesDir": "src/models/entities"
+   }
+}]
