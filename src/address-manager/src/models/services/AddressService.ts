@@ -1,13 +1,13 @@
 import { IAddressService } from "./IAddressService";
-import { Repository, getRepository } from "typeorm";
 import { Address } from "../entities/Address";
+import { AddressRepository } from "../repositories/AddressRepository";
 
 export class AddressService implements IAddressService {
 
-    private addressRepository: Repository<Address>;
+    private addressRepository: AddressRepository;
 
-    constructor(){
-        this.addressRepository = getRepository(Address, process.env.NODE_ENV || "development");
+    constructor(addressRepository: AddressRepository){
+        this.addressRepository = addressRepository;
     }
 
     async findOne(id: number) {
@@ -21,8 +21,8 @@ export class AddressService implements IAddressService {
         }
     }
 
-    getAll() {
-        return (this.addressRepository.find());
+    async getAll() {
+        return (await this.addressRepository.find());
     }
 
     async save(address: Address) {
