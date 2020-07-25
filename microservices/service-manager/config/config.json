@@ -3,7 +3,7 @@
         "username": "unicorn_user",
         "password": "magical_password",
         "database": "rainbow_database",
-        "host": "localhost",
+        "host": "postgres",
         "dialect": "postgresql"
     },
     "test": {
