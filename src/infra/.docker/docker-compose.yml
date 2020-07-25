@@ -70,10 +70,21 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        container_name: room-db
-        networks: 
-            - room
-    room-test-db:
+        networks:
+            - address
+        container_name: address-db
+  #  address-manager:
+  #      image: address-manager
+  #      ports: 
+  #          - "81:80"
+  #     environment: 
+  #          NODE_ENV: development
+  #      restart: always
+  #      networks:
+  #          - address
+  #          - clo
+  #      container_name: address-manager
+    establishment-db:
         image: postgres:11
         ports: 
             - "5432:5432"
@@ -82,20 +93,52 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        container_name: room-test-db
-        networks: 
-            - room
-    swagger:
-        image: swaggerapi/swagger-ui
-        environment: 
-            SWAGGER_JSON_URL: http://localhost:81/public/swagger.json
-        networks: 
-            - clo
-        restart: always
-        container_name: swagger
+        networks:
+            - establishment
         ports: 
-            - "8080:8080"
-            
+            - "5432:5432"
+        container_name: establishment-db
+    establishment-test-db:
+        image: postgres:11
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        container_name: establishment-test-db
+   # establishment-manager:
+   #     image: establishment-manager
+   #     ports: 
+   #         - "80:80"
+   #     environment: 
+   #         NODE_ENV: development
+   #     restart: always
+   #     networks:
+   #         - clo
+   #         - establishment
+   #     container_name: establishment-manager
+    policy-price-db:
+        image: postgres:11
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        networks:
+            - policy-price
+        container_name: policy-price-db
+   # policy-price-manager:
+   #     image: policy-price-manager
+   #    ports: 
+   #        - "82:80"
+   #    environment: 
+   #         NODE_ENV: development
+   #     restart: always
+   #     networks:
+   #         - clo
+   #         - policy-price
+   #     container_name: policy-price-manager
+
 networks: 
     clo:
         external: true

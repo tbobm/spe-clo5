@@ -1,0 +1,38 @@
+[
+    {
+        "id": 74862,
+        "name": "Blanc - Rey",
+        "phoneNumber": "0413674310",
+        "addresses": [
+            {
+                "addressId": 56127
+            }
+        ],
+        "services": [
+            {
+                "serviceId": 58686,
+                "overridePrice": 730,
+                "model": 17246,
+                "interval": 74219
+            }
+        ]
+    },
+    {
+        "id": 71044,
+        "name": "Perez - Giraud",
+        "phoneNumber": "+33 531113500",
+        "addresses": [
+            {
+                "addressId": 71176
+            }
+        ],
+        "services": [
+            {
+                "serviceId": 89383,
+                "overridePrice": 592,
+                "model": 94684,
+                "interval": 2875
+            }
+        ]
+    }
+]

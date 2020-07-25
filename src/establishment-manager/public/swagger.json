@@ -1,0 +1,392 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"EstablishmentAddressResource": {
+				"properties": {
+					"establishment_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"address_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"postalCode": {
+						"type": "number",
+						"format": "double"
+					},
+					"city": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"road": {
+						"type": "string"
+					},
+					"roadNumber": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"establishment_id",
+					"address_id",
+					"id",
+					"postalCode",
+					"city",
+					"country",
+					"road",
+					"roadNumber"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"EstablishmentServiceResource": {
+				"properties": {
+					"establishment_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"service_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"model": {
+						"type": "number",
+						"format": "double"
+					},
+					"interval": {
+						"type": "number",
+						"format": "double"
+					},
+					"overridePrice": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"establishment_id",
+					"service_id",
+					"model",
+					"interval",
+					"overridePrice"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"PeriodResource": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"from": {
+						"type": "number",
+						"format": "double"
+					},
+					"to": {
+						"type": "number",
+						"format": "double"
+					},
+					"sign": {
+						"type": "number",
+						"format": "double"
+					},
+					"percent": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"from",
+					"to",
+					"sign",
+					"percent"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"EstablishmentPolicyPriceResource": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"key": {
+						"type": "string"
+					},
+					"periods": {
+						"items": {
+							"$ref": "#/components/schemas/PeriodResource"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"key",
+					"periods"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"EstablishmentResource": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"addresses": {
+						"items": {
+							"$ref": "#/components/schemas/EstablishmentAddressResource"
+						},
+						"type": "array"
+					},
+					"services": {
+						"items": {
+							"$ref": "#/components/schemas/EstablishmentServiceResource"
+						},
+						"type": "array"
+					},
+					"policyPrices": {
+						"$ref": "#/components/schemas/EstablishmentPolicyPriceResource"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"phoneNumber",
+					"addresses",
+					"services",
+					"policyPrices"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "establishment-manager",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Save",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EstablishmentResource"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EstablishmentResource"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/hello": {
+			"get": {
+				"operationId": "Hello",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/{id}": {
+			"get": {
+				"operationId": "GetOne",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "Delete",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
