@@ -1,15 +1,15 @@
 version: '3.6'
 services: 
-    address-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - address
-        container_name: address-db
+    #address-db:
+    #    image: postgres:11
+    #   environment: 
+    #       POSTGRES_USER: clo
+    #       POSTGRES_PASSWORD: clo
+    #       POSTGRES_DB: clo
+    #    restart: always
+    #   networks:
+    #       - address
+    #   container_name: address-db
   #  address-manager:
   #      image: address-manager
   #      ports: 
@@ -41,27 +41,40 @@ services:
             POSTGRES_DB: clo
         restart: always
         container_name: establishment-test-db
-   # establishment-manager:
-   #     image: establishment-manager
-   #     ports: 
-   #         - "80:80"
-   #     environment: 
-   #         NODE_ENV: development
-   #     restart: always
-   #     networks:
-   #         - clo
-   #         - establishment
-   #     container_name: establishment-manager
-    policy-price-db:
-        image: postgres:11
+    establishment-manager:
+        image: establishment-manager
+        ports: 
+            - "80:80"
         environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
+            NODE_ENV: development
         restart: always
         networks:
-            - policy-price
-        container_name: policy-price-db
+            - clo
+            - establishment
+        container_name: establishment-manager
+    logstash:
+        image: logstash:7.8.0
+        networks: 
+            - clo
+        volumes: 
+            - ../elk/:/usr/share/logstash/pipeline
+    elasticsearch:
+        image: elasticsearch:7.8.0
+        networks: 
+            - clo
+        ports: 
+            - "9200:9200"
+            - "9300:9300"
+    #policy-price-db:
+    #    image: postgres:11
+    #    environment: 
+    #        POSTGRES_USER: clo
+    #        POSTGRES_PASSWORD: clo
+    #       POSTGRES_DB: clo
+    #    restart: always
+    #    networks:
+    #        - policy-price
+    #    container_name: policy-price-db
    # policy-price-manager:
    #     image: policy-price-manager
    #    ports: 

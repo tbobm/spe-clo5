@@ -1,7 +1,7 @@
 [{
     "name": "development",
     "type": "postgres",
-    "host": "establishment-db",
+    "host": "localhost",
     "port": 5432,
     "username": "clo",
     "password": "clo",
@@ -21,4 +21,28 @@
         "migrationsDir": "src/models/migrations",
         "entitiesDir": "src/models/entities"
     }
- }]
+ },
+ {
+   "name": "production",
+   "type": "postgres",
+   "host": "establishment-db",
+   "port": 5432,
+   "username": "clo",
+   "password": "clo",
+   "database": "clo",
+   "synchronize": false,
+   "logging": true,
+   "entities": [
+      "src/models/entities/**/*.js"
+   ],
+   "migrations": [
+      "src/models/migrations/**/*.js"
+   ],
+   "subscribers": [
+      "src/models/subscribers/**/*.js"
+   ],
+   "cli": {
+       "migrationsDir": "src/models/migrations",
+       "entitiesDir": "src/models/entities"
+   }
+}]
