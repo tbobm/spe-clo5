@@ -1,0 +1,22 @@
+{
+    "id": 56291,
+    "key": 1,
+    "policyPriceEstablishments": [
+        {
+            "establishmentId": 36186
+        }
+    ],
+    "policyPricePeriods": [
+        {
+            "periodId": 53383,
+            "period": {
+                "id": 53383,
+                "from": 69615,
+                "to": 75107,
+                "sign": 0,
+                "percent": 83
+            }
+        }
+    ],
+    "policyPricePersons": []
+}

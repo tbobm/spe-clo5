@@ -1,0 +1,45 @@
+[
+    {
+        "id": 9708,
+        "key": 0,
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 23148
+            }
+        ],
+        "policyPricePeriods": [
+            {
+                "periodId": 67217,
+                "period": {
+                    "id": 67217,
+                    "from": 15504,
+                    "to": 57934,
+                    "sign": 0,
+                    "percent": 86
+                }
+            }
+        ],
+        "policyPricePersons": []
+    },
+    {
+        "id": 61863,
+        "key": 1,
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 95863
+            }
+        ],
+        "policyPricePeriods": [],
+        "policyPricePersons": [
+            {
+                "personId": 33846,
+                "person": {
+                    "id": 33846,
+                    "nb": 87568,
+                    "sign": 0,
+                    "percent": 51
+                }
+            }
+        ]
+    }
+]

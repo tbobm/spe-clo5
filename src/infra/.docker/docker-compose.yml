@@ -83,8 +83,8 @@ services:
             POSTGRES_DB: clo
         restart: always
         networks:
-            - establishment
-        container_name: establishment-db
+            - policy-price
+        container_name: policy-price-db
     policy-price-db:
         image: postgres:11
         environment: 

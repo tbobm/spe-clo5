@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { PolicyPriceEstablishment } from "./PolicyPriceEstablishment";
 import { PolicyPricePeriod } from "./PolicyPricePeriod";
-import { EKeyPolicy } from "../../controllers/types/EPolicyPrice";
 import { PolicyPricePerson } from "./PolicyPricePerson";
 
 @Entity({
@@ -17,7 +16,7 @@ export class PolicyPrice {
     @Column({
         name: "key"
     })
-    key: EKeyPolicy;
+    key: number;
 
     @OneToMany(type => PolicyPriceEstablishment, pe => pe.policyPrice, {
         cascade: true
