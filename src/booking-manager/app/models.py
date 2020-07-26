@@ -13,6 +13,7 @@ class BookingModel(db.Model):
     updatedAt = db.Column("updated_at", db.DateTime, nullable=False)
 
     def __init__(self, book):
+        self.id = book["id"]
         self.userId = book["userId"]
         self.roomId = book["roomId"]
         self.code = book["code"]

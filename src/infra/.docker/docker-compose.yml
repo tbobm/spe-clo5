@@ -1,35 +1,5 @@
 version: '3.6'
 services: 
-    address-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - address
-        container_name: address-db
-    establishment-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - establishment
-        container_name: establishment-db
-    policy-price-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - policy-price
-        container_name: policy-price-db
     booking-db:
         image: postgres:11
         environment: 
@@ -38,23 +8,7 @@ services:
             POSTGRES_DB: clo
         restart: always
         container_name: booking-db
-    booking-db-test:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        container_name: booking-db-test
         ports: 
             - "5432:5432"
 
-networks: 
-    clo:
-        external: true
-    address:
-        external: true
-    establishment:
-        external: true
-    policy-price:
-        external: true
+
