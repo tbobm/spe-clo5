@@ -1,48 +1,10 @@
 {
     "id": 1,
-    "name": "Caron - Renaud",
-    "phoneNumber": "0485550187",
+    "name": "Marchand SARL",
+    "phoneNumber": "+33 573510197",
     "addresses": [
         {
-            "addressId": 43203
-        },
-        {
-            "addressId": 33913
-        },
-        {
-            "addressId": 62793
-        }
-    ],
-    "services": [
-        {
-            "serviceId": 51356,
-            "overridePrice": 12,
-            "model": 0,
-            "interval": 14487
-        },
-        {
-            "serviceId": 648,
-            "overridePrice": 777,
-            "model": 1,
-            "interval": 10954
-        },
-        {
-            "serviceId": 34503,
-            "overridePrice": 786,
-            "model": 0,
-            "interval": 43068
-        },
-        {
-            "serviceId": 30539,
-            "overridePrice": 917,
-            "model": 1,
-            "interval": 56310
-        },
-        {
-            "serviceId": 23980,
-            "overridePrice": 571,
-            "model": 0,
-            "interval": 67673
+            "addressId": 70658
         }
     ]
 }

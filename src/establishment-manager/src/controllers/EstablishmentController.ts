@@ -2,7 +2,6 @@ import { EstablishmentServiceImpl } from "../models/services/EstablishmentServic
 import { Establishment } from "../models/entities/Establishment";
 import { EstablishmentResource, DomainEstablishment } from "./types/EstablishmentResource";
 import { EstablishmentAddress } from "../models/entities/EstablishmentAddress";
-import { EstablishmentService } from "../models/entities/EstablishmentService";
 import { AddressService } from "../models/services/AddressService";
 import { PolicyPriceService } from "../models/services/PolicyPriceService";
 import { Route, Get, Path, Post, Body, Delete, Put } from "tsoa";
@@ -35,7 +34,6 @@ export class EstablishmentController {
             o.id = item.id;
             o.phoneNumber = item.phoneNumber;
             o.addresses = [];
-            o.services = [];
             const fetch = ((saved: Establishment) => {
                 return (new Promise(async (resolve, reject) => {
                     let list = item.addresses;
@@ -71,18 +69,6 @@ export class EstablishmentController {
                 }));
             });
             await fetch(item);
-            if (!item.services){
-                item.services = [];
-            }
-            item.services.forEach((serv) => {
-                o.services.push({
-                    service_id: serv.serviceId,
-                    establishment_id: serv.establishmentId,
-                    model: serv.model,
-                    overridePrice: serv.overridePrice,
-                    interval: serv.interval
-                });
-            });
             const response = await this.policyPriceService.findOne(item.id);
             if (response && response.status == 200){
                 const policyPrices = response.data.data;
@@ -126,7 +112,6 @@ export class EstablishmentController {
         o.id = establishment.id;
         o.phoneNumber = establishment.phoneNumber;
         o.addresses = [];
-        o.services = [];
         const fetch = ((saved: Establishment) => {
             return (new Promise(async (resolve, reject) => {
                 const list = saved.addresses;
@@ -162,15 +147,6 @@ export class EstablishmentController {
             }));
         });
         await fetch(establishment);
-        establishment.services.forEach((serv) => {
-            o.services.push({
-                service_id: serv.serviceId,
-                establishment_id: serv.establishmentId,
-                model: serv.model,
-                overridePrice: serv.overridePrice,
-                interval: serv.interval
-            });
-        });
         const response = await this.policyPriceService.findOne(id);
         if (response && response.status === 200){
             const policyPrices = response.data.data;
@@ -203,19 +179,6 @@ export class EstablishmentController {
             esAddress.establishment = establishment;
             return (esAddress);
         });
-        if (!domainEstablishment.services){
-            domainEstablishment.services = [];
-        }
-        establishment.services = domainEstablishment.services.map((serv) => {
-            const esService = new EstablishmentService();
-
-            esService.serviceId = serv.service_id;
-            esService.establishment = establishment;
-            esService.interval = serv.interval;
-            esService.model = serv.interval;
-            esService.overridePrice = serv.overridePrice;
-            return (esService);
-        });
         let saved = null;
         try {
             saved = await this.esService.save(establishment);
@@ -232,7 +195,6 @@ export class EstablishmentController {
         o.id = saved.id;
         o.phoneNumber = saved.phoneNumber;
         o.addresses = [];
-        o.services = [];
         const fetch = ((saved: Establishment) => {
             return (new Promise(async (resolve, reject) => {
                 let list = saved.addresses;
@@ -268,18 +230,6 @@ export class EstablishmentController {
             }));
         });
         await fetch(saved);
-        if (!saved.services){
-            saved.services = [];
-        }
-        saved.services.forEach((serv) => {
-            o.services.push({
-                service_id: serv.serviceId,
-                establishment_id: serv.establishmentId,
-                model: serv.model,
-                overridePrice: serv.overridePrice,
-                interval: serv.interval
-            });
-        });
         const savedEs = new DomainEstablishment(o);
         return Promise.resolve({
             message: "Establishment saved",
@@ -299,7 +249,6 @@ export class EstablishmentController {
             });
         }
         await this.esService.deleteAddress(id);
-        await this.esService.deleteService(id);
         await this.esService.delete(id);
         return Promise.resolve({
             message: "Establishment deleted",
@@ -329,18 +278,6 @@ export class EstablishmentController {
         if (!domainEstablishment.services){
             domainEstablishment.services = [];
         }
-        await this.esService.deleteService(establishment.id);
-        establishment.services = domainEstablishment.services.map((serv) => {
-            const esService = new EstablishmentService();
-
-            esService.serviceId = serv.service_id;
-            esService.establishment = establishment;
-            esService.establishmentId = establishment.id;
-            esService.model = serv.model;
-            esService.interval = serv.interval;
-            esService.overridePrice = serv.overridePrice;
-            return (esService);
-        });
         const saved = await this.esService.update(establishment);
         const o :any = {};
         o.name = saved.name;
@@ -382,15 +319,6 @@ export class EstablishmentController {
             }));
         });
         await fetch(saved);
-        saved.services.forEach((serv) => {
-            o.services.push({
-                service_id: serv.serviceId,
-                establishment_id: serv.establishmentId,
-                overridePrice: serv.overridePrice,
-                model: serv.model,
-                interval: serv.interval
-            });
-        });
         const savedEs = new DomainEstablishment(o);
         return Promise.resolve({
             message: "Establishment updated",

@@ -1,6 +1,5 @@
 import { Establishment } from "../entities/Establishment";
 import { EstablishmentAddress } from "../entities/EstablishmentAddress";
-import { EstablishmentService } from "../entities/EstablishmentService";
 import { EstablishmentRepository } from "../repositories/EstablishmentRepository";
 
 export class EstablishmentServiceImpl {
@@ -15,7 +14,6 @@ export class EstablishmentServiceImpl {
         const list =  (await this.establishmentRepository.find({
             relations: [
                 "addresses",
-                "services"
             ]
         }));
 
@@ -32,7 +30,6 @@ export class EstablishmentServiceImpl {
         const establishment = await this.establishmentRepository.findOne(id, {
             relations: [
                 "addresses",
-                "services"
             ]
         });
 
@@ -45,12 +42,6 @@ export class EstablishmentServiceImpl {
 
     async deleteAddress(id: number){
         return (await this.establishmentRepository.createQueryBuilder().from(EstablishmentAddress, "ea").delete().where("establishment_address.establishment_id = :id", {
-            "id": id
-        }).execute());
-    }
-
-    async deleteService(id: number){
-        return (await this.establishmentRepository.createQueryBuilder().from(EstablishmentService, "es").delete().where("establishment_service.establishment_id = :id", {
             "id": id
         }).execute());
     }

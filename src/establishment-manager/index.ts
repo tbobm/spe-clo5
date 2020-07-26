@@ -20,7 +20,6 @@ if (process.argv.length > 3){
                     "name": faker.company.companyName(),
                     "phoneNumber": faker.phone.phoneNumber(),
                     "addresses": [],
-                    "services": []
                 };
                 const addresses = [];
                 nb = Number(Math.random() * MAX);
@@ -32,19 +31,6 @@ if (process.argv.length > 3){
                     addresses.push(address);
                 }
                 o.addresses = addresses;
-                const services = [];
-                nb = Number(Math.random() * MAX);
-                for (let k = 0; k < nb; k++){
-                    const service = {
-                        "serviceId": faker.random.number(),
-                        "overridePrice": parseInt(faker.finance.amount(), 10),
-                        "model": k % 2,
-                        "interval": faker.random.number()
-                    };
-
-                    services.push(service);
-                }
-                o.services = services;
                 arr.push(o);
             }
             const str = JSON.stringify(arr, null, 4);
@@ -58,7 +44,6 @@ if (process.argv.length > 3){
                 "name": faker.company.companyName(),
                 "phoneNumber": faker.phone.phoneNumber(),
                 "addresses": [],
-                "services": []
             };
             const addresses = [];
             let nb = Number(Math.random() * MAX);
@@ -70,19 +55,6 @@ if (process.argv.length > 3){
                 addresses.push(address);
             }
             o.addresses = addresses;
-            const services = [];
-            nb = Number(Math.random() * MAX);
-            for (let k = 0; k < nb; k++){
-                const service = {
-                    "serviceId": faker.random.number(),
-                    "overridePrice": parseInt(faker.finance.amount(), 10),
-                    "model": k % 2,
-                    "interval": faker.random.number()
-                };
-
-                services.push(service);
-            }
-            o.services = services;
             const str = JSON.stringify(o, null, 4);
 
             fs.writeFileSync(filename, str);

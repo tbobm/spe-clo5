@@ -6,7 +6,6 @@ import { EstablishmentRepository } from "../models/repositories/EstablishmentRep
 import { Establishment } from "../models/entities/Establishment";
 import fs from "fs";
 import { EstablishmentAddress } from "../models/entities/EstablishmentAddress";
-import { EstablishmentService } from "../models/entities/EstablishmentService";
 import supertest from "supertest";
 
 describe("TEST - ESTABLISHMENT CONTROLLER", () => {
@@ -48,16 +47,6 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                 establishmentAddress.establishmentId = establishment.id;
                 return (establishmentAddress);
             });
-            establishment.services = item.services.map((service: any) => {
-                const establishmentService = new EstablishmentService();
-
-                establishmentService.establishment = establishment;
-                establishmentService.establishmentId = establishment.id;
-                establishmentService.interval = service.interval;
-                establishmentService.model = service.model;
-                establishmentService.overridePrice = service.overridePrice;
-                return (establishmentService);
-            });
             tab.push(establishment);
         }
         mock
@@ -67,8 +56,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
         .expects(FIND)
         .withExactArgs({
             relations: [
-                "addresses",
-                "services"
+                "addresses"
             ]
         })
         .returns(arr);
@@ -90,23 +78,11 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
             establishmentAddress.establishmentId = establishment.id;
             return (establishmentAddress);
         });
-        establishment.services = o.services.map((service: any) => {
-            const establishmentService = new EstablishmentService();
-
-            establishmentService.establishment = establishment;
-            establishmentService.establishmentId = establishment.id;
-            establishmentService.interval = service.interval;
-            establishmentService.model = service.model;
-            establishmentService.overridePrice = service.overridePrice;
-            establishmentService.serviceId = service.serviceId;
-            return (establishmentService);
-        });
         mock
         .expects(FIND_ONE)
         .withExactArgs(o.id, {
             relations: [
                 "addresses",
-                "services"
             ]
         })
         .returns(establishment);
@@ -144,10 +120,9 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                 encoding: "utf8"
             });
             const arr = JSON.parse(data);
-    
+            
             for (let i = 0; i < arr.length; i++){
                 let o = arr[i];
-
                 for (let key in o){
                     if (key == "addresses"){
                         let addresses = o[key];
@@ -156,18 +131,6 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                             const addr = addresses[j];
 
                             expect(addr["addressId"], establishments[i]["addresses"][j]["address_id"]);
-                        }
-                    }
-                    else if (key == "services"){
-                        let services = o[key];
-
-                        for (let k = 0; k < services.length; k++){
-                            const service = services[k];
-
-                            expect(service["serviceId"], establishments[i]["services"][k]["service_id"]);
-                            expect(service["overridePrice"], establishments[i]["services"][k]["overridePrice"]);
-                            expect(service["model"], establishments[i]["services"][k]["model"]);
-                            expect(service["interval"], establishments[i]["services"][k]["interval"]);
                         }
                     }
                     else {
@@ -205,19 +168,6 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                             const addr = addresses[i];
 
                             expect(addr["addressId"], establishment["addresses"][i]["address_id"]);
-                        }
-                    }
-                    else if (key == "services"){
-                        let services = o[key];
-
-                        for (let i = 0; i < services.length; i++){
-                            const service = services[i];
-
-                            expect(service["serviceId"], establishment["services"][i]["service_id"]);
-                            expect(service["establishmentId"], establishment["services"][i]["establishment_id"]);
-                            expect(service["model"], establishment["services"][i]["model"]);
-                            expect(service["interval"], establishment["services"][i]["interval"]);
-                            expect(service["overridePrice"], establishment["services"][i]["overridePrice"]);
                         }
                     }
                     else {
