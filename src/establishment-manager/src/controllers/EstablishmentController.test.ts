@@ -152,23 +152,22 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                     if (key == "addresses"){
                         let addresses = o[key];
 
-                        for (let i = 0; i < addresses.length; i++){
-                            const addr = addresses[i];
+                        for (let j = 0; j < addresses.length; j++){
+                            const addr = addresses[j];
 
-                            for (let k in addr){
-                                expect(addr[k], establishments[i]["addresses"][i][k]);
-                            }
+                            expect(addr["addressId"], establishments[i]["addresses"][j]["address_id"]);
                         }
                     }
                     else if (key == "services"){
                         let services = o[key];
 
-                        for (let i = 0; i < services.length; i++){
-                            const service = services[i];
+                        for (let k = 0; k < services.length; k++){
+                            const service = services[k];
 
-                            for (let k in service){
-                                expect(service[k], establishments[i]["services"][i][k]);
-                            }
+                            expect(service["serviceId"], establishments[i]["services"][k]["service_id"]);
+                            expect(service["overridePrice"], establishments[i]["services"][k]["overridePrice"]);
+                            expect(service["model"], establishments[i]["services"][k]["model"]);
+                            expect(service["interval"], establishments[i]["services"][k]["interval"]);
                         }
                     }
                     else {
@@ -205,9 +204,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                         for (let i = 0; i < addresses.length; i++){
                             const addr = addresses[i];
 
-                            for (let k in addr){
-                                expect(addr[k], establishment["addresses"][i][k]);
-                            }
+                            expect(addr["addressId"], establishment["addresses"][i]["address_id"]);
                         }
                     }
                     else if (key == "services"){
@@ -216,9 +213,11 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
                         for (let i = 0; i < services.length; i++){
                             const service = services[i];
 
-                            for (let k in service){
-                                expect(service[k], establishment["services"][i][k]);
-                            }
+                            expect(service["serviceId"], establishment["services"][i]["service_id"]);
+                            expect(service["establishmentId"], establishment["services"][i]["establishment_id"]);
+                            expect(service["model"], establishment["services"][i]["model"]);
+                            expect(service["interval"], establishment["services"][i]["interval"]);
+                            expect(service["overridePrice"], establishment["services"][i]["overridePrice"]);
                         }
                     }
                     else {

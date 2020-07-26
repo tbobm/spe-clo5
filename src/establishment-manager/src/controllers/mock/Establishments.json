@@ -1,37 +1,184 @@
 [
     {
-        "id": 74862,
-        "name": "Blanc - Rey",
-        "phoneNumber": "0413674310",
+        "id": 1,
+        "name": "Boyer SARL",
+        "phoneNumber": "0430519177",
         "addresses": [
             {
-                "addressId": 56127
+                "addressId": 90705
+            },
+            {
+                "addressId": 10741
+            },
+            {
+                "addressId": 81674
+            },
+            {
+                "addressId": 7186
+            },
+            {
+                "addressId": 68963
             }
         ],
         "services": [
             {
-                "serviceId": 58686,
-                "overridePrice": 730,
-                "model": 17246,
-                "interval": 74219
+                "serviceId": 51939,
+                "overridePrice": 619,
+                "model": 0,
+                "interval": 62394
+            },
+            {
+                "serviceId": 11753,
+                "overridePrice": 699,
+                "model": 1,
+                "interval": 16324
+            },
+            {
+                "serviceId": 47584,
+                "overridePrice": 390,
+                "model": 0,
+                "interval": 84487
+            },
+            {
+                "serviceId": 85664,
+                "overridePrice": 860,
+                "model": 1,
+                "interval": 38456
+            },
+            {
+                "serviceId": 35060,
+                "overridePrice": 845,
+                "model": 0,
+                "interval": 41810
+            },
+            {
+                "serviceId": 46284,
+                "overridePrice": 645,
+                "model": 1,
+                "interval": 561
+            },
+            {
+                "serviceId": 52821,
+                "overridePrice": 567,
+                "model": 0,
+                "interval": 76238
+            },
+            {
+                "serviceId": 37765,
+                "overridePrice": 486,
+                "model": 1,
+                "interval": 55777
+            },
+            {
+                "serviceId": 22998,
+                "overridePrice": 231,
+                "model": 0,
+                "interval": 94910
+            },
+            {
+                "serviceId": 27525,
+                "overridePrice": 48,
+                "model": 1,
+                "interval": 18083
             }
         ]
     },
     {
-        "id": 71044,
-        "name": "Perez - Giraud",
-        "phoneNumber": "+33 531113500",
+        "id": 2,
+        "name": "Petit EI",
+        "phoneNumber": "+33 197971607",
         "addresses": [
             {
-                "addressId": 71176
+                "addressId": 51319
             }
         ],
         "services": [
             {
-                "serviceId": 89383,
-                "overridePrice": 592,
-                "model": 94684,
-                "interval": 2875
+                "serviceId": 25072,
+                "overridePrice": 126,
+                "model": 0,
+                "interval": 46445
+            },
+            {
+                "serviceId": 75528,
+                "overridePrice": 66,
+                "model": 1,
+                "interval": 47952
+            },
+            {
+                "serviceId": 38701,
+                "overridePrice": 869,
+                "model": 0,
+                "interval": 72679
+            },
+            {
+                "serviceId": 8912,
+                "overridePrice": 9,
+                "model": 1,
+                "interval": 65328
+            },
+            {
+                "serviceId": 20925,
+                "overridePrice": 636,
+                "model": 0,
+                "interval": 54296
+            },
+            {
+                "serviceId": 78919,
+                "overridePrice": 250,
+                "model": 1,
+                "interval": 23957
+            },
+            {
+                "serviceId": 11589,
+                "overridePrice": 485,
+                "model": 0,
+                "interval": 14655
+            },
+            {
+                "serviceId": 99747,
+                "overridePrice": 128,
+                "model": 1,
+                "interval": 96307
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Petit, Garnier and Riviere",
+        "phoneNumber": "0567072982",
+        "addresses": [
+            {
+                "addressId": 8965
+            },
+            {
+                "addressId": 55885
+            },
+            {
+                "addressId": 66799
+            },
+            {
+                "addressId": 24315
+            }
+        ],
+        "services": [
+            {
+                "serviceId": 32647,
+                "overridePrice": 532,
+                "model": 0,
+                "interval": 58258
+            },
+            {
+                "serviceId": 33428,
+                "overridePrice": 301,
+                "model": 1,
+                "interval": 62987
+            },
+            {
+                "serviceId": 7220,
+                "overridePrice": 953,
+                "model": 0,
+                "interval": 10492
             }
         ]
     }

@@ -10,37 +10,53 @@ export function RegisterRoute(application: Application) {
 
     app.get("/", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
-        const list = await controller.getAll();
+        const ret = await controller.getAll();
 
-        res.status(200).json(list);
+        res.status(ret.httpCode).json(ret);
     });
 
     app.post("/", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
-        const ret = await controller.save(new DomainEstablishment(req.body));
+        const resource = new DomainEstablishment(req.body);
+        const validation = DomainEstablishment.validate(resource);
 
-        res.status(201).json(ret);
+        if (validation.valid){
+            const ret = await controller.save(resource);
+
+            res.status(ret.httpCode).json(ret);
+        }
+        else {
+            res.status(400).json(validation.errors);
+        }
     });
 
     app.put("/", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
-        const ret = await controller.update(new DomainEstablishment(req.body));
+        const resource = new DomainEstablishment(req.body);
+        const validation = DomainEstablishment.validate(resource);
+        
+        if (validation.valid){
+            const ret = await controller.update(resource);
 
-        res.status(200).json(ret);
+            res.status(ret.httpCode).json(ret);
+        }
+        else {
+            res.status(400).json(validation.errors);
+        }
     });
 
     app.delete("/:id", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
         const ret = await controller.delete(Number(req.params.id))
 
-        res.status(200).json(ret);
+        res.status(ret.httpCode).json(ret);
     });
 
     app.get("/:id", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);
         const ret = await controller.getOne(Number(req.params.id));
 
-        res.status(200).json(ret);
+        res.status(ret.httpCode).json(ret);
     });
     
 }

@@ -95,12 +95,14 @@ export class EstablishmentController {
         }
         if (domains.length == 0){
             return Promise.resolve({
-                message: "empty establishment"
+                message: "empty establishment",
+                httpCode: 204
             });
         }
         return Promise.resolve({
             message: "List establishment",
-            data: domains
+            data: domains,
+            httpCode: 200
         });
     }
 
@@ -116,7 +118,8 @@ export class EstablishmentController {
 
         if (establishment == null){
             return Promise.resolve({
-                message: "no content"
+                message: "no content",
+                httpCode: 204
             });
         }
         o.name = establishment.name;
@@ -179,7 +182,8 @@ export class EstablishmentController {
         const e = new DomainEstablishment(o);
         return Promise.resolve({
             message: "Get establishment",
-            data: e
+            data: e,
+            httpCode: 200
         })
     }
 
@@ -219,7 +223,8 @@ export class EstablishmentController {
         catch (e){
             console.log(e.message);
             return Promise.resolve({
-                message: "Failed to save"
+                message: "Failed to save",
+                httpCode: 400
             });
         }
         const o :any = {};
@@ -278,7 +283,8 @@ export class EstablishmentController {
         const savedEs = new DomainEstablishment(o);
         return Promise.resolve({
             message: "Establishment saved",
-            data: savedEs
+            data: savedEs,
+            httpCode: 201
         });
     }
 
@@ -288,7 +294,8 @@ export class EstablishmentController {
         
         if(establishment == null){
             return Promise.resolve({
-                message: "no content"
+                message: "no content",
+                httpCode: 204
             });
         }
         await this.esService.deleteAddress(id);
@@ -296,6 +303,7 @@ export class EstablishmentController {
         await this.esService.delete(id);
         return Promise.resolve({
             message: "Establishment deleted",
+            httpCode: 200
         });
     }
 
@@ -314,6 +322,7 @@ export class EstablishmentController {
             const esAddress = new EstablishmentAddress();
 
             esAddress.addressId = addr.address_id;
+            esAddress.establishmentId = establishment.id;
             esAddress.establishment = establishment;
             return (esAddress);
         });
@@ -326,6 +335,7 @@ export class EstablishmentController {
 
             esService.serviceId = serv.service_id;
             esService.establishment = establishment;
+            esService.establishmentId = establishment.id;
             esService.model = serv.model;
             esService.interval = serv.interval;
             esService.overridePrice = serv.overridePrice;
@@ -342,6 +352,9 @@ export class EstablishmentController {
             return (new Promise(async (resolve, reject) => {
                 const list = saved.addresses;
 
+                if (list.length == 0){
+                    return resolve();
+                }
                 for (let addr of list){
                     try {
                         const response = await this.addressService.findOne(addr.addressId);
@@ -381,7 +394,8 @@ export class EstablishmentController {
         const savedEs = new DomainEstablishment(o);
         return Promise.resolve({
             message: "Establishment updated",
-            data: savedEs
+            data: savedEs,
+            httpCode: 200
         });
     }
 
