@@ -390,18 +390,7 @@ export class PolicyPriceService implements IPolicyPriceService {
             periodEntity.to = period.to;
             periodEntity.sign = period.sign;
             periodEntity.percent = period.percent;
-            let fetchDB = null;
-            if(period.id){
-                fetchDB = await this.periodRepository.findOne(period.id);
-            }
-            if (!fetchDB){
-                const tmp = await this.periodRepository.save(periodEntity);
-
-                periodEntity.id = tmp.id;
-            }
-            else {
-                await this.periodRepository.update(periodEntity.id, periodEntity);
-            }
+            await this.periodRepository.save(periodEntity);
             const policyPeriod = new PolicyPricePeriod();
 
             policyPeriod.periodId = periodEntity.id;
@@ -415,18 +404,7 @@ export class PolicyPriceService implements IPolicyPriceService {
             personEntity.nb = person.nb;
             personEntity.percent = person.percent;
             personEntity.sign = person.sign;
-            let fetchDB = null;
-            if (!personEntity.id){
-                fetchDB = await this.personRepository.findOne(person.id);
-            }
-            if (!fetchDB){
-                const tmp = await this.periodRepository.save(personEntity);
-
-                personEntity.id = tmp.id;
-            }
-            else {
-                await this.periodRepository.update(personEntity.id, personEntity);
-            }
+            await this.personRepository.save(personEntity);
             const policyPricePerson = new PolicyPricePerson();
 
             policyPricePerson.person_id = personEntity.id;

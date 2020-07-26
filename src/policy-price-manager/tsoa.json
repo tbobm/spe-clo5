@@ -6,11 +6,5 @@
       "outputDirectory": "./public",
       "basePath": "/",
       "specVersion": 3
-    },
-    "routes": {
-      "basePath": "/",
-      "routesDir": ".",
-      "middleware": "express",
-      "entryFile": "./index.ts"
     }
   }
