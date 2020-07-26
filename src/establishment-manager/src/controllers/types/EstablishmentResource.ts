@@ -65,6 +65,7 @@ const DomainEstablishmentAddress = attributes({
     },
     address_id: {
         type: Number,
+        required: true
     },
     id: {
         type: Number,
