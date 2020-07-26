@@ -41,8 +41,6 @@ class BookingDAO:
     def update(self, book):
         op = db.session.query(BookingModel).filter_by(id=book["id"])
         bookingModel = op.first()
-        print(book)
-        print(bookingModel)
         bookingModel.userId = book["userId"]
         bookingModel.roomId = book["roomId"]
         bookingModel.code = book["code"]
@@ -51,6 +49,5 @@ class BookingDAO:
         bookingModel.toDate = book["to"]
         bookingModel.createdAt = book["createdAt"]
         bookingModel.updatedAt =  book["updatedAt"]
-        print(bookingModel)
         db.session.commit()
         return (True)
