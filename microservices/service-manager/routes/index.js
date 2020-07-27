@@ -3,6 +3,8 @@ var router = express.Router();
 
 const serviceController = require('../controllers').service;
 const establishmentServiceController = require('../controllers').establishment_service;
+const eServiceController = require('../controllers').eservice;
+const modelServiceController = require('../controllers').model;
 // const lecturerController = require('../controllers').lecturer;
 // const courseController = require('../controllers').course;
 
@@ -15,11 +17,11 @@ const establishmentServiceController = require('../controllers').establishment_s
 router.get('/', serviceController.list);
 
 /* Service Router */
-router.get('/api/service', serviceController.list);
-router.get('/api/service/:id', serviceController.getById);
-router.post('/api/service', serviceController.add);
-router.put('/api/service/:id', serviceController.update);
-router.delete('/api/service/:id', serviceController.delete);
+router.get('/', serviceController.list);
+router.get('/:id', serviceController.getById);
+router.post('/', serviceController.add);
+router.put('/:id', serviceController.update);
+router.delete('/:id', serviceController.delete);
 
 /* EstablishmentService Router */
 router.get('/api/establishment_service', establishmentServiceController.list);
@@ -29,22 +31,16 @@ router.put('/api/establishment_service/:id', establishmentServiceController.upda
 router.delete('/api/establishment_service/:id', establishmentServiceController.delete);
 
 /* Lecturer Router */
-// router.get('/api/lecturer', lecturerController.list);
-// router.get('/api/lecturer/:id', lecturerController.getById);
-// router.post('/api/lecturer', lecturerController.add);
-// router.put('/api/lecturer/:id', lecturerController.update);
-// router.delete('/api/lecturer/:id', lecturerController.delete);
+router.get('/api/eservice', eServiceController.list);
+router.get('/api/eservice/:id', eServiceController.getById);
+router.post('/api/eservice', eServiceController.add);
+router.put('/api/eservice/:id', eServiceController.update);
+router.delete('/api/eservice/:id', eServiceController.delete);
 
 /* Course Router */
-// router.get('/api/course', courseController.list);
-// router.get('/api/course/:id', courseController.getById);
-// router.post('/api/course', courseController.add);
-// router.put('/api/course/:id', courseController.update);
-// router.delete('/api/course/:id', courseController.delete);
-
-/* Advance Router */
-// router.post('/api/student/add_course', studentController.addCourse);
-// router.post('/api/classroom/add_with_students', classroomController.addWithStudents);
-// router.post('/api/lecturer/add_with_course', lecturerController.addWithCourse);
+router.get('/api/model', modelServiceController.list);
+router.get('/api/model/:id', modelServiceController.getById);
+router.post('/api/model', modelServiceController.add);
+router.put('/api/model/:id', modelServiceController.update);
 
 module.exports = router;
