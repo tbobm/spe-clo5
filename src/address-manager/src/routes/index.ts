@@ -12,47 +12,43 @@ export function RegisterRoutes(application: Application){
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
         const ret : any= await addressController.getAll();
 
-        if (!ret.data){
-            res.status(204).json(ret);
-        }
-        else {
-            res.status(200).json(ret);
-        }
+        res.status(ret.httpCode).json(ret);
     });
 
     app.get("/:id", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
         const ret : any= await addressController.findOne(Number(req.params.id));
 
-        if (!ret.data){
-            res.status(204).json(ret);
-        }
-        else {
-            res.status(200).json(ret);
-        }
+        res.status(ret.httpCode).json(ret);
     });
 
     app.post("/", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any = await addressController.save(new DomainAddress(req.body));
-
-        if (!ret.data){
-            res.status(400).json(ret);
+        const resource = new DomainAddress(req.body);
+        const validation = DomainAddress.validate(resource);
+        
+        if (validation.valid){
+            const ret : any = await addressController.save(resource);
+            
+            res.status(ret.httpCode).json(ret);
         }
-        else {
-            res.status(201).json(ret);
+        else{
+            res.status(400).json(validation.errors);
         }
     });
 
     app.put("/", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
-        const ret : any = await addressController.update(new DomainAddress(req.body));
+        const resource = new DomainAddress(req.body);
+        const validation = DomainAddress.validate(resource);
 
-        if (!ret.data){
-            res.status(400).json(ret);
+        if (validation.valid){
+            const ret : any = await addressController.update(resource);
+
+            res.status(ret.httpCode).json(ret);
         }
-        else {
-            res.status(200).json(ret);
+        else{
+            res.status(400).json(validation.errors);
         }
     });
 
@@ -60,11 +56,6 @@ export function RegisterRoutes(application: Application){
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);
         const ret : any= await addressController.delete(Number(parseInt(req.params.id)));
 
-        if (!ret.action){
-            res.status(400).json(ret);
-        }
-        else {
-            res.status(200).json(ret);
-        }
+        res.status(ret.httpCode).json(ret);
     });
 }
