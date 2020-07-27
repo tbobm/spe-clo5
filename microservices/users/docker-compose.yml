@@ -10,6 +10,7 @@ services:
     ports:
       - "3000:3000"
       - "8383:8080"
+      - "8081:8081"
 
   postgres:
     image: postgres:11.2-alpine
