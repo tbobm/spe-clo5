@@ -30,28 +30,24 @@ services:
         networks:
             - policy-price
         container_name: policy-price-db
-    options-db:
-        image: postgres:11
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
+    option-db:
+        image: postgres:11.2-alpine
+        environment:
+          POSTGRES_USER: unicorn_user
+          POSTGRES_PASSWORD: magical_password
+          POSTGRES_DB: rainbow_database
+        ports:
+          - "5432:5432"
         restart: always
-        networks:
-            - services
-        container_name: options-db
-    options-test-db:
-        image: postgres:11
-        ports: 
-            - "5432:5432"
-        environment: 
-            POSTGRES_USER: clo
-            POSTGRES_PASSWORD: clo
-            POSTGRES_DB: clo
-        restart: always
-        networks:
-            - services
-        container_name: options-test-db
+    option-test-db:
+        image: postgres:11.2-alpine
+        environment:
+          POSTGRES_USER: unicorn_user
+          POSTGRES_PASSWORD: magical_password
+          POSTGRES_DB: rainbow_database
+        ports:
+         - "5433:5432"
+    restart: always
 
 networks: 
     clo:
