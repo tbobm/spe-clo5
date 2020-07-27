@@ -18,12 +18,14 @@
   file:
     path: "/mnt"
     owner: "root"
+    state: directory
     group: "docker"
     mode: 0775
 
 - name: "part: Create the mount point at {{ glusterfs_working_directory }}"
   file:
     path: "{{ glusterfs_working_directory }}"
+    state: directory
     owner: "root"
     group: "docker"
     mode: 0775
