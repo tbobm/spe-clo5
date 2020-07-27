@@ -35,10 +35,17 @@ export class Application  {
         }));
         this.app.use(json());
         this.app.use((err: any, req: any, res: any, next: any) => {
-            res.status(500).json({
-                message: "internal error",
-                httpCode: 500
-            });
+            if (err instanceof SyntaxError) {
+                res.status(400).json({
+                    message: "Bad request",
+                    httpCode: 400
+                });
+            } else {
+                res.status(500).json({
+                    message: "internal error",
+                    httpCode: 500
+                });
+            }
         });
         this.app.use("/public", express.static(join(__dirname, "..", "public")));
         this.app.use("/swagger", express.static(absolutePath()));
