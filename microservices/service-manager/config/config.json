@@ -4,20 +4,23 @@
         "password": "magical_password",
         "database": "rainbow_database",
         "host": "localhost",
-        "dialect": "postgresql"
+        "dialect": "postgres"
     },
     "test": {
         "username": "unicorn_user",
         "password": "magical_password",
         "database": "rainbow_database",
-        "host": "postgres",
-        "dialect": "postgresql"
+        "host": "localhost",
+        "dialect": "postgres",
+        "port": 5433,
+        "logging": false
     },
     "production": {
         "username": "unicorn_user",
         "password": "magical_password",
         "database": "rainbow_database",
         "host": "postgres",
-        "dialect": "postgresql"
+        "dialect": "postgres",
+        "logging": false
     }
 }

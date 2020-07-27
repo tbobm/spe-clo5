@@ -61,7 +61,9 @@ module.exports = {
                 service.dataValues.establishments = establishments;
                 return res.status(200).send(service);
             })
-            .catch((error) => res.status(400).send(error));
+            .catch((error) => {
+                res.status(400).send(error)
+            });
     },
 
     add(req, res) {
