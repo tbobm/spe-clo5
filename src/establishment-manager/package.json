@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test ts-mocha src/**/*.test.ts",
     "start": "ts-node index.ts",
-    "build": "npm run tsoa spec-and-routes && npm run tsc",
+    "build": "npm run tsoa spec && npm run tsc",
     "tsc": "tsc",
     "tsoa": "tsoa"
   },
@@ -14,10 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "@types/axios": "^0.14.0",
+    "@types/body-parser": "^1.19.0",
     "@types/chai": "^4.2.11",
     "@types/faker": "^4.1.12",
     "@types/jest": "^26.0.4",
     "@types/mocha": "^7.0.2",
+    "@types/morgan": "^1.9.1",
     "@types/sinon": "^9.0.4",
     "@types/supertest": "^2.0.10",
     "@types/swagger-ui-dist": "^3.0.5",
@@ -31,6 +33,7 @@
     "faker": "^4.1.0",
     "jest": "^26.1.0",
     "mocha": "^8.0.1",
+    "morgan": "^1.10.0",
     "pg": "^8.2.1",
     "sinon": "^9.0.2",
     "structure": "^2.0.1",

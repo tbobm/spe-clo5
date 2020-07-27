@@ -9,6 +9,7 @@ import { EstablishmentServiceImpl } from "./models/services/EstablishmentService
 import { EstablishmentController } from "./controllers/EstablishmentController";
 import { RegisterRoute } from "./routes/index";
 import morgan from "morgan";
+import { json } from "body-parser";
 import { createWriteStream, createReadStream } from "fs";
 
 export class Application  {
@@ -25,15 +26,20 @@ export class Application  {
     }
 
     config(){
-        const bodyParser = require("body-parser");
-
         this.container = createContainer();
         this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]", {
             stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
                 flags: "a+"
             })
         }));
-        this.app.use(bodyParser.json());
+        this.app.use(json());
+        this.app.use((err: any, req: any, res: any, next: any) => {
+            console.log(err.stack);
+            res.status(500).json({
+                message: "internal error",
+                httpCode: 500
+            });
+        });
         this.app.use("/public", express.static(join(__dirname, "..", "public")));
         this.app.use("/swagger", express.static(absolutePath()));
         this.app.use("/logs", (req: express.Request, res: express.Response) => {
