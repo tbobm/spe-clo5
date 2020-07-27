@@ -1,18 +1,10 @@
 {
-    "id": 16608,
-    "name": "Rousseau - Mathieu",
-    "phoneNumber": "fr",
+    "id": 1,
+    "name": "Marchand SARL",
+    "phoneNumber": "+33 573510197",
     "addresses": [
         {
-            "addressId": 7171
-        }
-    ],
-    "services": [
-        {
-            "serviceId": 89220,
-            "overridePrice": 321,
-            "model": 9648,
-            "interval": 77957
+            "addressId": 70658
         }
     ]
 }

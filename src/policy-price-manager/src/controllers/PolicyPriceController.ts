@@ -66,50 +66,58 @@ export class PolicyPriceController {
 
     @Delete("{id}")
     async delete(@Path("id") id: number){
-        const flag = await this.policyPriceService.delete(id);
+        try {
+            await this.policyPriceService.delete(id);
 
-        if (flag){
             return Promise.resolve({
                 message: "policy price deleted",
                 httpCode: 200
             });
         }
-        return Promise.resolve({
-            message: "error on delete",
-            httpCode: 400
-        });
+        catch (e){
+            return Promise.resolve({
+                message: "error on delete",
+                httpCode: 400
+            });
+        }
     }
 
     @Post()
     async save(@Body() policyPrice : PolicyPriceResource){
-        const saved = await this.policyPriceService.save(policyPrice);
+        try {
+            const saved = await this.policyPriceService.save(policyPrice);
 
-        if (!saved){
             return Promise.resolve({
-                message: "Error on save",
+                message: "Policy price saved",
+                httpCode: 201,
+                data: saved
+            });
+        }
+        catch (e){
+            return Promise.resolve({
+                message: e.message,
                 httpCode: 400
             });
         }
-        return Promise.resolve({
-            message: "Policy price saved",
-            httpCode: 200
-        });
     }
 
     @Put()
     async update(@Body() policyPrice: PolicyPriceResource){
-        const saved = await this.policyPriceService.update(policyPrice);
-
-        if (!saved){
+        try {
+            await this.policyPriceService.update(policyPrice);
+            
             return Promise.resolve({
-                message: "Error on update",
+                message: "Policy price updated",
+                httpCode: 200,
+                data: policyPrice
+            });
+        }
+        catch (e){
+            return Promise.resolve({
+                message: e.message,
                 httpCode: 400
             });
         }
-        return Promise.resolve({
-            message: "Policy price updated",
-            httpCode: 200
-        });
     }
 
 }

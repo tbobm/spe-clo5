@@ -1,15 +1,5 @@
 version: '3.6'
 services: 
-#    address-db:
-#        image: postgres:11
-#        environment: 
-#            POSTGRES_USER: clo
-#            POSTGRES_PASSWORD: clo
-#            POSTGRES_DB: clo
-#       restart: always
-#       networks:
-#            - address
-#        container_name: address-db
 #    address-manager:
 #       image: address-manager
 #       ports: 
@@ -63,6 +53,14 @@ services:
 #            - clo
 #            - policy-price
 #        container_name: policy-price-manager
+    address-db:
+        image: postgres:11
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        container_name: address-db
     room-db:
         image: postgres:11
         environment: 
@@ -70,21 +68,15 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        networks:
-            - address
-        container_name: address-db
+        container_name: room-db
     establishment-db:
         image: postgres:11
-        ports: 
-            - "5432:5432"
         environment: 
             POSTGRES_USER: clo
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        networks:
-            - policy-price
-        container_name: policy-price-db
+        container_name: establishment-db
     policy-price-db:
         image: postgres:11
         environment: 
@@ -92,9 +84,25 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        networks:
-            - policy-price
         container_name: policy-price-db
+    option-db:
+        image: postgres:11.2-alpine
+        environment:
+          POSTGRES_USER: unicorn_user
+          POSTGRES_PASSWORD: magical_password
+          POSTGRES_DB: rainbow_database
+        ports:
+          - "5432:5432"
+        restart: always
+    option-test-db:
+        image: postgres:11.2-alpine
+        environment:
+          POSTGRES_USER: unicorn_user
+          POSTGRES_PASSWORD: magical_password
+          POSTGRES_DB: rainbow_database
+        ports:
+         - "5433:5432"
+        restart: always
     address-test-db:
         image: postgres:11
         environment: 
@@ -102,19 +110,7 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        ports: 
-            - "5432:5432"
-        networks:
-            - policy-price
         container_name: address-test-db
 networks: 
     clo:
-        external: true
-    address:
-        external: true
-    establishment:
-        external: true
-    policy-price:
-        external: true
-    room:
         external: true

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "service_id": 1,
+        "establishment_id": 2,
+        "override_price": 24,
+        "model": 1,
+        "interval": 30
+    },
+    {
+        "id": 2,
+        "service_id": 3,
+        "establishment_id": 2,
+        "override_price": 29,
+        "model": 0,
+        "interval": 0
+    }
+]
