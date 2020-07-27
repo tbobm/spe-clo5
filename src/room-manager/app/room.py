@@ -34,7 +34,7 @@ new_room_fields = room.model('NewRoom', {
         required=True, description="The room name"
     ),
     "roomCategory": fields.Nested(room_category, required=True, description="The room category"),
-    "establishments": fields.List(fields.Nested(room_establishments,required=False))
+    "establishments": fields.List(fields.Nested(room_establishments,required=False), required=True, description="Establishments list")
 })
 
 @room.route("/")
@@ -90,15 +90,18 @@ class Rooms(Resource):
                 roomCategoryId = self.roomCategoryDAO.save(roomCategoryModel)
             # id is provided in room category, we use an existing category
             elif ('id' in room['roomCategory'] and room['roomCategory']['id'] > 0):
+                roomId = room['roomCategory']['id']
                 print("using existing category")
-                roomCategoryModel = self.roomCategoryDAO.read(room['roomCategory']['id'])
+                roomCategoryModel = self.roomCategoryDAO.read(roomId)
+                if roomCategoryModel is None:
+                    return ({ "message": f"roomCategory with id: '{roomId}' does not exist" }), 400
             else:
-                return ({ "message": "missing key for room category" }), 400
+                return ({ "message": "missing key 'id' for room category" }), 400
             
             roomModel = RoomModel(room['name'], roomCategoryId)
             self.roomDAO.save(roomModel)
             establishments = []
-            if (room['establishments'] != None and len(room['establishments']) > 0):
+            if ('establishments' in room):
                 for establishment in room['establishments']:
                     roomEstablishmentModel = RoomEstablishmentModel(roomModel.id, establishment['establishmentId'], establishment['overridePrice'])
                     self.roomEstablishmmentDAO.save(roomEstablishmentModel)
@@ -233,6 +236,26 @@ class Room(Resource):
             }), 404
         return ({
             "message": "Room deleted"
+        }), 200
+
+@room.route("/categories")
+class Rooms(Resource):
+    roomCategoryDAO = RoomCategoryDAO()
+
+    def get(self):
+        return ({
+            "data": self.roomCategoryDAO.list(),
+            "message": "Room category list"
+        }), 200
+
+@room.route("/establishments")
+class Rooms(Resource):
+    roomEstablishmmentDAO = RoomEstablishmentDAO()
+
+    def get(self):
+        return ({
+            "data": self.roomEstablishmmentDAO.list(),
+            "message": "Room establishments list"
         }), 200
 
 __all__ = [
