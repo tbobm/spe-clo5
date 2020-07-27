@@ -1,0 +1,8 @@
+{
+  "CONNECTION_STRING": "postgres://unicorn_user:magical_password@localhost/postgres",
+  "PORT": 8080,
+  "SWAGGER_PORT": 8081,
+  "EMAIL_SERVICE": "gmail",
+  "EMAIL_ADDRESS": "dev.team213@gmail.com",
+  "EMAIL_PASSWORD": "test1234&"
+}
