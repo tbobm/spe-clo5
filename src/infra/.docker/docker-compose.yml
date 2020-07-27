@@ -1,5 +1,58 @@
 version: '3.6'
 services: 
+#    address-manager:
+#       image: address-manager
+#       ports: 
+#            - "81:80"
+#        environment: 
+#            NODE_ENV: development
+#        restart: always
+#        networks:
+#            - address
+#            - clo
+#        container_name: address-manager
+#    establishment-db:
+#        image: postgres:11
+#       environment: 
+#            POSTGRES_USER: clo
+#            POSTGRES_PASSWORD: clo
+#            POSTGRES_DB: clo
+#        restart: always
+#        networks:
+#            - establishment
+#        container_name: establishment-db
+#    establishment-manager:
+#        image: establishment-manager
+#        ports: 
+#            - "80:80"
+#        environment: 
+#            NODE_ENV: development
+#        restart: always
+#        networks:
+#            - clo
+#            - establishment
+#        container_name: establishment-manager
+#    policy-price-db:
+#        image: postgres:11
+#        environment: 
+#            POSTGRES_USER: clo
+#            POSTGRES_PASSWORD: clo
+#            POSTGRES_DB: clo
+#        restart: always
+#        networks:
+#            - policy-price
+#        container_name: policy-price-db
+#    policy-price-manager:
+#        image: policy-price-manager
+#        ports: 
+#            - "82:80"
+#        environment: 
+#            NODE_ENV: development
+#        restart: always
+#        networks:
+#            - clo
+#            - policy-price
+#        container_name: policy-price-manager
     address-db:
         image: postgres:11
         environment: 
@@ -7,9 +60,15 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        networks:
-            - address
         container_name: address-db
+    room-db:
+        image: postgres:11
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        container_name: room-db
     establishment-db:
         image: postgres:11
         environment: 
@@ -17,8 +76,6 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        networks:
-            - establishment
         container_name: establishment-db
     policy-price-db:
         image: postgres:11
@@ -27,8 +84,6 @@ services:
             POSTGRES_PASSWORD: clo
             POSTGRES_DB: clo
         restart: always
-        networks:
-            - policy-price
         container_name: policy-price-db
     option-db:
         image: postgres:11.2-alpine
@@ -47,17 +102,15 @@ services:
           POSTGRES_DB: rainbow_database
         ports:
          - "5433:5432"
-    restart: always
-
+        restart: always
+    address-test-db:
+        image: postgres:11
+        environment: 
+            POSTGRES_USER: clo
+            POSTGRES_PASSWORD: clo
+            POSTGRES_DB: clo
+        restart: always
+        container_name: address-test-db
 networks: 
     clo:
         external: true
-    address:
-        external: true
-    establishment:
-        external: true
-    policy-price:
-        external: true
-    services:
-        external: true
-
