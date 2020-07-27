@@ -9,128 +9,108 @@ if (process.argv.length > 3){
 
     if (op === "mock"){
         if (command === "list"){
-            const arr : any = [
-                {
-                    "id": 1,
-                    "key": 1,
-                    "policyPriceEstablishments": [
-                        {
-                            "establishmentId": 1
-                        }
-                    ],
-                    "policyPricePeriods": [
-                        {
-                            "periodId": 1,
-                            "period": {
-                                "id": 1,
-                                "from": 4,
-                                "to": 5,
-                                "sign": 1,
-                                "percent": 15
-                            }
-                        }
-                    ],
-                    "policyPricePersons": []
-                },
-                {
-                    "id": 2,
-                    "key": 2,
-                    "policyPriceEstablishments": [
-                        {
-                            "establishmentId": 1
-                        }
-                    ],
-                    "policyPricePeriods": [],
-                    "policyPricePersons": [
-                        {
-                            "personId": 1,    
-                            "person": {
-                                "id": 1,
-                                "nb": 3,
-                                "sign": 1,
-                                "percent": 10
-                            }
-                        }
-                    ]
-                }
-            ];
             faker.locale = "fr";
+            const arr = [];
             const filename = `${ROOT_DIRECTORY}/PolicyPrices.json`;
-            for (let i = 0; i < arr.length; i++){
-                arr[i]["id"] = faker.random.number();
-                arr[i]["key"] = faker.random.number() % 3;
-                for (let j = 0; j < arr[i]["policyPriceEstablishments"].length; j++){
-                    arr[i]["policyPriceEstablishments"][j]["establishmentId"] = faker.random.number();
+            let nb = Math.random() * 12;
+            for (let i = 1; i < nb; i++){
+                const o : any= {
+                    "id": i,
+                    "key": Number(faker.random.number(3)),
+                    "policyPriceEstablishments": [],
+                    "policyPricePeriods": [],
+                    "policyPricePersons": []
+                };
+                nb = Math.random() * 15;
+                const policyPricePeriods = [];
+                for (let k = 1; k < nb; k++){
+                    policyPricePeriods.push({
+                        "periodId": k,
+                        "period": {
+                            "id": k,
+                            "from": faker.random.number(),
+                            "to": faker.random.number(),
+                            "sign": faker.random.number() % 1,
+                            "percent": faker.random.number() % 100
+                        }
+                    });
                 }
-                const id = faker.random.number();
-                for (let k = 0; k < arr[i]["policyPricePeriods"].length; k++){
-                    arr[i]["policyPricePeriods"][k]["periodId"] = id;
-                    arr[i]["policyPricePeriods"][k]["period"]["id"] = id;
-                    arr[i]["policyPricePeriods"][k]["period"]["from"] = faker.random.number();
-                    arr[i]["policyPricePeriods"][k]["period"]["to"] = faker.random.number();
-                    arr[i]["policyPricePeriods"][k]["period"]["sign"] = faker.random.number() % 1;
-                    arr[i]["policyPricePeriods"][k]["period"]["percent"] = faker.random.number() % 100;
+                const policyPricePersons = [];
+                nb = Math.random() * 15;
+                for (let l = 1; l < nb; l++){
+                    policyPricePersons.push({
+                        "personId": l,
+                        "person": {
+                            "id": l,
+                            "nb": faker.random.number(),
+                            "sign": faker.random.number() % 1,
+                            "percent": faker.random.number() % 100
+                        }
+                    });
                 }
-                const id2 = faker.random.number();
-                for (let l = 0; l < arr[i]["policyPricePersons"].length; l++){
-                    arr[i]["policyPricePersons"][l]["personId"] = id2;
-                    arr[i]["policyPricePersons"][l]["person"]["id"] = id2;
-                    arr[i]["policyPricePersons"][l]["person"]["nb"] = faker.random.number();
-                    arr[i]["policyPricePersons"][l]["person"]["sign"] = faker.random.number() % 1;
-                    arr[i]["policyPricePersons"][l]["person"]["percent"] = faker.random.number() % 100;
+                const policyPriceEstablishments = [];
+                nb = Math.random() * 15;
+                for (let j = 0; j < nb; j++){
+                    policyPriceEstablishments.push({
+                        "establishmentId": faker.random.number()
+                    });
                 }
+                o.policyPricePersons = policyPricePersons;
+                o.policyPricePeriods = policyPricePeriods;
+                o.policyPriceEstablishments = policyPriceEstablishments;
+                arr.push(o);
             }
             const str = JSON.stringify(arr, null, 4);
 
             fs.writeFileSync(filename, str);
         }
         else if (command === "read"){
-            const o : any = {
-                "id": 1,
-                "key": 1,
-                "policyPriceEstablishments": [
-                    {
-                        "establishmentId": 1
-                    }
-                ],
-                "policyPricePeriods": [
-                    {
-                        "periodId": 1,
-                        "period": {
-                            "id": 1,
-                            "from": 4,
-                            "to": 5,
-                            "sign": 1,
-                            "percent": 15
-                        }
-                    }
-                ],
-               "policyPricePersons": []
-            };
             faker.locale = "fr";            
             const filename = `${ROOT_DIRECTORY}/PolicyPrice.json`;
-            o["id"] = faker.random.number();
-            o["key"] = faker.random.number() % 3;
-            for (let j = 0; j < o["policyPriceEstablishments"].length; j++){
-                o["policyPriceEstablishments"][j]["establishmentId"] = faker.random.number();
+            const o : any = {
+                "id": 1,
+                "key": Number(faker.random.number(3)),
+                "policyPriceEstablishments": [],
+                "policyPricePeriods": [],
+                "policyPricePersons": []
             }
-            const id = faker.random.number();
-            for (let k = 0; k < o["policyPricePeriods"].length; k++){
-                o["policyPricePeriods"][k]["periodId"] = id;
-                o["policyPricePeriods"][k]["period"]["id"] = id;
-                o["policyPricePeriods"][k]["period"]["from"] = faker.random.number();
-                o["policyPricePeriods"][k]["period"]["to"] = faker.random.number();
-                o["policyPricePeriods"][k]["period"]["sign"] = faker.random.number() % 1;
-                o["policyPricePeriods"][k]["period"]["percent"] = faker.random.number() % 100;
+            const policyPriceEstablishments = [];
+            let nb = Math.random() * 15;
+            for (let j = 0; j < nb; j++){
+                policyPriceEstablishments.push({
+                    "establishmentId": faker.random.number()
+                });
             }
-            const id2 = faker.random.number();
-            for (let l = 0; l < o["policyPricePersons"].length; l++){
-                o["policyPricePersons"][l]["personId"] = id2;
-                o["policyPricePersons"][l]["person"]["id"] = id2;
-                o["policyPricePersons"][l]["person"]["nb"] = faker.random.number();
-                o["policyPricePersons"][l]["person"]["sign"] = faker.random.number() % 1;
-                o["policyPricePersons"][l]["person"]["percent"] = faker.random.number() % 100;
+            o["policyPriceEstablishments"] = policyPriceEstablishments;
+            nb = Math.random() * 10;
+            const policyPricePeriods = [];
+            for (let k = 1; k < nb; k++){
+                policyPricePeriods.push({
+                    "periodId": k,
+                    "period": {
+                        "id": k,
+                        "from": faker.random.number(),
+                        "to": faker.random.number(),
+                        "sign": faker.random.number() % 1,
+                        "percent": faker.random.number() * 100
+                    }
+                });
             }
+            o["policyPricePeriods"] = policyPricePeriods;
+            const policyPricePersons = [];
+            nb = Math.random() * 8;
+            for (let l = 1; l < nb; l++){
+                policyPricePersons.push({
+                    "personId": l,
+                    "person": {
+                        "id": l,
+                        "nb": faker.random.number(),
+                        "sign": faker.random.number() % 1,
+                        "percent": faker.random.number() * 100
+                    }
+                });
+            }
+            o["policyPricePersons"] = policyPricePersons;
             const str = JSON.stringify(o, null, 4);
 
             fs.writeFileSync(filename, str);

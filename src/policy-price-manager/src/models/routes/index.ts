@@ -24,9 +24,17 @@ export function RegisterRoutes(application: Application){
 
     app.post("/", async (req : express.Request, res: express.Response) => {
         const controller : PolicyPriceController = container.resolve(Constants.POLICY_PRICE_CONTROLLER);
-        const ret = await controller.save(new DomainPolicyPrice(req.body));
+        const resource = new DomainPolicyPrice(req.body);
+        const validation = DomainPolicyPrice.validate(resource);
 
-        res.status(ret.httpCode).json(ret);
+        if (validation.valid){
+            const ret = await controller.save(resource);
+
+            res.status(ret.httpCode).json(ret);
+        }
+        else {
+            res.status(400).json(validation.errors);
+        }
     });
 
     app.delete("/:id", async (req : express.Request, res: express.Response) => {
@@ -38,9 +46,17 @@ export function RegisterRoutes(application: Application){
 
     app.put("/", async (req : express.Request, res: express.Response) => {
         const controller : PolicyPriceController = container.resolve(Constants.POLICY_PRICE_CONTROLLER);
-        const ret = await controller.update(new DomainPolicyPrice(req.body));
+        const resource = new DomainPolicyPrice(req.body);
+        const validation = DomainPolicyPrice.validate(resource);
 
-        res.status(ret.httpCode).json(ret);
+        if (validation.valid){
+            const ret = await controller.update(resource);
+
+            res.status(ret.httpCode).json(ret);
+        }
+        else{
+            res.status(400).json(validation.errors);
+        }
     });
 
     app.get("/establishment/:id", async (req : express.Request, res: express.Response) => {

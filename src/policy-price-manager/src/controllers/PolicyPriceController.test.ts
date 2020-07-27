@@ -80,7 +80,8 @@ describe("Test - Policy Price Controller", () => {
             const data = JSON.parse(fs.readFileSync(policyPrices, {
                 encoding: "utf-8"
             }));
-            
+    
+            expect(response.status).to.equal(200);
             for (let i = 0; i < list.length; i++){
                 const item = list[i];
             
@@ -122,7 +123,7 @@ describe("Test - Policy Price Controller", () => {
             const body = response.body;
             const item = body.data;
 
-
+            expect(response.status).to.equal(200);
             for (let key in item){
                 if (key == "establishments"){
                     for (let i = 0; i < item[key].length; i++){

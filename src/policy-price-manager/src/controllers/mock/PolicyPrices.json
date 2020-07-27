@@ -1,43 +1,594 @@
 [
     {
-        "id": 9708,
-        "key": 0,
+        "id": 1,
+        "key": 3,
         "policyPriceEstablishments": [
             {
-                "establishmentId": 23148
+                "establishmentId": 44353
+            },
+            {
+                "establishmentId": 97309
+            },
+            {
+                "establishmentId": 69246
+            },
+            {
+                "establishmentId": 53914
+            },
+            {
+                "establishmentId": 79162
+            },
+            {
+                "establishmentId": 56230
+            },
+            {
+                "establishmentId": 73185
+            },
+            {
+                "establishmentId": 79998
+            },
+            {
+                "establishmentId": 36369
+            },
+            {
+                "establishmentId": 22843
+            },
+            {
+                "establishmentId": 70081
+            },
+            {
+                "establishmentId": 18061
             }
         ],
         "policyPricePeriods": [
             {
-                "periodId": 67217,
+                "periodId": 1,
                 "period": {
-                    "id": 67217,
-                    "from": 15504,
-                    "to": 57934,
+                    "id": 1,
+                    "from": 14521,
+                    "to": 52584,
                     "sign": 0,
-                    "percent": 86
+                    "percent": 19
+                }
+            },
+            {
+                "periodId": 2,
+                "period": {
+                    "id": 2,
+                    "from": 79275,
+                    "to": 30867,
+                    "sign": 0,
+                    "percent": 93
+                }
+            },
+            {
+                "periodId": 3,
+                "period": {
+                    "id": 3,
+                    "from": 45112,
+                    "to": 63589,
+                    "sign": 0,
+                    "percent": 92
+                }
+            },
+            {
+                "periodId": 4,
+                "period": {
+                    "id": 4,
+                    "from": 24800,
+                    "to": 19703,
+                    "sign": 0,
+                    "percent": 83
                 }
             }
         ],
-        "policyPricePersons": []
-    },
-    {
-        "id": 61863,
-        "key": 1,
-        "policyPriceEstablishments": [
-            {
-                "establishmentId": 95863
-            }
-        ],
-        "policyPricePeriods": [],
         "policyPricePersons": [
             {
-                "personId": 33846,
+                "personId": 1,
                 "person": {
-                    "id": 33846,
-                    "nb": 87568,
+                    "id": 1,
+                    "nb": 49802,
                     "sign": 0,
-                    "percent": 51
+                    "percent": 3
+                }
+            },
+            {
+                "personId": 2,
+                "person": {
+                    "id": 2,
+                    "nb": 70724,
+                    "sign": 0,
+                    "percent": 90
+                }
+            },
+            {
+                "personId": 3,
+                "person": {
+                    "id": 3,
+                    "nb": 11888,
+                    "sign": 0,
+                    "percent": 90
+                }
+            },
+            {
+                "personId": 4,
+                "person": {
+                    "id": 4,
+                    "nb": 58411,
+                    "sign": 0,
+                    "percent": 21
+                }
+            },
+            {
+                "personId": 5,
+                "person": {
+                    "id": 5,
+                    "nb": 64740,
+                    "sign": 0,
+                    "percent": 42
+                }
+            },
+            {
+                "personId": 6,
+                "person": {
+                    "id": 6,
+                    "nb": 50931,
+                    "sign": 0,
+                    "percent": 74
+                }
+            },
+            {
+                "personId": 7,
+                "person": {
+                    "id": 7,
+                    "nb": 96027,
+                    "sign": 0,
+                    "percent": 64
+                }
+            },
+            {
+                "personId": 8,
+                "person": {
+                    "id": 8,
+                    "nb": 43938,
+                    "sign": 0,
+                    "percent": 15
+                }
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "key": 2,
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 75841
+            },
+            {
+                "establishmentId": 14880
+            },
+            {
+                "establishmentId": 42073
+            },
+            {
+                "establishmentId": 77770
+            },
+            {
+                "establishmentId": 68571
+            },
+            {
+                "establishmentId": 26279
+            },
+            {
+                "establishmentId": 50068
+            }
+        ],
+        "policyPricePeriods": [
+            {
+                "periodId": 1,
+                "period": {
+                    "id": 1,
+                    "from": 47762,
+                    "to": 65706,
+                    "sign": 0,
+                    "percent": 92
+                }
+            },
+            {
+                "periodId": 2,
+                "period": {
+                    "id": 2,
+                    "from": 98078,
+                    "to": 82183,
+                    "sign": 0,
+                    "percent": 65
+                }
+            },
+            {
+                "periodId": 3,
+                "period": {
+                    "id": 3,
+                    "from": 74525,
+                    "to": 37698,
+                    "sign": 0,
+                    "percent": 69
+                }
+            },
+            {
+                "periodId": 4,
+                "period": {
+                    "id": 4,
+                    "from": 4430,
+                    "to": 89260,
+                    "sign": 0,
+                    "percent": 53
+                }
+            },
+            {
+                "periodId": 5,
+                "period": {
+                    "id": 5,
+                    "from": 10166,
+                    "to": 54000,
+                    "sign": 0,
+                    "percent": 41
+                }
+            }
+        ],
+        "policyPricePersons": [
+            {
+                "personId": 1,
+                "person": {
+                    "id": 1,
+                    "nb": 77571,
+                    "sign": 0,
+                    "percent": 44
+                }
+            },
+            {
+                "personId": 2,
+                "person": {
+                    "id": 2,
+                    "nb": 21536,
+                    "sign": 0,
+                    "percent": 23
+                }
+            },
+            {
+                "personId": 3,
+                "person": {
+                    "id": 3,
+                    "nb": 93673,
+                    "sign": 0,
+                    "percent": 62
+                }
+            },
+            {
+                "personId": 4,
+                "person": {
+                    "id": 4,
+                    "nb": 32627,
+                    "sign": 0,
+                    "percent": 82
+                }
+            },
+            {
+                "personId": 5,
+                "person": {
+                    "id": 5,
+                    "nb": 14127,
+                    "sign": 0,
+                    "percent": 94
+                }
+            },
+            {
+                "personId": 6,
+                "person": {
+                    "id": 6,
+                    "nb": 10718,
+                    "sign": 0,
+                    "percent": 4
+                }
+            },
+            {
+                "personId": 7,
+                "person": {
+                    "id": 7,
+                    "nb": 33866,
+                    "sign": 0,
+                    "percent": 47
+                }
+            },
+            {
+                "personId": 8,
+                "person": {
+                    "id": 8,
+                    "nb": 18664,
+                    "sign": 0,
+                    "percent": 65
+                }
+            },
+            {
+                "personId": 9,
+                "person": {
+                    "id": 9,
+                    "nb": 22428,
+                    "sign": 0,
+                    "percent": 4
+                }
+            },
+            {
+                "personId": 10,
+                "person": {
+                    "id": 10,
+                    "nb": 49268,
+                    "sign": 0,
+                    "percent": 41
+                }
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "key": 0,
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 7342
+            },
+            {
+                "establishmentId": 77044
+            },
+            {
+                "establishmentId": 22408
+            },
+            {
+                "establishmentId": 15781
+            },
+            {
+                "establishmentId": 66361
+            },
+            {
+                "establishmentId": 83724
+            },
+            {
+                "establishmentId": 55434
+            },
+            {
+                "establishmentId": 29069
+            },
+            {
+                "establishmentId": 56528
+            },
+            {
+                "establishmentId": 11274
+            },
+            {
+                "establishmentId": 52595
+            },
+            {
+                "establishmentId": 13797
+            }
+        ],
+        "policyPricePeriods": [
+            {
+                "periodId": 1,
+                "period": {
+                    "id": 1,
+                    "from": 14363,
+                    "to": 91056,
+                    "sign": 0,
+                    "percent": 97
+                }
+            },
+            {
+                "periodId": 2,
+                "period": {
+                    "id": 2,
+                    "from": 78271,
+                    "to": 30046,
+                    "sign": 0,
+                    "percent": 35
+                }
+            },
+            {
+                "periodId": 3,
+                "period": {
+                    "id": 3,
+                    "from": 5421,
+                    "to": 6534,
+                    "sign": 0,
+                    "percent": 4
+                }
+            },
+            {
+                "periodId": 4,
+                "period": {
+                    "id": 4,
+                    "from": 38402,
+                    "to": 76246,
+                    "sign": 0,
+                    "percent": 9
+                }
+            },
+            {
+                "periodId": 5,
+                "period": {
+                    "id": 5,
+                    "from": 22602,
+                    "to": 90293,
+                    "sign": 0,
+                    "percent": 69
+                }
+            },
+            {
+                "periodId": 6,
+                "period": {
+                    "id": 6,
+                    "from": 14295,
+                    "to": 6065,
+                    "sign": 0,
+                    "percent": 16
+                }
+            }
+        ],
+        "policyPricePersons": [
+            {
+                "personId": 1,
+                "person": {
+                    "id": 1,
+                    "nb": 68566,
+                    "sign": 0,
+                    "percent": 7
+                }
+            },
+            {
+                "personId": 2,
+                "person": {
+                    "id": 2,
+                    "nb": 75474,
+                    "sign": 0,
+                    "percent": 34
+                }
+            },
+            {
+                "personId": 3,
+                "person": {
+                    "id": 3,
+                    "nb": 80695,
+                    "sign": 0,
+                    "percent": 24
+                }
+            },
+            {
+                "personId": 4,
+                "person": {
+                    "id": 4,
+                    "nb": 24252,
+                    "sign": 0,
+                    "percent": 75
+                }
+            },
+            {
+                "personId": 5,
+                "person": {
+                    "id": 5,
+                    "nb": 13429,
+                    "sign": 0,
+                    "percent": 20
+                }
+            },
+            {
+                "personId": 6,
+                "person": {
+                    "id": 6,
+                    "nb": 30502,
+                    "sign": 0,
+                    "percent": 34
+                }
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "key": 2,
+        "policyPriceEstablishments": [
+            {
+                "establishmentId": 35000
+            },
+            {
+                "establishmentId": 84305
+            },
+            {
+                "establishmentId": 42854
+            },
+            {
+                "establishmentId": 68348
+            }
+        ],
+        "policyPricePeriods": [
+            {
+                "periodId": 1,
+                "period": {
+                    "id": 1,
+                    "from": 3883,
+                    "to": 1581,
+                    "sign": 0,
+                    "percent": 90
+                }
+            },
+            {
+                "periodId": 2,
+                "period": {
+                    "id": 2,
+                    "from": 65896,
+                    "to": 56151,
+                    "sign": 0,
+                    "percent": 2
+                }
+            }
+        ],
+        "policyPricePersons": [
+            {
+                "personId": 1,
+                "person": {
+                    "id": 1,
+                    "nb": 81534,
+                    "sign": 0,
+                    "percent": 91
+                }
+            },
+            {
+                "personId": 2,
+                "person": {
+                    "id": 2,
+                    "nb": 65397,
+                    "sign": 0,
+                    "percent": 39
+                }
+            },
+            {
+                "personId": 3,
+                "person": {
+                    "id": 3,
+                    "nb": 71958,
+                    "sign": 0,
+                    "percent": 38
+                }
+            },
+            {
+                "personId": 4,
+                "person": {
+                    "id": 4,
+                    "nb": 45651,
+                    "sign": 0,
+                    "percent": 59
+                }
+            },
+            {
+                "personId": 5,
+                "person": {
+                    "id": 5,
+                    "nb": 4823,
+                    "sign": 0,
+                    "percent": 40
+                }
+            },
+            {
+                "personId": 6,
+                "person": {
+                    "id": 6,
+                    "nb": 86598,
+                    "sign": 0,
+                    "percent": 94
+                }
+            },
+            {
+                "personId": 7,
+                "person": {
+                    "id": 7,
+                    "nb": 56079,
+                    "sign": 0,
+                    "percent": 6
                 }
             }
         ]

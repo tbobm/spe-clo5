@@ -4,6 +4,9 @@ import { createConnection, Connection } from "typeorm";
 import { RegisterRoutes } from "../src/models/routes/index";
 import { absolutePath } from "swagger-ui-dist";
 import { join } from "path";
+import { json } from "body-parser";
+import { createReadStream, createWriteStream } from "fs";
+import morgan from "morgan";
 import { createContainer, AwilixContainer, asClass, InjectionMode, Lifetime } from "awilix";
 import * as Constants from "../src/models/utils/Constants";
 import { PeriodRepository } from "./models/repositories/PeriodRepository";
@@ -28,12 +31,24 @@ export class Application  {
     }
 
     config(){
-        const bodyParser = require("body-parser");
-
-        this.container = createContainer(); 
-        this.app.use(bodyParser.json());
-        this.app.use("/swagger", express.static(absolutePath()));
+        this.container = createContainer();
+        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]", {
+            stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
+                flags: "a+"
+            })
+        }));
+        this.app.use(json());
+        this.app.use((err: any, req: any, res: any, next: any) => {
+            res.status(500).json({
+                message: "internal error",
+                httpCode: 500
+            });
+        });
         this.app.use("/public", express.static(join(__dirname, "..", "public")));
+        this.app.use("/swagger", express.static(absolutePath()));
+        this.app.use("/logs", (req: express.Request, res: express.Response) => {
+            createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
+        });
     }
 
     async start(){
