@@ -40,7 +40,7 @@ async function run() {
 
   await testDB.then((value) => {});
 
-  console.log("\nStart Swagger documentation ... \n");
+  // console.log("\nStart Swagger documentation ... \n");
 
   const app2 = Express();
   const expressSwagger = require('express-swagger-generator')(app2);
@@ -75,13 +75,16 @@ async function run() {
   await new Promise(resolve => setTimeout(resolve, 500));
   expressSwagger(options)
   app2.listen(config.SWAGGER_PORT);
-  console.log("swagger started: \x1b[7mhttp://localhost:"+config.SWAGGER_PORT+"/api-docs\x1b[0m\n");
+  console.log("swagger started: on port "+config.SWAGGER_PORT);
 
-  console.log("Start User microservice ... \n");
+  // console.log("Start User microservice ... \n");
   await new Promise(resolve => setTimeout(resolve, 500));
+  console.log("test1\n");
   app.use('/', routes);
+  console.log("test2\n");
   app.listen(config.PORT);
-  console.log("User microservice started on : \x1b[7mhttp://localhost:" + config.PORT+"\x1b[0m\n");
+  console.log("test3\n");
+  console.log("User microservice started on port " + config.PORT);
 
 }
 
