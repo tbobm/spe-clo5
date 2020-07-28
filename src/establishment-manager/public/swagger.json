@@ -203,11 +203,16 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
+										"httpCode",
 										"message"
 									],
 									"type": "object"
@@ -228,11 +233,16 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
+										"httpCode",
 										"message"
 									],
 									"type": "object"
@@ -263,12 +273,17 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
 										"data": {},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
+										"httpCode",
 										"data",
 										"message"
 									],
@@ -321,11 +336,16 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
+										"httpCode",
 										"message"
 									],
 									"type": "object"
@@ -356,11 +376,16 @@
 							"application/json": {
 								"schema": {
 									"properties": {
+										"httpCode": {
+											"type": "number",
+											"format": "double"
+										},
 										"message": {
 											"type": "string"
 										}
 									},
 									"required": [
+										"httpCode",
 										"message"
 									],
 									"type": "object"
