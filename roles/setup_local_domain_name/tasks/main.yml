@@ -1,0 +1,47 @@
+---
+- name: "install: Install the dnsmasq package"
+  apt:
+    update_cache: true
+    name:
+      - dnsmasq
+
+- name: "configure: Check if the {{ dnsmasq_custom_config_path }} configuration file exists"
+  stat:
+    path: "{{ dnsmasq_custom_config_path }}"
+  register: config_file
+
+- name: "configure: Create the {{ dnsmasq_custom_config_path }}  configuration file if it does not exist"
+  file:
+    path: "{{ dnsmasq_custom_config_path }}"
+    state: touch
+  when: "config_file is defined and not config_file.stat.exists"
+
+- name: "configure: Ensure the {{ dnsmasq_custom_config_directory }} is loaded"
+  lineinfile:
+    line: "conf-dir={{ dnsmasq_config_directory }},*.conf"
+    path: "{{ dnsmasq_config_file }}"
+
+- name: "configure: Setup redictions for clo5.local"
+  lineinfile:
+    path: "{{ dnsmasq_custom_config_path }}"
+    line: "address=/.{{ item.domain }}/{{ item.target_ip }}  # {{ item.name }}"
+  loop:
+    - domain: "registry.{{ services_domain }}"
+      target_ip: "{{ registry_host_ip }}"
+      name: "registry"
+    - domain: "{{ services_domain }}"
+      target_ip: "{{ traefik_host_ip }}"
+      name: "traefik"
+
+- name: "configure: Update resolv.conf to use local dns"
+  lineinfile:
+    path: "/etc/resolv.conf"
+    line: "nameserver 127.0.0.1"
+    insertbefore: "^nameserver"
+    firstmatch: true
+
+- name: "configure: Restart dnsmasq"
+  service:
+    name: dnsmasq
+    state: restarted
+    enabled: true

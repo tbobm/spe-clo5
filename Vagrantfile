@@ -37,7 +37,9 @@ Vagrant.configure("2") do |config|
         "docker_swarm_addr": "192.168.50.6",
         "docker_swarm_port": "2377",
         "gitlab_addr": "192.168.50.6",
-        "registry_addr": "192.168.50.6",
+        "registry_addr": "192.168.50.4",
+        "registry_host_ip": "192.168.50.4",
+        "traefik_host_ip": "192.168.50.5",
         "registry_url": "192.168.50.6:443",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
         "gitlab_users": [
@@ -65,7 +67,9 @@ Vagrant.configure("2") do |config|
         "glusterfs_peer_c": "192.168.50.6",
       },
       "vm2" => {
-        "registry_addr": "192.168.50.6",
+        "registry_addr": "192.168.50.4",
+        "registry_host_ip": "192.168.50.4",
+        "traefik_host_ip": "192.168.50.5",
         "registry_url": "192.168.50.6:443",
         "gitlab_addr": "192.168.50.6",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
@@ -75,7 +79,9 @@ Vagrant.configure("2") do |config|
         "glusterfs_peer_c": "192.168.50.6",
       },
       "vm1" => {
-        "registry_addr": "192.168.50.6",
+        "registry_addr": "192.168.50.4",
+        "registry_host_ip": "192.168.50.4",
+        "traefik_host_ip": "192.168.50.5",
         "registry_url": "192.168.50.6:443",
         "gitlab_addr": "192.168.50.6",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
