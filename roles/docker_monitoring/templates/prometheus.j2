@@ -27,4 +27,5 @@ ENTRYPOINT ["/usr/bin/prometheus"]
 CMD [ "--config.file=/etc/prometheus/prometheus.yml", \
     "--storage.tsdb.path=/var/lib/prometheus/data", \
     "--web.console.templates=/var/lib/prometheus/consoles", \
-    "--web.console.libraries=/var/lib/prometheus/console_libraries" ]
+    "--web.console.libraries=/var/lib/prometheus/console_libraries", \
+    "--storage.tsdb.retention.time=1d" ]
