@@ -11,9 +11,9 @@ const Jwt  =  require('jsonwebtoken');
 const { Op } = require('sequelize');
 const stripe = require('stripe') (config.STRIPE_KEY);
 
-//////////////////////////////EMAIL FUNCTIONS//////////////////:////////////////
 
 module.exports = {
+  //////////////////////////////EMAIL FUNCTIONS//////////////////:////////////////
   sendMailRegister(user, email, inscription_code) {
     var transporter = Nodemailer.createTransport({
       service: config.EMAIL_SERVICE,
@@ -25,7 +25,7 @@ module.exports = {
     var content = "Hello "+user
     +", <br><br> To validate your inscription click on the link below,"
     +" this link will expire in 1 hour <br><br>"
-    +"http://localhost:"+PORT+"/login/"+inscription_code
+    +"http://localhost:"+config.PORT+"/login/"+inscription_code
     +" <br><br>Regards,<br>the Team"
     var mailOptions = {
       from: config.EMAIL_ADDRESS,
@@ -53,7 +53,7 @@ module.exports = {
     var content = "Hello "+user
     +", <br><br> To change your password click on the link below,"
     +" this link will expire in 1 hour <br><br>"
-    +"http://localhost:"+PORT+"/password/"+inscription_code
+    +"http://localhost:"+config.PORT+"/password/"+inscription_code
     +" <br><br>Regards,<br>the Team"
     var mailOptions = {
       from: EMAIL_ADDRESS,
@@ -202,24 +202,25 @@ module.exports = {
           resolve(0);
         } else {
           console.log("\x1b[38;5;224m[INFO]\x1b[0m "+new Date().toISOString().slice(0, 16).replace('T',' ')+" - New login request for "+username);
-          Bcrypt.compare(password, current_user[0].password, async function(err, res) {
+          Bcrypt.compare(password, current_user[0].password, async (err, res) => {
             if(res) {
               if (current_user[0].inscription_confirmed == false) {
                 if ( current_user[0].id == validation) {
-                  var stripeId = await createStripeCustomer(validation, current_user[0].email, current_user.username);
-                  if (stripeId == 0) resolve(1);
+                  // var stripeId = await createStripeCustomer(validation, current_user[0].email, current_user.username);
+                  // if (stripeId == 0) resolve(1);
+                  var stripeId = 123;
                   await User.update({ inscription_confirmed: true, stripe_id: stripeId, last_connection: new Date().toISOString().slice(0, 16).replace('T',' ')}, {
                     where: {[Op.or]: [{ email: username }, { username: username }]}}
                   );
                   console.log("\x1b[38;5;224m[INFO]\x1b[0m "+new Date().toISOString().slice(0, 16).replace('T',' ')+" - "+username+" is logged ");
-                  resolve(createToken(current_user[0].username));
+                  resolve(this.createToken(current_user[0].username));
                 } else {
                   console.log("\x1b[38;5;224m[INFO]\x1b[0m "+new Date().toISOString().slice(0, 16).replace('T',' ')+" - "+username+" invalid validation code");
                   resolve(0);
                 }
               } else {
                 console.log("\x1b[38;5;224m[INFO]\x1b[0m "+new Date().toISOString().slice(0, 16).replace('T',' ')+" - "+username+" is logged ");
-                resolve(createToken(current_user[0].username));
+                resolve(this.createToken(current_user[0].username));
               }
             } else {
               console.log("\x1b[38;5;224m[INFO]\x1b[0m "+new Date().toISOString().slice(0, 16).replace('T',' ')+" - "+username+" wrong password ");

@@ -1,8 +1,0 @@
-{
-  "CONNECTION_STRING": "postgres://postgres:test123@37.187.180.133:5432/postgres",
-  "PORT": 8080,
-  "SWAGGER_PORT": 8081,
-  "EMAIL_SERVICE": "gmail",
-  "EMAIL_ADDRESS": "dev.team213@gmail.com",
-  "EMAIL_PASSWORD": "test1234&"
-}
