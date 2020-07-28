@@ -2,7 +2,6 @@
 - name: "pre-install: Create the pseudo partition"
   include_tasks: "part.yml"
 
-
 - name: "install: Install the glusterfs-server package"
   apt:
     update_cache: true
@@ -27,6 +26,19 @@
     - "{{ glusterfs_shared_registry }}"
     - "{{ glusterfs_shared_beta }}"
     - "{{ glusterfs_shared_production }}"
+
+- name: "configure: Create the target mounted directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "root"
+    group: "docker"
+    mode: 0775
+  loop:
+    - "{{ glusterfs_mounted_monitoring }}"
+    - "{{ glusterfs_mounted_registry }}"
+    - "{{ glusterfs_mounted_beta }}"
+    - "{{ glusterfs_mounted_production }}"
 
 - name: "configure: Create the shared subdirectories"
   file:
@@ -80,7 +92,7 @@
     path: "{{ item.path }}"
     src: "localhost:/{{ item.name }}"
     fstype: glusterfs
-    state: mounted
+    state: present
   loop:
     - name: "monitoring"
       path: "{{ glusterfs_mounted_monitoring }}"

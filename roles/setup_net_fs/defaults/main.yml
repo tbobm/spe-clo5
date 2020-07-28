@@ -1,6 +1,6 @@
 ---
 # partition customisation
-glusterfs_data_size: 3G
+glusterfs_data_size: 6G
 glusterfs_part_directory: "/opt/gluster"
 glusterfs_partition: "{{ glusterfs_part_directory }}/data"
 
