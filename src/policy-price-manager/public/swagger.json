@@ -203,9 +203,7 @@
 											"type": "number",
 											"format": "double"
 										},
-										"message": {
-											"type": "string"
-										}
+										"message": {}
 									},
 									"required": [
 										"httpCode",
@@ -243,9 +241,7 @@
 											"type": "number",
 											"format": "double"
 										},
-										"message": {
-											"type": "string"
-										}
+										"message": {}
 									},
 									"required": [
 										"httpCode",
