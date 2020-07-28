@@ -8,6 +8,9 @@ export class EstablishmentRepository extends Repository<Establishment> {
     
     constructor(){
         super();
+        if (process.env.NODE_ENV === "test"){
+            return;
+        }
         this.manager = getManager(process.env.NODE_ENV || "development");
         this.metadata = getConnection(process.env.NODE_ENV || "development").getMetadata(Establishment);
     }

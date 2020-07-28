@@ -1,4 +1,5 @@
-import { Application } from "../app";
+import app from "../../index";
+import container from "../container";
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import  sinon from "sinon";
@@ -9,7 +10,6 @@ import { EstablishmentAddress } from "../models/entities/EstablishmentAddress";
 import supertest from "supertest";
 
 describe("TEST - ESTABLISHMENT CONTROLLER", () => {
-    const app = new Application();
     const sum = (a: number, b: number) => a + b
     const MOCK_REPOSITORY = `${__dirname}/mock`;
     const FIND = "find";
@@ -20,9 +20,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
     let mock: any = null;
 
     before(async () => {
-        await app
-        .start();
-        repository = app.container
+        repository = container
         .resolve(REPOSITORY);
         mock = sinon
         .mock(repository);
@@ -91,7 +89,6 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
     after(async () => {
         mock.verify();
         mock.restore();
-        await app.stop();
     })
 
     it("1+1=2",  (done) => {
@@ -112,7 +109,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
 
     it("list establishments", async () => {
         try {
-            const response = await supertest(app.app).get(`/`).expect(200);
+            const response = await supertest(app).get(`/`);/*.expect(200)*/;
             const body = response.body;
             const establishments = body.data;
             const filename = `${MOCK_REPOSITORY}/Establishments.json`
@@ -151,7 +148,7 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
         }));
 
         try {
-            const response = await supertest(app.app).get(`/${obj.id}`).expect(200);
+            const response = await supertest(app).get(`/${obj.id}`).expect(200);
             const body = response.body;
             const establishment = body.data;
             const filename = `${MOCK_REPOSITORY}/Establishment.json`
