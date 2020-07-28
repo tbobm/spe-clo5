@@ -23,8 +23,11 @@ If the code is validated, it will trigger a blue/green deployment in "production
 ### Gitlab-related
 
 - [install\_gitlab](./roles/install_gitlab/README.md)
+  In order to configure the users, you will need to provide a `gitlab_token` and a list of users.
+  `ansible-playbook -i inventory.yml -e @vars/users.yml gitlab.yml`
 - [gitlab\_runner](./roles/gitlab_runner/README.md)
 
 ### Utility roles
 
-- [setup\_net\_fs](./roles/setup_net_fs/README.md)
+- [setup\_net\_fs](./roles/setup_net_fs/README.md) - Install and configure GlusterFS
+- [setup\_local\_domain\_name](./roles/setup_local_domain_name/README.md) - Install and configure dnsmasq

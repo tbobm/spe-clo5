@@ -1,0 +1,4 @@
+---
+traefik_host_ip: 172.16.228.52  # vm2
+registry_host_ip: 172.16.228.47  # vm1
+services_domain: clo5.local

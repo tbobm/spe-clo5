@@ -3,6 +3,7 @@
   become: true
   become_method: sudo
   roles:
+    - setup_local_domain_name
     - docker_swarm
     - docker_registry
     - docker_monitoring
