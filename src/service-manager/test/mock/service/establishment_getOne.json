@@ -1,0 +1,15 @@
+[{
+    "id": 1,
+    "service_id": 1,
+    "establishment_id": 2,
+    "override_price": 24,
+    "model": 1,
+    "interval": 30
+},{
+    "id": 2,
+    "service_id": 1,
+    "establishment_id": 10,
+    "override_price": 24,
+    "model": 0,
+    "interval": 0
+}]

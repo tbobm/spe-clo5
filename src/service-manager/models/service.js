@@ -2,6 +2,15 @@
 const {
     Model
 } = require('sequelize');
+
+if (process.env.NODE_ENV === "test"){
+    module.exports = {
+        name: "Service",
+        findByPk: () => {},
+        findAll: () => {}
+    };
+    return;
+}
 module.exports = (sequelize, DataTypes) => {
     class Service extends Model {
         static associate(models) {

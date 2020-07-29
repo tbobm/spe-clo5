@@ -47,7 +47,7 @@ services:
           POSTGRES_DB: rainbow_database
         ports:
          - "5433:5432"
-    restart: always
+        restart: always
 
 networks: 
     clo:
