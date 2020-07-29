@@ -1,7 +1,15 @@
 import { expect } from "chai";
+import container from "../container";
 import { Application } from "../app";
 import { DTOPolicyPriceKey } from "./types/EPolicyPrice";
-import * as Constants from "../models/utils/Constants";
+import {
+    PERIOD_REPOSITORY, 
+    POLICY_PRICE_ESTABLISHMENT_REPOSITORY, 
+    POLICY_PRICE_PERIOD_REPOSITORY, 
+    POLICY_PRICE_REPOSITORY, 
+    PERSON_REPOSITORY, 
+    APP
+} from "../models/utils/Constants";
 import sinon from "sinon";
 import { PolicyPriceRepository } from "../models/repositories/PolicyPriceRepository";
 import { PersonRepository } from "../models/repositories/PersonRepository";
@@ -13,14 +21,13 @@ import supertest from "supertest";
 import { PolicyPrice } from "../models/entities/PolicyPrice";
 
 describe("Test - Policy Price Controller", () => {
-
-    const app = new Application();
-    const container = app.container;
+    const app : Application = container.resolve(APP);
     let policyPriceRepository : PolicyPriceRepository = null;
     let personRepository: PersonRepository = null;
     let periodRepository : PeriodRepository = null;
     let policyPriceEstablishmentRepository : PolicyPriceEstablishmentRepository  = null;
     let policyPricePeriodRepository : PolicyPricePeriodRepository = null;
+    let mock :any= null; 
 
     before(async () => {
         await app.start();
@@ -29,13 +36,12 @@ describe("Test - Policy Price Controller", () => {
         const data = JSON.parse(fs.readFileSync(policyPrices, {
             encoding: "utf-8"
         }));
-        policyPriceRepository = container.resolve(Constants.POLICY_PRICE_REPOSITORY);
-        periodRepository = container.resolve(Constants.PERIOD_REPOSITORY);
-        personRepository = container.resolve(Constants.PERSON_REPOSITORY);
-        policyPricePeriodRepository = container.resolve(Constants.POLICY_PRICE_PERIOD_REPOSITORY);
-        policyPriceEstablishmentRepository = container.resolve(Constants.POLICY_PRICE_ESTABLISHMENT_REPOSITORY);
-        const mock = sinon.mock(policyPriceRepository);
-
+        policyPriceRepository = container.resolve(POLICY_PRICE_REPOSITORY);
+        periodRepository = container.resolve(PERIOD_REPOSITORY);
+        personRepository = container.resolve(PERSON_REPOSITORY);
+        policyPricePeriodRepository = container.resolve(POLICY_PRICE_PERIOD_REPOSITORY);
+        policyPriceEstablishmentRepository = container.resolve(POLICY_PRICE_ESTABLISHMENT_REPOSITORY);
+        mock = sinon.mock(policyPriceRepository);
         mock.expects("count").returns(12);
         mock.expects("find").withExactArgs({
             relations: [
@@ -57,6 +63,8 @@ describe("Test - Policy Price Controller", () => {
     })
 
     after(async () => {
+        mock.verify();
+        mock.restore();
         await app.stop();
     })
 
