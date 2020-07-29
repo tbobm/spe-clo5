@@ -44,11 +44,15 @@ export class Application  {
 
     async start(){
         return new Promise(async (resolve, reject) => {
-            let connection = await createConnection(process.env.NODE_ENV || "development");
+            let connection : any = null;
+            
+            if (process.env.NODE_ENV !== "test"){
+                connection = await createConnection(process.env.NODE_ENV || "development");
 
-            await connection.runMigrations({
-                transaction: "all"
-            });
+                await connection.runMigrations({
+                    transaction: "all"
+                });
+            }
             this.server = this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
                 console.log(`The application is started on port ${process.env.PORT}`);
                 resolve(connection);
