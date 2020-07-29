@@ -1,9 +1,10 @@
 ---
-- name: "install: Install the dnsmasq package"
+- name: "install: Install the required packages"
   apt:
     update_cache: true
     name:
       - dnsmasq
+      - resolvconf
 
 - name: "configure: Check if the {{ dnsmasq_custom_config_path }} configuration file exists"
   stat:
@@ -33,12 +34,10 @@
       target_ip: "{{ traefik_host_ip }}"
       name: "traefik"
 
-- name: "configure: Update resolv.conf to use local dns"
+- name: "configure: Update resolv.conf base file to use local dns"
   lineinfile:
-    path: "/etc/resolv.conf"
+    path: "{{ resolvconf_base_file }}"
     line: "nameserver 127.0.0.1"
-    insertbefore: "^nameserver"
-    firstmatch: true
 
 - name: "configure: Restart dnsmasq"
   service:
