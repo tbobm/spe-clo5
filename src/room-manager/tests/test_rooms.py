@@ -20,11 +20,19 @@ def test(mocker, client):
                 model.id = list[i]['id']
                 models.append(model)
         return (models)
+    
+    def getRoomCategory(self, id):
+        return None
+    
+    def getRoomEstablishment(self, id):
+        return None
 
     with open("./tests/mock/Rooms.json") as file:
         data = file.read()
         list_o = json.loads(data)
         mocker.patch("app.RoomDAO.list", getRooms)
+        mocker.patch("app.RoomCategoryDAO.read", getRoomCategory)
+        mocker.patch("app.RoomEstablishmentDAO.getByRoomId", getRoomEstablishment)
         rv = client.get("/room/")
         list = rv.get_json()["data"]
         for i in range(len(list)):

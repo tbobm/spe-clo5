@@ -18,10 +18,18 @@ def test(mocker, client):
             o = json.loads(data)
             model = RoomModel(o['name'], o['roomCategoryId'])
             model.id = o['id']
-        return (model)
+        return model
+    
+    def getRoomCategory(self, id):
+        return None
+    
+    def getRoomEstablishment(self, id):
+        return None
 
     with open("./tests/mock/Room.json") as file:
         mocker.patch("app.RoomDAO.read", getRoom)
+        mocker.patch("app.RoomCategoryDAO.read", getRoomCategory)
+        mocker.patch("app.RoomEstablishmentDAO.getByRoomId", getRoomEstablishment)
         data = file.read()
         o = json.loads(data)
         rv = client.get("/room/" + str(o["id"]))

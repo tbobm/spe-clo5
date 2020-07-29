@@ -1,1 +1,1 @@
-python -m pytest run.py
+FLASK_ENV=test python -m pytest
