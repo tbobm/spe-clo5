@@ -52,21 +52,25 @@ export class Application  {
         this.app.use("/logs", (req: express.Request, res: express.Response) => {
             createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
         });
+        RegisterRoutes(this);
     }
 
     async start(){
         return new Promise(async (resolve, reject) => {
-            const connection : Connection = await createConnection(process.env.NODE_ENV || "development");
+            let connection : any = null;
             const o : any= {};
 
-            await connection.runMigrations({
-                transaction: "all"
-            });
+            if (process.env.NODE_ENV !== "test"){
+                const connection : Connection = await createConnection(process.env.NODE_ENV || "development");
+    
+                await connection.runMigrations({
+                    transaction: "all"
+                });
+            }
             o[Constants.ADDRESS_CONTROLLER] = asClass(AddressController).setInjectionMode(InjectionMode.CLASSIC).setLifetime(Lifetime.SINGLETON);
             o[Constants.ADDRESS_REPOSITORY] = asClass(AddressRepository).setInjectionMode(InjectionMode.CLASSIC).setLifetime(Lifetime.SINGLETON);
             o[Constants.ADDRESS_SERVICE] = asClass(AddressService).setInjectionMode(InjectionMode.CLASSIC).setLifetime(Lifetime.SINGLETON);
             this.container.register(o);
-            RegisterRoutes(this);
             this.server = this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
                 console.log(`The application is started on port ${process.env.PORT}`);
                 resolve(connection);

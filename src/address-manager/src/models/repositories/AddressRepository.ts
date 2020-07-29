@@ -8,7 +8,10 @@ export class AddressRepository extends Repository<Address> {
 
     constructor(){
         super();
-        this.manager = getManager(process.env.NODE_ENV || "development");
-        this.metadata = getConnection(process.env.NODE_ENV || "development").getMetadata(Address);
+
+        if (process.env.NODE_ENV !== "test"){
+            this.manager = getManager(process.env.NODE_ENV || "development");
+            this.metadata = getConnection(process.env.NODE_ENV || "development").getMetadata(Address);
+        }
     }
 }
