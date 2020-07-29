@@ -1,0 +1,49 @@
+---
+- name: "monitoring: Create the shared monitoring directories"
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: docker
+    mode: 0775
+    state: directory
+  loop: "{{ extra_paths }}"
+
+- name: "monitoring: Copy the templates docker stack"
+  template:
+    src: 'stack.yml.j2'
+    dest: '/tmp/stack.yml'
+
+- name: "monitoring: Copy the templates configuration files"
+  template:
+    src: "{{ item.name }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - name: 'prometheus.yml.j2'
+      dest: '{{ prometheus_shared_conf }}/prometheus.yml'
+    - name: 'grafana.ini.j2'
+      dest: '{{ grafana_shared_conf }}/grafana.ini'
+    - name: 'grafana.datasource.yml.j2'
+      dest: '{{ grafana_shared_conf }}/grafana.datasource.yml'
+
+- name: "monitoring: Copy the extra configuration files"
+  copy:
+    src: "{{ item.name }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - name: 'grafana.dashboard.node_exporter.json'
+      dest: '{{ grafana_shared_conf }}/grafana.dashboard.node_exporter.json'
+    - name: 'grafana.dashboard.provisioning.yml'
+      dest: '{{ grafana_shared_conf }}/grafana.dashboard.provisioning.yml'
+
+- name: "monitoring: Create the public traefik network"
+  docker_network:
+    name: traefik-public
+    driver: overlay
+
+- name: "monitoring: Deploy the monitoring stack in Docker Swarm"
+  docker_stack:
+    state: present
+    name: monitoring
+    resolve_image: always
+    compose:
+      - /tmp/stack.yml

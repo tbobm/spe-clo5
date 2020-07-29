@@ -1,0 +1,111 @@
+# More informations:
+# http://docs.grafana.org/installation/configuration
+# https://github.com/grafana/grafana/blob/master/conf/sample.ini
+
+app_mode = production
+instance_name = localhost
+
+# Directories
+[paths]
+data = /var/lib/grafana
+logs = /var/log/grafana
+plugins = /var/lib/grafana/plugins
+; datasources = conf/datasources
+
+# HTTP options
+[server]
+http_addr = 0.0.0.0
+http_port = 3000
+domain = localhost
+root_url = %(protocol)s://%(domain)s/
+protocol = http
+enforce_domain = False
+socket = 
+cert_key = 
+cert_file = 
+enable_gzip = False
+static_root_path = public
+router_logging = False
+
+# Database
+[database]
+type = sqlite3
+
+# Security
+[security]
+admin_user = admin
+admin_password = admin
+
+# Users management and registration
+[users]
+allow_sign_up = False
+auto_assign_org_role = Viewer
+default_theme = dark
+[emails]
+welcome_email_on_sign_up = False
+
+# Authentication
+[auth]
+
+# Login cookie name
+login_cookie_name = grafana_session
+
+# The lifetime (days) an authenticated user can be inactive before being required to login at next visit. Default is 7 days.
+login_maximum_inactive_lifetime_days = 365
+
+# The maximum lifetime (days) an authenticated user can be logged in since login time before being required to login. Default is 30 days.
+login_maximum_lifetime_days = 365
+
+# How often should auth tokens be rotated for authenticated users when being active. The default is each 10 minutes.
+token_rotation_interval_minutes = 10
+
+# The maximum lifetime (seconds) an api key can be used. If it is set all the api keys should have limited lifetime that is lower than this value.
+api_key_max_seconds_to_live = -1
+
+[auth.anonymous]
+enabled = true
+
+# Organization name that should be used for unauthenticated users
+org_name = Main Org.
+
+# Role for unauthenticated users, other valid values are `Editor` and `Admin`
+org_role = Viewer
+
+# Session
+
+# Analytics
+[analytics]
+reporting_enabled = "True"
+
+# Dashboards
+[dashboards]
+versions_to_keep = 20
+
+[dashboards.json]
+enabled = true
+path = /var/lib/grafana/dashboards
+
+# Alerting
+[alerting]
+enabled = true
+;execute_alerts = true
+
+# SMTP and email config
+
+# Logging
+[log]
+mode = console file
+level = info
+
+# Metrics
+
+# Tracing
+
+# Grafana.com configuration
+[grafana_com]
+url = https://grafana.com
+
+# Snapshots
+
+# External image storage
+# vim: ft=conf

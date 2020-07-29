@@ -1,0 +1,33 @@
+---
+- name: "deploy: Load service configuration"
+  include_vars:
+    file: "{{ item }}"
+    name: config
+  with_first_found:
+    - "{{ item.name }}.yml"
+    - "defaults.yml"
+
+- name: "deploy: Ensure we have the correct image"
+  docker_image:
+    name: "{{ config.image }}"
+    tag: "{{ item.tag | default('latest') }}"
+    repository: "{{ registry_url }}/{{ item.name }}"
+    source: pull
+    force_source: true
+
+- debug:
+    var: config
+    verbosity: 2
+
+- name: "deploy: Deploy the service"
+  docker_swarm_service:
+    state: absent
+    name: "{{ config.name }}"
+    image: "{{ config.image }}:{{ item.tag | default('latest') }}"
+    mode: "{{ config.mode | default(omit) }}"
+    mounts: "{{ config.mounts | default(omit) }}"
+    networks: "{{ config.networks | default(omit) }}"
+    publish: "{{ config.publish | default(omit) }}"
+    labels: "{{ config.labels | default(omit) }}"
+    placement: "{{ config.placement | default(omit) }}"
+    resolve_image: true

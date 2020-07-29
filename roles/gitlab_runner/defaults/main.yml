@@ -1,0 +1,3 @@
+---
+# script storage
+gitlab_runner_tmp_script_location: "/tmp/gitlab-runner.deb.sh"

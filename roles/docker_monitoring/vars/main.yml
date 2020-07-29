@@ -1,0 +1,16 @@
+---
+grafana_shared_path: "/mnt/shared/monitoring/grafana"
+grafana_shared_data: "{{ grafana_shared_path }}/data"
+grafana_shared_conf: "{{ grafana_shared_path }}/conf"
+prometheus_shared_path: "/mnt/shared/monitoring/prometheus"
+prometheus_shared_data: "{{ prometheus_shared_path }}/data"
+prometheus_shared_conf: "{{ prometheus_shared_path }}/conf"
+
+
+extra_paths:
+  - "{{ grafana_shared_path }}"
+  - "{{ grafana_shared_data }}"
+  - "{{ grafana_shared_conf }}"
+  - "{{ prometheus_shared_path }}"
+  - "{{ prometheus_shared_data }}"
+  - "{{ prometheus_shared_conf }}"

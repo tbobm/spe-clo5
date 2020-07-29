@@ -3,7 +3,7 @@
   pip:
     name: docker
 
-- name: "swarm: Configure manager"
+- name: "swarm: Configure manager and advertise at {{ docker_swarm_addr }}"
   docker_swarm:
     state: present
     advertise_addr: "{{ docker_swarm_addr }}"
@@ -25,7 +25,7 @@
     cacheable: true
   when: "inventory_hostname == groups['docker_swarm_manager'][0]"
 
-- name: "swarm: Configure workers and join manager"
+- name: "swarm: Configure workers to join manager"
   docker_swarm:
     state: join
     advertise_addr: "{{ docker_swarm_addr }}"

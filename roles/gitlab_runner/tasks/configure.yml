@@ -1,0 +1,33 @@
+---
+- name: "configure: Install python-gitlab dependency"
+  pip:
+    name: "python-gitlab<1.13"
+
+- name: "configure: Register the runner using command module"
+  # TODO: Use the previous gitlab_runner task instead of command
+  command: |
+    gitlab-runner register --non-interactive --url "http://{{ gitlab_addr }}"
+    --registration-token "{{ gitlab_runner_register_token }}"
+    --executor shell
+    --description "Docker machine node {{ inventory_hostname }}"
+
+- name: "configure: Add gitlab-runner to docker group"
+  user:
+    append: true
+    name: gitlab-runner
+    groups:
+      - docker
+
+- name: "configure: Execute post-inst script"
+  shell: "{{ gitlab_runner_post_inst_script }}"
+  # args:
+  # creates: "{{ gitlab_runner_config_file }}"
+
+
+- name: "configure: Ensure the runner has the correct repository address"
+  lineinfile:
+    insertafter: "[[runners]]"
+    line: "  clone_url = \"http://{{ gitlab_addr }}\""
+    path: "/etc/gitlab-runner/config.toml"
+  when: false
+  # when: "inventory_hostname == 'vm3'"

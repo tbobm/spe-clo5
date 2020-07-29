@@ -1,0 +1,7 @@
+---
+name: prometheus
+image: "{{ registry_url }}/prometheus"
+mode: replicated
+networks:
+  - ingress
+  - docker_gwbridge

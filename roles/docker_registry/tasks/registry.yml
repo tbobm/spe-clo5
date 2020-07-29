@@ -1,17 +1,17 @@
 ---
-- name: "registry: Install dependency"
+- name: "registry: Install python dependency"
   pip:
     name:
       - jsondiff
       - pyyaml
 
-- name: "registry: Create data directory"
+- name: "registry: Create data directory in {{ registry_storage_directory }}"
   file:
     path: "{{ registry_storage_directory }}"
     state: directory
     recurse: true
 
-- name: "registry: Fetch secrets content"
+- name: "registry: Fetch the certificates files content"
   slurp:
     src: "{{ item }}"
   register: certificate_infos
@@ -19,7 +19,7 @@
     - "{{ registry_working_directory }}/{{ registry_common_name }}.crt"
     - "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
 
-- name: "registry: Create secrets"
+- name: "registry: Create the docker secrets"
   docker_secret:
     name: "{{ item.source | basename }}"
     data: "{{ item.content }}"
@@ -27,7 +27,7 @@
     state: present
   loop: "{{ certificate_infos.results }}"
 
-- name: "registry: Deploy the registry"
+- name: "registry: Deploy the registry as a swarm service"
   docker_swarm_service:
     state: present
     name: registry

@@ -1,0 +1,19 @@
+FROM alpine:3.12
+
+LABEL maintainer="massar_t@etna-alternance.net"
+
+ENV NODE_EXPORTER_VERSION={{ node_exporter_version | default(7.0.5) }}
+ENV NODE_EXPORTER_URL={{ node_exporter_url | default("https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz")}}
+
+# Update the package manager and scaffold the alpine system
+RUN apk update && apk add wget && mkdir -p /tmp/node_exporter/
+
+# Install node_exporter
+RUN wget -q -O - $NODE_EXPORTER_URL | \
+    tar x -zC/tmp/node_exporter/ -f - --strip-components=1 && \
+    mv /tmp/node_exporter/node_exporter /usr/bin/node_exporter
+
+# Expose default node_exporter port
+EXPOSE 9100
+
+ENTRYPOINT ["/usr/bin/node_exporter"]

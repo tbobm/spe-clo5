@@ -1,0 +1,9 @@
+---
+# installation related variables for apt
+gitlab_apt_pref_file: /etc/apt/preferences.d/pin-gitlab-runner.pref
+gitlab_apt_list_file: /etc/apt/sources.list.d/runner_gitlab-runner.list
+
+# runner configuration and installation variables
+gitlab_runner_config_file: /etc/gitlab-runner/config.toml
+gitlab_runner_post_inst_script: /usr/share/gitlab-runner/post-install
+gitlab_runner_package_script_url: "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh"

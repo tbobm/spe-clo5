@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  service_manager:
+    build: .
+    depends_on:
+      - "postgres"
+    volumes:
+      - .:/usr/local/src/
+    ports:
+      - "3000:3000"
+      - "8081:8081"
+
+  postgres:
+    image: postgres:11.2-alpine
+    environment:
+      POSTGRES_USER: unicorn_user
+      POSTGRES_PASSWORD: magical_password
+      POSTGRES_DB: rainbow_database
+    ports:
+      - "5432:5432"
+    restart: always

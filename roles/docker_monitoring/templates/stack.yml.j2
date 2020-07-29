@@ -1,0 +1,113 @@
+---
+# vim: set ft=yaml:
+version: "3.3"
+
+networks:
+  net:
+    driver: overlay
+  traefik-public:
+    external: true
+
+services:
+  prom:
+    image: "{{ registry_url }}/prometheus"
+    networks:
+      - net
+    volumes:
+      - '{{ prometheus_shared_conf }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
+      - '{{ prometheus_shared_data }}:/var/lib/prometheus/data'
+    ports:
+      - "9090:9090"
+      - target: 9090
+        published: 19090
+        mode: host
+        protocol: tcp
+    deploy:
+      placement:
+        constraints:
+          - "node.role == manager"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.prometheus.rule=Host(`prometheus.clo5.local`)"
+        - "traefik.http.services.prometheus-service.loadbalancer.server.port=9090"
+  grafana:
+    image: "{{ registry_url }}/grafana"
+    networks:
+      - net
+    volumes:
+      - '{{ grafana_shared_conf }}/grafana.ini:/etc/grafana.init:ro'
+      - '{{ grafana_shared_conf }}/grafana.datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro'
+      - '{{ grafana_shared_conf }}/grafana.dashboard.node_exporter.json:/etc/grafana/provisioning/dashboards/node_exporter.json:ro'
+      - '{{ grafana_shared_conf }}/grafana.dashboard.provisioning.yml:/etc/grafana/provisioning/dashboards/provisioning.yml:ro'
+      - '{{ grafana_shared_data }}:/opt/grafana/data'
+    ports:
+      - "3000:3000"
+      - target: 3000
+        published: 13000
+        mode: host
+        protocol: tcp
+    deploy:
+      placement:
+        constraints:  # TODO: yuk, no hardcoderino
+          - "node.role == manager"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.grafana.rule=Host(`grafana.clo5.local`)"
+        - "traefik.http.services.grafana-service.loadbalancer.server.port=3000"
+  node_exporter:
+    image: "{{ registry_url }}/node_exporter"
+    hostname: "{{ '{{' }}.Node.Hostname{{ '}}' }}-{{ '{{' }}.Service.Name{{ '}}' }}"
+    networks:
+      - net
+    ports:
+      - "9100:9100"
+      - target: 9100
+        published: 19100
+        mode: host
+        protocol: tcp
+    volumes:
+      - "/:/host:ro,rslave"
+    deploy:
+      mode: global
+      labels:
+        - "traefik.enable=false"
+  traefik:
+    image: "{{ registry_url }}/traefik"
+    networks:
+      - net
+      - traefik-public
+    ports:
+      - target: 80
+        published: 1080
+        mode: host
+        protocol: tcp
+      - target: 8080
+        published: 8090
+        mode: host
+        protocol: tcp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      placement:
+        constraints:
+          - "node.role == manager"
+      labels:
+        - "traefik.enable=true"
+  cadvisor:
+    image: "{{ registry_url }}/cadvisor"
+    networks:
+      - net
+    volumes:  # TODO: Using variables?
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "9101:8080"
+      - target: 8080
+        published: 19101
+        mode: host
+        protocol: tcp
+    deploy:
+      mode: global
