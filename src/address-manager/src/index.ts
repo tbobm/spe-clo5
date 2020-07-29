@@ -1,4 +1,6 @@
-import { Application } from "./src/app";
+import { Application } from "./app";
+import container from "./container";
+import { APP } from "./models/utils/Constants";
 import faker from "faker";
 import fs from "fs";
 
@@ -58,7 +60,7 @@ if (process.argv.length > 3){
 else {
     (async () => {
         try {
-            const application = new Application();
+            const application : Application = container.resolve(APP);
     
             await application.start();
         }

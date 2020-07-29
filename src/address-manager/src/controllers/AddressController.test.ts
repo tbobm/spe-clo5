@@ -1,21 +1,21 @@
+import container from "../container";
 import { Application } from "../app";
 import { expect } from "chai";
 import sinon from "sinon";
 import { AddressRepository } from "../models/repositories/AddressRepository";
-import * as Constants from "../utils/Constants";
+import * as Constants from "../models/utils/Constants";
 import * as fs from "fs";
 import supertest from "supertest";
 import { Address } from "../models/entities/Address";
 
 describe("TEST - ADDRESS CONTROLLER TEST", () => {
-    const application = new Application();
+    const application : Application = container.resolve(Constants.APP);
     const sum = (a:number, b:number) => a + b;
     let addressRepository: AddressRepository = null;
     const MOCK_DIRECTORY = `${__dirname}/mock`;
 
     before(async () => {
         await application.start();
-        const container = application.container;
         addressRepository = container.resolve(Constants.ADDRESS_REPOSITORY);
         const mockAddresses = JSON.parse(fs.readFileSync(`${MOCK_DIRECTORY}/Addresses.json`, {
             encoding: "utf8"

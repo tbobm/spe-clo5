@@ -1,12 +1,12 @@
 import { Application } from "../app";
 import express from "express";
-import * as Constants from "../utils/Constants";
+import container from "../container";
+import * as Constants from "../models/utils/Constants";
 import { AddressController } from "../controllers/AddressController";
 import { DomainAddress } from "../controllers/types/AddressResource";
 
 export function RegisterRoutes(application: Application){
     const app = application.app;
-    const container = application.container;
 
     app.get("/", async (req: express.Request, res: express.Response) => {
         const addressController : AddressController = container.resolve(Constants.ADDRESS_CONTROLLER);

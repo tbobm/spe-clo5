@@ -84,6 +84,13 @@ export class AddressController extends Controller {
 
     @Get("{id}")
     async findOne(@Path() id: number){
+        if (!id) {
+            return Promise.resolve({
+                message: "invalid id",
+                httpCode: 400
+            });
+        }
+
         const address = await this.addressService.findOne(id);
         
         if (address){
@@ -106,13 +113,6 @@ export class AddressController extends Controller {
     @Get()
     async getAll(){
         const list = await this.addressService.getAll();
-
-        if (!list || !list.length){
-            return Promise.resolve({
-                message: "no content",
-                httpCode: 204
-            });
-        }
         const domains = [];
         for (let item of list){
             domains.push(new DomainAddress(item));
