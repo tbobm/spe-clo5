@@ -59,7 +59,7 @@ export class Application  {
                     type: "postgres",
                     url: process.env.DB_URL
                 };
-                const connection : Connection = await createConnection(opts);
+                connection = await createConnection(opts);
     
                 await connection.runMigrations({
                     transaction: "all"
