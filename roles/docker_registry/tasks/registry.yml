@@ -48,4 +48,4 @@
       REGISTRY_HTTP_TLS_KEY: "/run/secrets/{{ registry_common_name }}.pem"
     placement:
       constraints:
-        - "node.role == manager"
+        - "node.labels.should.have == registry"
