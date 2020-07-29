@@ -1,0 +1,135 @@
+{
+    "id": 1,
+    "key": 1,
+    "policyPriceEstablishments": [
+        {
+            "establishmentId": 52126
+        },
+        {
+            "establishmentId": 1158
+        },
+        {
+            "establishmentId": 85385
+        },
+        {
+            "establishmentId": 61274
+        },
+        {
+            "establishmentId": 92834
+        },
+        {
+            "establishmentId": 84374
+        },
+        {
+            "establishmentId": 84366
+        },
+        {
+            "establishmentId": 46931
+        },
+        {
+            "establishmentId": 40933
+        },
+        {
+            "establishmentId": 86185
+        },
+        {
+            "establishmentId": 91225
+        },
+        {
+            "establishmentId": 65291
+        }
+    ],
+    "policyPricePeriods": [
+        {
+            "periodId": 1,
+            "period": {
+                "id": 1,
+                "from": 68079,
+                "to": 30703,
+                "sign": 0,
+                "percent": 9883900
+            }
+        },
+        {
+            "periodId": 2,
+            "period": {
+                "id": 2,
+                "from": 11345,
+                "to": 24830,
+                "sign": 0,
+                "percent": 37300
+            }
+        },
+        {
+            "periodId": 3,
+            "period": {
+                "id": 3,
+                "from": 18271,
+                "to": 82170,
+                "sign": 0,
+                "percent": 9598100
+            }
+        },
+        {
+            "periodId": 4,
+            "period": {
+                "id": 4,
+                "from": 68918,
+                "to": 50959,
+                "sign": 0,
+                "percent": 9568900
+            }
+        },
+        {
+            "periodId": 5,
+            "period": {
+                "id": 5,
+                "from": 92609,
+                "to": 28929,
+                "sign": 0,
+                "percent": 5555000
+            }
+        },
+        {
+            "periodId": 6,
+            "period": {
+                "id": 6,
+                "from": 34050,
+                "to": 85859,
+                "sign": 0,
+                "percent": 8510800
+            }
+        },
+        {
+            "periodId": 7,
+            "period": {
+                "id": 7,
+                "from": 289,
+                "to": 70257,
+                "sign": 0,
+                "percent": 1923700
+            }
+        },
+        {
+            "periodId": 8,
+            "period": {
+                "id": 8,
+                "from": 88166,
+                "to": 34844,
+                "sign": 0,
+                "percent": 4753800
+            }
+        }
+    ],
+    "policyPricePersons": [
+        {
+            "personId": 1,
+            "person": {
+                "id": 1,
+                "nb": 90005,
+                "sign": 0,
+                "percent": 4801400
+            }
+        }
+    ]
+}

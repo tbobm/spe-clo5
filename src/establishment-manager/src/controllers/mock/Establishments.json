@@ -1,0 +1,49 @@
+[
+    {
+        "id": 1,
+        "name": "Robert EI",
+        "phoneNumber": "0256312296",
+        "addresses": [
+            {
+                "addressId": 26300
+            },
+            {
+                "addressId": 45989
+            },
+            {
+                "addressId": 48364
+            },
+            {
+                "addressId": 32627
+            },
+            {
+                "addressId": 94273
+            },
+            {
+                "addressId": 16293
+            },
+            {
+                "addressId": 13827
+            },
+            {
+                "addressId": 45143
+            },
+            {
+                "addressId": 47959
+            },
+            {
+                "addressId": 89579
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Brunet - Perrin",
+        "phoneNumber": "+33 705576009",
+        "addresses": [
+            {
+                "addressId": 40513
+            }
+        ]
+    }
+]

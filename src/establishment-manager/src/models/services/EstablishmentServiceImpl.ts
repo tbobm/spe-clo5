@@ -1,23 +1,23 @@
-import { Repository, getRepository } from "typeorm";
 import { Establishment } from "../entities/Establishment";
 import { EstablishmentAddress } from "../entities/EstablishmentAddress";
-import { EstablishmentService } from "../entities/EstablishmentService";
+import { EstablishmentRepository } from "../repositories/EstablishmentRepository";
 
 export class EstablishmentServiceImpl {
 
-    private establishmentRepository: Repository<Establishment>;
+    private establishmentRepository: EstablishmentRepository;
 
-    constructor(){
-        this.establishmentRepository = getRepository(Establishment, process.env.NODE_ENV || "development");
+    constructor(establishmentRepository: EstablishmentRepository){
+        this.establishmentRepository = establishmentRepository;
     }
 
     async getAll(){
-        return (await this.establishmentRepository.find({
+        const list =  (await this.establishmentRepository.find({
             relations: [
                 "addresses",
-                "services"
             ]
         }));
+
+        return (list);
     }
 
     async save(establishment: Establishment){
@@ -30,7 +30,6 @@ export class EstablishmentServiceImpl {
         const establishment = await this.establishmentRepository.findOne(id, {
             relations: [
                 "addresses",
-                "services"
             ]
         });
 
@@ -43,12 +42,6 @@ export class EstablishmentServiceImpl {
 
     async deleteAddress(id: number){
         return (await this.establishmentRepository.createQueryBuilder().from(EstablishmentAddress, "ea").delete().where("establishment_address.establishment_id = :id", {
-            "id": id
-        }).execute());
-    }
-
-    async deleteService(id: number){
-        return (await this.establishmentRepository.createQueryBuilder().from(EstablishmentService, "es").delete().where("establishment_service.establishment_id = :id", {
             "id": id
         }).execute());
     }

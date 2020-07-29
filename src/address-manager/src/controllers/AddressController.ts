@@ -1,17 +1,15 @@
-import { IAddressService } from "../models/services/IAddressService";
-import { AddressService } from "../models/services/AddressService";
-import { AddressResource } from "./types/AddressResource";
 import { Address } from "../models/entities/Address";
-import { DomainAddress } from "./types/AddressResource";
+import { DomainAddress, AddressResource } from "./types/AddressResource";
 import { Route, Post, Body, Put, Delete, Path, Get, Controller } from "tsoa";
+import { AddressService } from "../models/services/AddressService";
 
 @Route("/")
 export class AddressController extends Controller {
-    private addressService: IAddressService;
+    private addressService: AddressService;
 
-    constructor(){
+    constructor(addressService: AddressService){
         super();
-        this.addressService = new AddressService();
+        this.addressService = addressService;
     }
 
     @Post()
@@ -29,11 +27,13 @@ export class AddressController extends Controller {
 
             return Promise.resolve({
                 message: "address saved",
-                data: domain
+                data: domain,
+                httpCode: 201
             });
         }
         return Promise.resolve({
-            message: "error on save"
+            message: "error on save",
+            httpCode: 400
         });
     }
 
@@ -54,11 +54,13 @@ export class AddressController extends Controller {
 
             return Promise.resolve({
                 message: "address saved",
-                data: domain
+                data: domain,
+                httpCode: 200
             });
         }
         return Promise.resolve({
-            message: "error on save"
+            message: "error on save",
+            httpCode: 400
         });
     }
 
@@ -69,12 +71,13 @@ export class AddressController extends Controller {
         if (flag){
             return Promise.resolve({
                 message: "address deleted",
-                action: true
+                httpCode: 200
             });
         }
         else {
             return Promise.resolve({
-                message: "error on delete"
+                message: "error on delete",
+                httpCode: 400
             })
         }
     }
@@ -88,12 +91,14 @@ export class AddressController extends Controller {
 
             return Promise.resolve({
                 message: "get address",
-                data: domain
+                data: domain,
+                httpCode: 200
             });
         }
         else {
             return Promise.resolve({
-                message: "failed to get address"
+                message: "no content",
+                httpCode: 204
             });
         }
     }
@@ -104,7 +109,8 @@ export class AddressController extends Controller {
 
         if (!list || !list.length){
             return Promise.resolve({
-                message: "no content"
+                message: "no content",
+                httpCode: 204
             });
         }
         const domains = [];
@@ -113,7 +119,8 @@ export class AddressController extends Controller {
         }
         return Promise.resolve({
             message: "address list",
-            data: domains
+            data: domains,
+            httpCode: 200
         });
     }
 
