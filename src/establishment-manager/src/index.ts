@@ -1,6 +1,8 @@
-import { Application } from "./src/app";
+import container from "./container";
+import { Application } from ".//app";
 import faker from "faker";
 import fs from "fs";
+import { APP } from "./models/utils/Constants";
 
 if (process.argv.length > 3){
     const ROOT_DIRECTORY = `src/controllers/mock`;
@@ -71,14 +73,8 @@ if (process.argv.length > 3){
     }
 }
 else {
-    (async () => {
-        try {
-            const application = new Application();
-    
-            await application.start();
-        }
-        catch (e){
-            console.log(`Error ${e.message}`);
-        }
-    })();
+    let application : Application = container.resolve(APP);
+
+    application.start();
 }
+
