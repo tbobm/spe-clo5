@@ -18,13 +18,6 @@
     cacheable: true
   when: "inventory_hostname == groups['docker_swarm_manager'][0]"
 
-- name: "swarm: Distribute docker_manager token and address facts to workers"
-  set_fact:
-    docker_manager_address: "{{ hostvars[groups['docker_swarm_manager'][0]]['docker_manager_address'] }}"
-    docker_manager_token: "{{ hostvars[groups['docker_swarm_manager'][0]]['docker_manager_token'] }}"
-    cacheable: true
-  when: "inventory_hostname == groups['docker_swarm_manager'][0]"
-
 - name: "swarm: Configure workers to join manager"
   docker_swarm:
     state: join

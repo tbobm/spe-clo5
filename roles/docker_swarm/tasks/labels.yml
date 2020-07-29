@@ -1,0 +1,10 @@
+---
+- debug:
+    var: docker_node_labels
+
+- name: "configure: Set deployment labels"
+  docker_node:
+    hostname: "{{ item.hostname }}"
+    labels: "{{ item.labels }}"
+  loop: "{{ docker_node_labels }}"
+  when: "docker_node_labels is defined"
