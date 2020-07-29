@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ts-mocha src/**/*.test.ts",
-    "dev": "ts-node index.ts",
+    "test": "NODE_ENV=test PORT=8090 mocha controllers/*.test.js",
+    "dev-test": "NODE_ENV=test PORT=8090 ts-mocha src/**/*.test.ts",
+    "dev": "ts-node src/index.ts",
     "start": "node index.js",
     "build": "npm run tsoa spec && npm run tsc",
     "tsc": "tsc",
