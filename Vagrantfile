@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
     vm3.vm.box = "debian/stretch64"
     vm3.vm.network "private_network", ip: "192.168.50.6"
     vm3.vm.synced_folder '.', '/vagrant', disabled: true
+    vm3.vm.network "forwarded_port", guest: 80, host: 2080
     vm3.vm.provider "virtualbox" do |vb|
       vb.memory = "4096"
       vb.cpus = 4
@@ -28,6 +29,7 @@ Vagrant.configure("2") do |config|
     ansible.limit = "all"
     ansible.verbose = "v"
     ansible.playbook = "infrastructure.yml"
+    # ansible.playbook = "gitlab.yml"
     ansible.groups = {
       "docker_swarm_worker": ["vm1", "vm2"],
       "docker_swarm_manager": ["vm3"]
@@ -40,7 +42,7 @@ Vagrant.configure("2") do |config|
         "registry_addr": "192.168.50.4",
         "registry_host_ip": "192.168.50.4",
         "traefik_host_ip": "192.168.50.5",
-        "registry_url": "192.168.50.6:443",
+        "registry_url": "registry.clo5.local",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
         "gitlab_users": [
           {
@@ -72,7 +74,7 @@ Vagrant.configure("2") do |config|
         "registry_host_ip": "192.168.50.4",
         "traefik_host_ip": "192.168.50.5",
         "docker_nodename": "vm2",
-        "registry_url": "192.168.50.6:443",
+        "registry_url": "registry.clo5.local",
         "gitlab_addr": "192.168.50.6",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",
         "gitlab_runner_register_token": "EdBmZmspGq-9feFfVyxV",
@@ -84,7 +86,7 @@ Vagrant.configure("2") do |config|
         "registry_addr": "192.168.50.4",
         "registry_host_ip": "192.168.50.4",
         "traefik_host_ip": "192.168.50.5",
-        "registry_url": "192.168.50.6:443",
+        "registry_url": "registry.clo5.local",
         "docker_nodename": "vm1",
         "gitlab_addr": "192.168.50.6",
         "gitlab_token": "PVNYg9BZJtEBMqd7Rsax",

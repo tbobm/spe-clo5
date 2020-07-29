@@ -3,11 +3,14 @@
   pip:
     name: "python-gitlab<1.13"
 
-- name: "configure: Register the runner using command module"
-  # TODO: Use the previous gitlab_runner task instead of command
+- name: "configure: Register building runners using command module"
+  # NOTE: gitlab_runner does not seem to fit with this setup
+  #       as python-gitlab is quite outdated
+  # NOTE: Runners registered this way will only fetch untagged jobs
   command: |
     gitlab-runner register --non-interactive --url "http://{{ gitlab_addr }}"
     --registration-token "{{ gitlab_runner_register_token }}"
+    --clone-url "http://{{ gitlab_addr }}"
     --executor shell
     --description "Docker machine node {{ inventory_hostname }}"
 
@@ -23,11 +26,21 @@
   # args:
   # creates: "{{ gitlab_runner_config_file }}"
 
+- name: "configure: Register the swarm update runner"
+  # NOTE: gitlab_runner does not seem to fit with this setup
+  #       as python-gitlab is quite outdated
+  command: |
+    gitlab-runner register --non-interactive --url "http://{{ gitlab_addr }}"
+    --registration-token "{{ gitlab_runner_register_token }}"
+    --clone-url "http://{{ gitlab_addr }}"
+    --executor shell --tag-list deploy
+    --description "Docker swarm deployer ({{ inventory_hostname }})"
+  when: "'docker_swarm_manager' in group_names"
 
-- name: "configure: Ensure the runner has the correct repository address"
+- name: "configure: Enable prometheus metrics"
   lineinfile:
-    insertafter: "[[runners]]"
-    line: "  clone_url = \"http://{{ gitlab_addr }}\""
-    path: "/etc/gitlab-runner/config.toml"
-  when: false
-  # when: "inventory_hostname == 'vm3'"
+    path: "{{ gitlab_runner_config_file }}"
+    line: 'listen_address = "{{ gitlab_runner_metrics_address }}"'
+    insertbefore: BOF
+  notify:
+    - restart-runners

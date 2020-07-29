@@ -1,3 +1,5 @@
 ---
 # script storage
 gitlab_runner_tmp_script_location: "/tmp/gitlab-runner.deb.sh"
+gitlab_runner_template_config: "/tmp/gitlab-runner.toml"
+gitlab_runner_metrics_address: ":9252"
