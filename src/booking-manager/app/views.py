@@ -33,17 +33,17 @@ class Bookings(Resource):
                 "data": []
             }, 204
         ret = []
-        for i in range(len(list)):
+        for item in list:
             ret.append({
-                "id": list[i].id,
-                "roomId": list[i].roomId,
-                "userId": list[i].userId,
-                "code": list[i].code,
-                "totalPrice": list[i].totalPrice,
-                "createdAt": datetime.datetime.timestamp(list[i].createdAt),
-                "updatedAt": datetime.datetime.timestamp(list[i].updatedAt),
-                "from": datetime.datetime.timestamp(list[i].fromDate),
-                "to": datetime.datetime.timestamp(list[i].toDate),
+                "id": item.id,
+                "roomId": item.roomId,
+                "userId": item.userId,
+                "code": item.code,
+                "totalPrice": item.totalPrice,
+                "createdAt": item.createdAt,
+                "updatedAt": item.updatedAt,
+                "from": item.fromDate,
+                "to": item.toDate,
             })
         o = {
                 "data": ret,
@@ -134,10 +134,10 @@ class Booking(Resource):
                 "userId": booking.userId,
                 "code": booking.code,
                 "totalPrice": booking.totalPrice,
-                "createdAt": datetime.datetime.timestamp(booking.createdAt),
-                "updatedAt": datetime.datetime.timestamp(booking.updatedAt),
-                "from": datetime.datetime.timestamp(booking.fromDate),
-                "to": datetime.datetime.timestamp(booking.toDate),
+                "createdAt": booking.createdAt,
+                "updatedAt": booking.updatedAt,
+                "from": booking.fromDate,
+                "to": booking.toDate,
             }
         }), 200
 

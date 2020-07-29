@@ -1,4 +1,5 @@
 from app import db
+from os import getenv
 
 class BookingModel(db.Model):
     __tablename__ = "booking"
@@ -22,3 +23,6 @@ class BookingModel(db.Model):
         self.toDate = book["to"]
         self.createdAt = book["createdAt"]
         self.updatedAt = book["updatedAt"]
+
+if getenv("FLASK_ENV") != "test":
+    db.create_all()
