@@ -9,17 +9,17 @@
     "synchronize": false,
     "logging": true,
     "entities": [
-       "src/models/entities/**/*.js"
+       "models/entities/**/*.js"
     ],
     "migrations": [
-       "src/models/migrations/**/*.js"
+       "models/migrations/**/*.js"
     ],
     "subscribers": [
-       "src/models/subscribers/**/*.js"
+       "models/subscribers/**/*.js"
     ],
     "cli": {
-        "migrationsDir": "src/models/migrations",
-        "entitiesDir": "src/models/entities"
+        "migrationsDir": "models/migrations",
+        "entitiesDir": "models/entities"
     }
  },
  {
@@ -33,16 +33,16 @@
    "synchronize": false,
    "logging": true,
    "entities": [
-      "src/models/entities/**/*.js"
+      "models/entities/**/*.js"
    ],
    "migrations": [
-      "src/models/migrations/**/*.js"
+      "models/migrations/**/*.js"
    ],
    "subscribers": [
-      "src/models/subscribers/**/*.js"
+      "models/subscribers/**/*.js"
    ],
    "cli": {
-       "migrationsDir": "src/models/migrations",
-       "entitiesDir": "src/models/entities"
+       "migrationsDir": "models/migrations",
+       "entitiesDir": "models/entities"
    }
 }]

@@ -34,7 +34,7 @@ export class Application  {
                 httpCode: 500
             });
         });
-        this.app.use("/public", express.static(join(__dirname, "..", "public")));
+        this.app.use("/public", express.static(join(__dirname, "public")));
         this.app.use("/swagger", express.static(absolutePath()));
         this.app.use("/logs", (req: express.Request, res: express.Response) => {
             createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
