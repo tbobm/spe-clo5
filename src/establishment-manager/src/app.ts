@@ -6,7 +6,7 @@ import { join } from "path";
 import { RegisterRoute } from "./routes/index";
 import morgan from "morgan";
 import { json } from "body-parser";
-import { createWriteStream, createReadStream } from "fs";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 export class Application  {
 
@@ -21,11 +21,7 @@ export class Application  {
     }
 
     config(){
-        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]", {
-            stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
-                flags: "a+"
-            })
-        }));
+        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]"));
         this.app.use(json());
         this.app.use((err: any, req: any, res: any, next: any) => {
             console.log(err.stack);
@@ -36,9 +32,6 @@ export class Application  {
         });
         this.app.use("/public", express.static(join(__dirname, "public")));
         this.app.use("/swagger", express.static(absolutePath()));
-        this.app.use("/logs", (req: express.Request, res: express.Response) => {
-            createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
-        });
         RegisterRoute(this);
     }
 
@@ -47,7 +40,11 @@ export class Application  {
             let connection : any = null;
             
             if (process.env.NODE_ENV !== "test"){
-                connection = await createConnection(process.env.NODE_ENV || "development");
+                const opts : PostgresConnectionOptions = {
+                    type: "postgres",
+                    url: process.env.DB_URL
+                };
+                connection = await createConnection(opts);
 
                 await connection.runMigrations({
                     transaction: "all"
