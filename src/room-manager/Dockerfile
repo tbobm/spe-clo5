@@ -1,6 +1,6 @@
-FROM kennethreitz/pipenv
-ADD . /app
-WORKDIR /app
-RUN pipenv install
-EXPOSE 80
-CMD ["pipenv", "run", "flask", "run"]
+FROM python:3
+WORKDIR /usr/src/app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD [ "python", "-m",  "flask", "run"]
