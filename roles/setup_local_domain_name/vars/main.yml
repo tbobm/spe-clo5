@@ -1,4 +1,5 @@
 ---
+# dnsmasq config path
 dnsmasq_config_file: "/etc/dnsmasq.conf"
 dnsmasq_config_directory: "/etc/dnsmasq.d"
 dnsmasq_custom_config_filename: "clo5.conf"

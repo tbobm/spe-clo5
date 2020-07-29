@@ -4,7 +4,7 @@
     name:
       - pyOpenSSL
     state: present
-  when: "inventory_hostname == registry_host"
+  when: "'docker_swarm_manager' in group_names"
 
 - name: "certificates: Create working directory in {{ registry_working_directory }}"
   file:
@@ -15,14 +15,14 @@
 - name: "certificates: Create private key for {{ registry_common_name }}"
   openssl_privatekey:
     path: "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
-  when: "inventory_hostname == registry_host"
+  when: "'docker_swarm_manager' in group_names"
 
 - name: "certificates: Create the certificate request for {{ registry_common_name }}"
   openssl_csr:
     path: "{{ registry_working_directory }}/{{ registry_common_name }}.csr"
     privatekey_path: "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
-    subject_alt_name: "IP:{{ registry_common_name | urlsplit('path')}}"
-  when: "inventory_hostname == registry_host"
+    common_name: "{{ registry_common_name }}"
+  when: "'docker_swarm_manager' in group_names"
 
 - name: "certificates: Self-sign the certificate for {{ registry_common_name }}"
   openssl_certificate:
@@ -30,7 +30,7 @@
     csr_path: "{{ registry_working_directory }}/{{ registry_common_name }}.csr"
     privatekey_path: "{{ registry_working_directory }}/{{ registry_common_name }}.pem"
     provider: selfsigned
-  when: "inventory_hostname == registry_host"
+  when: "'docker_swarm_manager' in group_names"
 
 - name: "certificates: Create temporary directory"
   file:
@@ -43,15 +43,15 @@
     dest: "{{ registry_local_tmp_directory }}/{{ registry_common_name }}.crt"
     src: "{{ registry_working_directory }}/{{ registry_common_name }}.crt"
     flat: true
-  when: "inventory_hostname == registry_host"
+  when: "'docker_swarm_manager' in group_names"
 
-- name: "certificates: Create certificates directory for {{ registry_common_name }}:{{ registry_http_port }}"
+- name: "certificates: Create certificates directory for {{ registry_common_name }}"
   file:
-    path: "/etc/docker/certs.d/{{ registry_common_name }}:{{ registry_http_port }}/"
+    path: "/etc/docker/certs.d/{{ registry_common_name }}/"
     state: directory
     recurse: true
 
 - name: "certificates: Propagate the certififates to every docker daemons"
   copy:
     src: "{{ registry_local_tmp_directory }}/{{ registry_common_name }}.crt"
-    dest: "/etc/docker/certs.d/{{ registry_common_name }}:{{ registry_http_port }}/ca.crt"
+    dest: "/etc/docker/certs.d/{{ registry_common_name }}/ca.crt"

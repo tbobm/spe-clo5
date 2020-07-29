@@ -45,3 +45,7 @@
     name: dnsmasq
     state: restarted
     enabled: true
+
+- name: "extra: Configure hostname"
+  hostname:
+    name: "{{ inventory_hostname }}"
