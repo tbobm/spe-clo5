@@ -1,9 +1,9 @@
 {
-    "entryFile": "./index.ts",
+    "entryFile": "./src/index.ts",
     "noImplicitAdditionalProperties": "ignore",
     "controllerPathGlobs": ["./src/controllers/*Controller.ts"],
     "spec": {
-      "outputDirectory": "./public",
+      "outputDirectory": "./src/public",
       "basePath": "/",
       "specVersion": 3
     }

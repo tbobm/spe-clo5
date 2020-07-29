@@ -1,3 +1,5 @@
 *node_modules
 *build
+src/room-manager/env
+src/room-manager/app/__pycache__/
 .idea

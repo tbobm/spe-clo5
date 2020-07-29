@@ -1,4 +1,5 @@
 import { Application } from "../app";
+import container from "../container";
 import express from "express";
 import * as Constants from "../models/utils/Constants";
 import { EstablishmentController } from "../controllers/EstablishmentController";
@@ -6,7 +7,6 @@ import { DomainEstablishment } from "../controllers/types/EstablishmentResource"
 
 export function RegisterRoute(application: Application) {
     const app = application.app;
-    const container = application.container;
 
     app.get("/", async (req: express.Request, res: express.Response) => {
         const controller : EstablishmentController = container.resolve(Constants.ESTABLISHMENT_CONTROLLER);

@@ -1,5 +1,6 @@
 from .db import db
 from sqlalchemy import Integer, PrimaryKeyConstraint, ForeignKeyConstraint
+from os import getenv
 
 class RoomModel(db.Model):
     __tablename__ = "room"
@@ -18,10 +19,10 @@ class RoomCategoryModel(db.Model):
     maxLength = db.Column("max_length", db.Integer, nullable=False)
     basePrice = db.Column("base_price", db.Integer, nullable=False)
 
-    def __init__(self, key, maxLength, basePrice):
-        self.key = key
-        self.maxLength = maxLength
-        self.basePrice = basePrice
+    def __init__(self, roomCategoryModel):
+        self.key = roomCategoryModel["key"]
+        self.maxLength = roomCategoryModel["maxLength"]
+        self.basePrice = roomCategoryModel["basePrice"]
 
 class RoomEstablishmentModel(db.Model):
     __tablename__ = "establishment_room"
@@ -39,7 +40,9 @@ RoomModel.establishments = db.relationship(RoomEstablishmentModel, back_populate
 RoomCategoryModel.rooms = db.relationship(RoomModel, back_populates = "roomCategory")
 RoomEstablishmentModel.room = db.relationship(RoomModel, back_populates = "establishments")
 
-db.create_all()
+
+if getenv("FLASK_ENV") != "test":
+    db.create_all()
 
 __all__ = [
     db, RoomModel, RoomCategoryModel, RoomEstablishmentModel

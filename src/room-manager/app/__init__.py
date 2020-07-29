@@ -3,7 +3,7 @@ from .views import app
 from .tool import tool
 from .room import room
 from .models import RoomModel
-from .RoomDAO import RoomDAO
+from .RoomDAO import RoomDAO, RoomCategoryDAO, RoomEstablishmentDAO
 
 __all__ = [
     db, app, tool, room, RoomModel, RoomDAO
