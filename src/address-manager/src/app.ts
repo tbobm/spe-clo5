@@ -7,6 +7,8 @@ import { join } from "path";
 import { json } from "body-parser";
 import morgan from "morgan";
 import { createReadStream, createWriteStream } from "fs";
+import { PostgresConnectionCredentialsOptions } from "typeorm/driver/postgres/PostgresConnectionCredentialsOptions";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 export class Application  {
 
@@ -53,7 +55,11 @@ export class Application  {
             let connection : any = null;
 
             if (process.env.NODE_ENV !== "test"){
-                const connection : Connection = await createConnection(process.env.NODE_ENV || "development");
+                const opts : PostgresConnectionOptions ={
+                    type: "postgres",
+                    url: process.env.DB_URL
+                };
+                const connection : Connection = await createConnection(opts);
     
                 await connection.runMigrations({
                     transaction: "all"
