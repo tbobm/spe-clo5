@@ -7,8 +7,7 @@ module.exports = {
             .findAll({
             })
             .then(async (services) => {
-                Promise.all(
-                    services.map(service => {
+                Promise.all(services.map(service => {
                         return EstablishmentService.findAll({
                             where: {
                                 service_id: service.id
@@ -18,6 +17,9 @@ module.exports = {
                 ).then(result => {
                     let test = services.map(service => {
                         result.forEach(items => {
+                            if (!items){
+                                items = [];
+                            }
                             items.forEach(item => {
                                 if (item.dataValues.service_id === service.dataValues.id) {
                                     if (typeof service.dataValues.establishments === "undefined") {
@@ -54,6 +56,9 @@ module.exports = {
                         service_id: req.params.id
                     },
                 }).then((listEstablishments) => {
+                    if (!listEstablishments){
+                        listEstablishments = [];
+                    }
                     listEstablishments.forEach(establishment => {
                         establishments.push(establishment.dataValues);
                     })

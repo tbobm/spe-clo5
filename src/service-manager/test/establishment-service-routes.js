@@ -2,7 +2,7 @@ const chai = require("chai");
 const fs = require("fs");
 const runtime = require("../app");
 const sinon = require("sinon");
-const EstablishmentService = require('../models').EstablishmentService;
+const proxyquire = require('proxyquire');
 const supertest = require("supertest");
 const file = `${__dirname}/mock/establishment-service/getOne.json`;
 const establishmentService = JSON.parse(fs.readFileSync(file, {
@@ -17,7 +17,7 @@ describe("Establishment Service routes", () => {
 
     before(async () => {
         await runtime.start();
-        mock = sinon.mock(EstablishmentService);
+        mock = sinon.mock(require("../models").EstablishmentService);
         prepareList(mock);
         prepareGetOne(mock);
     });

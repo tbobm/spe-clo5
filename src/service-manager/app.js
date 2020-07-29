@@ -21,6 +21,13 @@ module.exports = {
     server: null,
     app: app,
     start:() => (new Promise((resolve, reject) => {
+        if (process.env.NODE_ENV === "test"){
+            this.server = app.listen(PORT, () => {
+                console.log(`Server is running on port ${PORT}.`);
+                resolve(true);
+            });
+            return;
+        }
         db.sequelize.sync().then(() => {
            this.server = app.listen(PORT, () => {
                 console.log(`Server is running on port ${PORT}.`);
