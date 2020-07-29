@@ -1,13 +1,11 @@
 import express from "express";
 import { config } from "dotenv";
-import { createConnection, Connection } from "typeorm";
+import { createConnection } from "typeorm";
 import { RegisterRoutes } from "./routes/index"
 import  { absolutePath }  from "swagger-ui-dist";
 import { join } from "path";
 import { json } from "body-parser";
 import morgan from "morgan";
-import { createReadStream, createWriteStream } from "fs";
-import { PostgresConnectionCredentialsOptions } from "typeorm/driver/postgres/PostgresConnectionCredentialsOptions";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 export class Application  {
