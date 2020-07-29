@@ -4,8 +4,6 @@
   become_method: sudo
   vars:
     gitlab_addr: 172.16.228.42
-    gitlab_runner_register_token: Xxd1i6VrhYtPKxXXQTDg
-
   roles:
     - install_gitlab
     - gitlab_runner

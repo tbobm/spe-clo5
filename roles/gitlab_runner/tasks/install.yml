@@ -1,6 +1,7 @@
 ---
 - name: "install: Fetch the gitlab-runner repository configuration script to localhost"
   delegate_to: localhost
+  run_once: true
   get_url:
     url: "{{ gitlab_runner_package_script_url }}"
     dest: "{{ gitlab_runner_tmp_script_location }}"
