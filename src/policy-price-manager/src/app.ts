@@ -1,12 +1,12 @@
 import express from "express";
 import { config } from "dotenv";
-import { createConnection, Connection } from "typeorm";
+import { createConnection } from "typeorm";
 import { RegisterRoutes } from "./routes/index";
 import { absolutePath } from "swagger-ui-dist";
 import { join } from "path";
 import { json } from "body-parser";
-import { createReadStream, createWriteStream } from "fs";
 import morgan from "morgan";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 export class Application  {
 
@@ -21,11 +21,7 @@ export class Application  {
     }
 
     config(){
-        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]", {
-            stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
-                flags: "a+"
-            })
-        }));
+        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]"));
         this.app.use(json());
         this.app.use((err: any, req: any, res: any, next: any) => {
             res.status(500).json({
@@ -35,9 +31,6 @@ export class Application  {
         });
         this.app.use("/public", express.static(join(__dirname, "public")));
         this.app.use("/swagger", express.static(absolutePath()));
-        this.app.use("/logs", (req: express.Request, res: express.Response) => {
-            createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
-        });
         RegisterRoutes(this);
     }
 
@@ -46,7 +39,11 @@ export class Application  {
             let connection : any = null;
 
             if (process.env.NODE_ENV !== "test"){
-                const connection : Connection = await createConnection(process.env.NODE_ENV || "development");
+                const opts : PostgresConnectionOptions = {
+                    type: "postgres",
+                    url: process.env.DB_URL
+                };
+                connection = await createConnection(opts);
 
                 await connection.runMigrations({
                     transaction: "all"
