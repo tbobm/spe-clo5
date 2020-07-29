@@ -31,28 +31,61 @@ class PolicyPriceEstablishmentResource {
 }
 
 const DomainPeriod = attributes({
-    id: Number,
-    from: Number,
-    to: Number,
-    sign: Number,
-    percent: Number
+    id: {
+        type: Number
+    },
+    from: {
+        type: Number,
+        required: true
+    },
+    to: {
+        type: Number,
+        required: true
+    },
+    sign: {
+        type: Number,
+        required: true
+    },
+    percent: {
+        type: Number,
+        required: true
+    }
 })(PeriodResource);
 
 const DomainPerson = attributes({
-    id: Number,
-    nb: Number,
-    sign: Number,
-    percent: Number
+    id: {
+        type: Number
+    },
+    nb: {
+        type: Number,
+        required: true
+    },
+    sign: {
+        type: Number,
+        required: true
+    },
+    percent: {
+        type: Number,
+        required: true
+    }
 })(PersonResource);
 
 const DomainPolicyPriceEstablishment = attributes({
-    policyPriceId: Number,
-    establishmentId: Number,
+    policyPriceId: {
+        type: Number,
+    },
+    establishmentId: {
+        type: Number,
+        required: true
+    },
 })(PolicyPriceEstablishmentResource);
 
 const DomainPolicyPrice = attributes({
     id: Number,
-    key: String,
+    key: {
+        type: String,
+        required: true
+    },
     periods: {
         type: Array,
         itemType: DomainPeriod

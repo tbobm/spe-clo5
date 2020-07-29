@@ -60,39 +60,79 @@ const DomainEstablishmentPolicy = attributes({
 })(EstablishmentPolicyPriceResource);
 
 const DomainEstablishmentAddress = attributes({
-    establishment_id: Number,
-    address_id: Number,
-    id: Number,
-    postalCode: Number,
-    city: String,
-    country: String,
-    road: String,
-    roadNumber: Number
+    establishment_id: {
+        type: Number,
+    },
+    address_id: {
+        type: Number,
+        required: true
+    },
+    id: {
+        type: Number,
+    },
+    postalCode: {
+        type: Number,
+        minLength: 5
+    },
+    city: {
+        type: String, 
+    },
+    country: {
+        type: String,
+    },
+    road: {
+        type: String,
+    },
+    roadNumber: {
+        type: Number,
+    }
 })(EstablishmentAddressResource);
 
 const DomainEstablishmentService = attributes({
     establishment_id: Number,
-    service_id: Number,
-    model: Number,
-    interval: Number,
-    overridePrice: Number,
+    service_id: {
+        type: Number,
+        required: true
+    },
+    model: {
+        type: Number,
+        required: true
+    },
+    interval: {
+        type: Number,
+        required: true
+    },
+    overridePrice: {
+        type: Number,
+        required: false
+    },
 })(EstablishmentServiceResource)
 
 const DomainEstablishment = attributes({
     id: Number,
-    name: String,
-    phoneNumber: String,
+    name: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+        type:String,
+        required: true,
+        regex: /(\+33 )?([0-9][ -\.])?([0-9]{2}[ -\.]?)+/
+    },
     addresses: {
         type: Array,
-        itemType: DomainEstablishmentAddress
+        itemType: DomainEstablishmentAddress,
+        required: false
     },
     services: {
         type: Array,
-        itemType: DomainEstablishmentService
+        itemType: DomainEstablishmentService,
+        required: false
     },
     policyPrices: {
         type: Array,
-        itemType: DomainEstablishmentPolicy
+        itemType: DomainEstablishmentPolicy,
+        required: false
     }
 })(EstablishmentResource)
 

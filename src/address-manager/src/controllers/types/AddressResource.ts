@@ -14,12 +14,29 @@ class AddressResource {
 }
 
 const DomainAddress = attributes({
-    id: Number,
-    postalCode: Number,
-    road: String,
-    roadNumber: Number,
-    city: String,
-    country: String
+    id: {
+        type: Number
+    },
+    postalCode: {
+        type: Number,
+        required: true
+    },
+    road: {
+        type: String,
+        required: true
+    },
+    roadNumber: {
+        type: Number,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    country: {
+        type: String,
+        required: true
+    }
 })(AddressResource);
 
 export { DomainAddress, AddressResource };

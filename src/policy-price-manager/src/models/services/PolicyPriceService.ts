@@ -8,20 +8,30 @@ import { IPolicyPriceService } from "./IPolicyPriceService";
 import { DTOPolicyPriceKey, DTOKeyPolicyPrice } from "../../controllers/types/EPolicyPrice"
 import { PolicyPricePerson } from "../entities/PolicyPricePerson";
 import { Person } from "../entities/Person";
+import { PolicyPriceRepository } from "../repositories/PolicyPriceRepository";
+import { PeriodRepository } from "../repositories/PeriodRepository";
+import { PolicyPriceEstablishmentRepository } from "../repositories/PolicyPriceEstablishmentRepository";
+import { PolicyPricePeriodRepository } from "../repositories/PolicyPricePeriodRepository";
+import { PersonRepository } from "../repositories/PersonRepository";
 
 export class PolicyPriceService implements IPolicyPriceService {
 
-    private policyPriceRepository: Repository<PolicyPrice>;
-    private periodRepository: Repository<Period>;
-    private personRepository: Repository<Person>;
-    private policyPriceEstablishmenteRepository: Repository<PolicyPriceEstablishment>;
-    private policyPricePeriodRepository: Repository<PolicyPricePeriod>;
+    private policyPriceRepository: PolicyPriceRepository
+    private periodRepository: PeriodRepository;
+    private personRepository: PersonRepository;
+    private policyPriceEstablishmenteRepository: PolicyPriceEstablishmentRepository;
+    private policyPricePeriodRepository: PolicyPricePeriodRepository;
 
-    constructor(){
-        this.policyPriceRepository = getRepository(PolicyPrice, process.env.NODE_ENV || "development");
-        this.periodRepository = getRepository(Period, process.env.NODE_ENV || "development");
-        this.policyPriceEstablishmenteRepository = getRepository(PolicyPriceEstablishment, process.env.NODE_ENV || "development");
-        this.policyPricePeriodRepository = getRepository(PolicyPricePeriod, process.env.NODE_ENV || "development");
+    constructor(policyPriceRepository: PolicyPriceRepository, 
+        periodRepository: PeriodRepository, 
+        personRepository: PersonRepository, 
+        policyPriceEstablishmentRepository: PolicyPriceEstablishmentRepository, 
+        policyPricePeriodRepository: PolicyPricePeriodRepository){
+        this.policyPriceRepository = policyPriceRepository;
+        this.periodRepository = periodRepository;
+        this.personRepository = personRepository;
+        this.policyPriceEstablishmenteRepository = policyPriceEstablishmentRepository;
+        this.policyPricePeriodRepository = policyPricePeriodRepository;
     }
 
     async findByEstablishment(establishmentId: number) {
@@ -182,7 +192,6 @@ export class PolicyPriceService implements IPolicyPriceService {
                 "policyPricePersons"
             ]
         });
-        console.log(policies);
         const list = [];
 
         if (!policies){
@@ -381,18 +390,7 @@ export class PolicyPriceService implements IPolicyPriceService {
             periodEntity.to = period.to;
             periodEntity.sign = period.sign;
             periodEntity.percent = period.percent;
-            let fetchDB = null;
-            if(period.id){
-                fetchDB = await this.periodRepository.findOne(period.id);
-            }
-            if (!fetchDB){
-                const tmp = await this.periodRepository.save(periodEntity);
-
-                periodEntity.id = tmp.id;
-            }
-            else {
-                await this.periodRepository.update(periodEntity.id, periodEntity);
-            }
+            await this.periodRepository.save(periodEntity);
             const policyPeriod = new PolicyPricePeriod();
 
             policyPeriod.periodId = periodEntity.id;
@@ -406,18 +404,7 @@ export class PolicyPriceService implements IPolicyPriceService {
             personEntity.nb = person.nb;
             personEntity.percent = person.percent;
             personEntity.sign = person.sign;
-            let fetchDB = null;
-            if (!personEntity.id){
-                fetchDB = await this.personRepository.findOne(person.id);
-            }
-            if (!fetchDB){
-                const tmp = await this.periodRepository.save(personEntity);
-
-                personEntity.id = tmp.id;
-            }
-            else {
-                await this.periodRepository.update(personEntity.id, personEntity);
-            }
+            await this.personRepository.save(personEntity);
             const policyPricePerson = new PolicyPricePerson();
 
             policyPricePerson.person_id = personEntity.id;

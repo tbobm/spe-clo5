@@ -1,6 +1,5 @@
 import {Entity, Column, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import { EstablishmentAddress } from "./EstablishmentAddress";
-import { EstablishmentService } from "./EstablishmentService";
 
 @Entity({
     name: "establishment"
@@ -24,8 +23,4 @@ export class Establishment {
     })
     addresses: Array<EstablishmentAddress>;
 
-    @OneToMany(type => EstablishmentService, es => es.establishment, {
-        cascade: true
-    })
-    services: Array<EstablishmentService>;
 }
