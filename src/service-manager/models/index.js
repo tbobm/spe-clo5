@@ -30,6 +30,9 @@ if (process.env.NODE_ENV === "test"){
     module.exports = db;
     return;
 }
+if ('DB_URL' in process.env){
+    sequelize = new Sequelize(process.env.DB_URL);
+}
 if (config.use_env_variable) {
     sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
