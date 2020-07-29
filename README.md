@@ -22,6 +22,9 @@ If the code is validated, it will trigger a blue/green deployment in "production
 
 ### Gitlab-related
 
+The registration token is located in [gitlab.yml](./vars/gitlab.yml).
+In order to use it in the `gitlab_runner` role, provide the flag `-e @vars/gitlab.yml` and decrypt it using the ansible-vault secret while executing the playbook.
+
 - [install\_gitlab](./roles/install_gitlab/README.md)
   In order to configure the users, you will need to provide a `gitlab_token` and a list of users.
   `ansible-playbook -i inventory.yml -e @vars/users.yml gitlab.yml`
