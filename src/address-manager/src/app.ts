@@ -23,11 +23,7 @@ export class Application  {
     }
 
     config(){
-        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]", {
-            stream: createWriteStream(`${__dirname}/../logs/${process.env.APP}.log`, {
-                flags: "a+"
-            })
-        }));
+        this.app.use(morgan(":method :url :status - :response-time ms - :remote-addr - :date[iso]"));
         this.app.use(json());
         this.app.use((err: any, req: any, res: any, next: any) => {
             if (err instanceof SyntaxError) {
@@ -44,9 +40,6 @@ export class Application  {
         });
         this.app.use("/public", express.static(join(__dirname, "public")));
         this.app.use("/swagger", express.static(absolutePath()));
-        this.app.use("/logs", (req: express.Request, res: express.Response) => {
-            createReadStream(`${__dirname}/../logs/${process.env.APP}.log`).pipe(res);
-        });
         RegisterRoutes(this);
     }
 
