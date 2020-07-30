@@ -7,21 +7,6 @@
     - name: grafana
     - name: node_exporter
     - name: cadvisor
-    - name: traefik
-
-- name: "monitoring: Deploy the services"
-  # TODO: Deploy global cadvisor + node_exporter
-  # TODO: Publish on cadvisor + prom + node_exporter + grafana
-  # TODO: Rename deploy -> service
-  # TODO: Load deploy with name, type attributes
-  include_tasks: "deploy.yml"
-  when: "inventory_hostname == swarm_master"
-  loop:
-    - name: prometheus
-    - name: grafana
-    - name: node_exporter
-    - name: cadvisor
-    - name: traefik
 
 - name: "monitoring: Deploy the stack"
   include_tasks: "stack.yml"
