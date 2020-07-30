@@ -49,3 +49,5 @@
     placement:
       constraints:
         - "node.labels.should.have == registry"
+      labels:
+        - "traefik.enable=false"
