@@ -9,7 +9,6 @@ all:
           ansible_become: true
           registry_addr: 172.16.228.42
           registry_url: registry.clo5.local
-          gitlab_token: XedPjavJzTAjyuBo2-zt
     docker_swarm_worker:
       hosts:
         vm1:

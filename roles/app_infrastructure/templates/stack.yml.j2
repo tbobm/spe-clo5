@@ -1,0 +1,114 @@
+---
+# vim: set ft=yaml:
+version: "3.3"
+
+networks:
+  staging-net:
+    external: true
+  staging-internal:
+    driver: overlay
+
+services:
+  database:
+    image: "postgres:13"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-internal
+    volumes:
+      - '{{ beta_database_path }}:/var/lib/postgresql/data'
+    ports:
+      - "5432:5432"
+    deploy:
+      labels:
+        - "traefik.enable=false"
+  address-manager:
+    image: "registry.clo5.local/address-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_address-manager.rule=Host(`address-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_address-manager-service.loadbalancer.server.port=8000"
+  policy-price-manager:
+    image: "registry.clo5.local/policy-price-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_policy-price-manager.rule=Host(`policy-price-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_policy-price-manager-service.loadbalancer.server.port=8000"
+  room-manager:
+    image: "registry.clo5.local/room-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      FLASK_RUN_PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_room-manager.rule=Host(`room-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_room-manager-service.loadbalancer.server.port=8000"
+  user-manager:
+    image: "registry.clo5.local/user-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_user-manager.rule=Host(`user-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_user-manager-service.loadbalancer.server.port=8000"
+  establishment-manager:
+    image: "registry.clo5.local/establishment-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_establishment-manager.rule=Host(`establishment-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_establishment-manager-service.loadbalancer.server.port=8000"
+  service-manager:
+    image: "registry.clo5.local/service-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_service-manager.rule=Host(`service-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_service-manager-service.loadbalancer.server.port=8000"
+  booking-manager:
+    image: "registry.clo5.local/booking-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
+    networks:
+      - staging-net
+      - staging-internal
+    environment:
+      FLASK_RUN_PORT: 8000
+    deploy:
+      labels:
+        - "traefik.docker.network=staging-net"
+        - "traefik.http.routers.beta_booking-manager.rule=Host(`booking-manager.beta.clo5.local`)"
+        - "traefik.http.services.beta_booking-manager-service.loadbalancer.server.port=8000"

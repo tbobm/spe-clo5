@@ -1,0 +1,5 @@
+---
+beta_database_path: "/mnt/shared/beta/db"
+
+extra_paths:
+  - "{{ beta_database_path }}"

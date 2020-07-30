@@ -1,0 +1,6 @@
+---
+- name: "monitoring: Deploy the stack"
+  include_tasks: "stack.yml"
+  vars:
+    environment: staging
+  when: "inventory_hostname == swarm_master"

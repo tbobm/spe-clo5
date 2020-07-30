@@ -1,0 +1,27 @@
+---
+- name: "monitoring: Create the shared monitoring directories"
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: docker
+    mode: 0775
+    state: directory
+  loop: "{{ extra_paths }}"
+
+- name: "monitoring: Copy the templates docker stack"
+  template:
+    src: 'stack.yml.j2'
+    dest: '/tmp/apps.yml'
+
+- name: "monitoring: Copy the secrets docker stack"
+  template:
+    src: 'secrets.j2'
+    dest: '/etc/clo5-staging-secrets'
+
+- name: "monitoring: Deploy the monitoring stack in Docker Swarm"
+  docker_stack:
+    state: present
+    name: "staging"
+    resolve_image: always
+    compose:
+      - /tmp/apps.yml
