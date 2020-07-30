@@ -16,7 +16,7 @@
 - name: "monitoring: Copy the secrets docker stack"
   template:
     src: 'secrets.j2'
-    dest: '/tmp/secrets'
+    dest: '/etc/clo5-staging-secrets'
 
 - name: "monitoring: Deploy the monitoring stack in Docker Swarm"
   docker_stack:

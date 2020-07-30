@@ -11,14 +11,11 @@ networks:
 services:
   database:
     image: "postgres:13"
-    env_file: "/tmp/secrets"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-internal
     volumes:
       - '{{ beta_database_path }}:/var/lib/postgresql/data'
-    environment:
-      POSTGRES_DB: clo
-      POSTGRES_PASSWORD: SamplePassword
     ports:
       - "5432:5432"
     deploy:
@@ -26,11 +23,11 @@ services:
         - "traefik.enable=false"
   address-manager:
     image: "registry.clo5.local/address-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DB_URL: "postgresql://postgres:SamplePassword@database/clo"
       PORT: 8000
     deploy:
       labels:
@@ -39,11 +36,11 @@ services:
         - "traefik.http.services.beta_address-manager-service.loadbalancer.server.port=8000"
   policy-price-manager:
     image: "registry.clo5.local/policy-price-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DB_URL: "postgresql://postgres:SamplePassword@database/clo"
       PORT: 8000
     deploy:
       labels:
@@ -52,11 +49,11 @@ services:
         - "traefik.http.services.beta_policy-price-manager-service.loadbalancer.server.port=8000"
   room-manager:
     image: "registry.clo5.local/room-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DATABASE_URL: "postgresql://postgres:SamplePassword@database/clo"
       FLASK_RUN_PORT: 8000
     deploy:
       labels:
@@ -65,11 +62,11 @@ services:
         - "traefik.http.services.beta_room-manager-service.loadbalancer.server.port=8000"
   user-manager:
     image: "registry.clo5.local/user-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DB_URL: "postgresql://postgres:SamplePassword@database/clo"
       PORT: 8000
     deploy:
       labels:
@@ -78,11 +75,11 @@ services:
         - "traefik.http.services.beta_user-manager-service.loadbalancer.server.port=8000"
   establishment-manager:
     image: "registry.clo5.local/establishment-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DB_URL: "postgresql://postgres:SamplePassword@database/clo"
       PORT: 8000
     deploy:
       labels:
@@ -91,11 +88,11 @@ services:
         - "traefik.http.services.beta_establishment-manager-service.loadbalancer.server.port=8000"
   service-manager:
     image: "registry.clo5.local/service-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DB_URL: "postgresql://postgres:SamplePassword@database/clo"
       PORT: 8000
     deploy:
       labels:
@@ -104,11 +101,11 @@ services:
         - "traefik.http.services.beta_service-manager-service.loadbalancer.server.port=8000"
   booking-manager:
     image: "registry.clo5.local/booking-manager:master-rc"
+    env_file: "/etc/clo5-staging-secrets"
     networks:
       - staging-net
       - staging-internal
     environment:
-      DATABASE_URL: "postgresql://postgres:SamplePassword@database/clo"
       FLASK_RUN_PORT: 8000
     deploy:
       labels:
