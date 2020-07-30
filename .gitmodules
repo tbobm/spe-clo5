@@ -1,0 +1,6 @@
+[submodule "user-manager"]
+	path = user-manager
+	url = http://172.16.228.42/spe-clo5/user-manager
+[submodule "tests"]
+	path = tests
+	url = http://172.16.228.42/spe-clo5/tests/
