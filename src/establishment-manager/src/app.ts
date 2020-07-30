@@ -7,6 +7,8 @@ import { RegisterRoute } from "./routes/index";
 import morgan from "morgan";
 import { json } from "body-parser";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { Establishment } from "./models/entities/Establishment";
+import { EstablishmentAddress } from "./models/entities/EstablishmentAddress";
 
 export class Application  {
 
@@ -42,13 +44,25 @@ export class Application  {
             if (process.env.NODE_ENV !== "test"){
                 const opts : PostgresConnectionOptions = {
                     type: "postgres",
-                    url: process.env.DB_URL
+                    url: process.env.DB_URL,
+                    entities: [
+                        Establishment,
+                        EstablishmentAddress
+                    ],
+                    migrations: [
+                        "models/migrations/**/*.js",
+                        "src/models/migrations/**/*.ts"
+                    ],
+                    cli: {
+                        migrationsDir: "models/migrations"
+                    }
                 };
                 connection = await createConnection(opts);
-
-                await connection.runMigrations({
+                console.log(connection);
+                const ret = await connection.runMigrations({
                     transaction: "all"
                 });
+                console.log(ret);
             }
             this.server = this.app.listen(Number(process.env.PORT), process.env.BIND_ADDRESS, () => {
                 console.log(`The application is started on port ${process.env.PORT}`);

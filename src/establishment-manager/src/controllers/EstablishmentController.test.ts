@@ -117,43 +117,42 @@ describe("TEST - ESTABLISHMENT CONTROLLER", () => {
         expect(nb).equal(12);
     });
 
-    it("list establishments",  (done) => {
+    it("list establishments",  async () => {
         const filename = `${MOCK_REPOSITORY}/Establishments.json`
         const data = fs.readFileSync(filename, {
             encoding: "utf8"
         });
         const arr = JSON.parse(data);
 
-        supertest(app.app).get(`/`).expect(200)
-            .then((response) => {
-                const body = response.body;
-                const establishments = body.data;
-                
-                for (let i = 0; i < arr.length; i++){
-                    const o = arr[i];
-                    const establishment = establishments[i];
-    
-                    for (let key in o){
-                        if (key == "addresses"){
-                            let addresses = o[key];
-    
-                            for (let j = 0; j < addresses.length; j++){
-                                const addr = addresses[j];
-    
-                                expect(addr["addressId"]).equal(establishment["addresses"][j]["address_id"]);
-                            }
-                        }
-                        else {
-                            expect(o[key]).equal(establishment[key]);
+        try {
+            const response = await supertest(app.app).get(`/`).expect(200);
+            const body = response.body;
+            const establishments = body.data;
+            
+            for (let i = 0; i < arr.length; i++){
+                const o = arr[i];
+                const establishment = establishments[i];
+
+                for (let key in o){
+                    if (key == "addresses"){
+                        let addresses = o[key];
+
+                        for (let j = 0; j < addresses.length; j++){
+                            const addr = addresses[j];
+
+                            expect(addr["addressId"]).equal(establishment["addresses"][j]["address_id"]);
                         }
                     }
+                    else {
+                        expect(o[key]).equal(establishment[key]);
+                    }
                 }
-                done()
-        }).catch((error) => {
-                console.log(error);
-                expect(error).equal(null);
-                done()
-        });
+            }
+        }
+        catch(e){
+            console.log(e);
+            expect(e).equal(null);
+        }
     });
 
     it("details establishment", async () => {

@@ -92,11 +92,6 @@ export class EstablishmentController {
         });
     }
 
-    @Get("hello")
-    hello(){
-        return Promise.resolve("establishment");
-    }
-
     @Get("{id}")
     async getOne(@Path("id") id: number){
         const establishment = await this.esService.getOne(id);

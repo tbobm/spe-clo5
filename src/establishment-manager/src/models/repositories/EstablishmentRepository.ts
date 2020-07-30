@@ -11,7 +11,7 @@ export class EstablishmentRepository extends Repository<Establishment> {
         if (process.env.NODE_ENV === "test"){
             return;
         }
-        this.manager = getManager(process.env.NODE_ENV || "development");
-        this.metadata = getConnection(process.env.NODE_ENV || "development").getMetadata(Establishment);
+        this.manager = getManager();
+        this.metadata = getConnection().getMetadata(Establishment);
     }
 }
