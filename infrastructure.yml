@@ -5,5 +5,8 @@
   roles:
     - setup_local_domain_name
     - docker_swarm
+    - setup_net_fs
     - docker_registry
+    - traefik
     - docker_monitoring
+    - app_infrastructure

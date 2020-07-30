@@ -1,0 +1,41 @@
+---
+# vim: set ft=yaml:
+version: "3.3"
+
+networks:
+  traefik-public:
+    external: true
+  monitoring-net:
+    external: true
+  staging-net:
+    external: true
+
+services:
+  traefik:
+    image: "traefik:2.2"
+    networks:
+      - staging-net
+      - monitoring-net
+      - traefik-public
+    ports:
+      - target: 80
+        published: 1080
+        mode: host
+        protocol: tcp
+      - target: 8080
+        published: 8090
+        mode: host
+        protocol: tcp
+    command:
+      - "--providers.docker.swarmMode=true"
+      - "--providers.docker.exposedByDefault=true"
+      - "--api.insecure=true"
+      - "--accesslog=true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      placement:
+        constraints:
+          - "node.role == manager"
+      labels:
+        - "traefik.enable=true"
