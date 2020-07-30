@@ -28,3 +28,10 @@ scrape_configs:
           - "{{ target_node_a }}:19101"
           - "{{ target_node_b }}:19101"
           - "{{ target_node_c }}:19101"
+
+  - job_name: 'gitlab_runner'
+    static_configs:
+      - targets:
+          - "{{ target_node_a }}:9252"
+          - "{{ target_node_b }}:9252"
+          - "{{ target_node_c }}:9252"

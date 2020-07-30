@@ -14,7 +14,7 @@ cadvisor_version: 0.35.0
 cadvisor_url: "https://github.com/google/cadvisor/releases/download/v{{ cadvisor_version }}/cadvisor"
 
 # registry target
-registry_url: "localhost:5000"
+registry_url: "registry.clo5.local"
 ## restrict deployments
 swarm_master: vm3
 

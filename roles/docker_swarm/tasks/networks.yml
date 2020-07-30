@@ -1,0 +1,10 @@
+---
+- name: "network: Create the shared overlays"
+  docker_network:
+    name: "{{ item }}"
+    driver: overlay
+    scope: swarm
+  loop:
+    - traefik-public
+    - monitoring-net
+    - staging-net

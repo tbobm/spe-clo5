@@ -1,0 +1,4 @@
+---
+- name: "traefik: Deploy the stack"
+  include_tasks: "stack.yml"
+  when: "'docker_swarm_manager' in group_names"

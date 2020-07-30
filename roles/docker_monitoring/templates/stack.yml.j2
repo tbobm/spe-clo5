@@ -3,16 +3,14 @@
 version: "3.3"
 
 networks:
-  net:
-    driver: overlay
-  traefik-public:
+  monitoring-net:
     external: true
 
 services:
   prom:
     image: "{{ registry_url }}/prometheus"
     networks:
-      - net
+      - monitoring-net
     volumes:
       - '{{ prometheus_shared_conf }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
       - '{{ prometheus_shared_data }}:/var/lib/prometheus/data'
@@ -28,12 +26,13 @@ services:
           - "node.role == manager"
       labels:
         - "traefik.enable=true"
+        - "traefik.docker.network=monitoring-net"
         - "traefik.http.routers.prometheus.rule=Host(`prometheus.clo5.local`)"
         - "traefik.http.services.prometheus-service.loadbalancer.server.port=9090"
   grafana:
     image: "{{ registry_url }}/grafana"
     networks:
-      - net
+      - monitoring-net
     volumes:
       - '{{ grafana_shared_conf }}/grafana.ini:/etc/grafana.init:ro'
       - '{{ grafana_shared_conf }}/grafana.datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro'
@@ -48,17 +47,18 @@ services:
         protocol: tcp
     deploy:
       placement:
-        constraints:  # TODO: yuk, no hardcoderino
+        constraints:
           - "node.role == manager"
       labels:
         - "traefik.enable=true"
+        - "traefik.docker.network=monitoring-net"
         - "traefik.http.routers.grafana.rule=Host(`grafana.clo5.local`)"
         - "traefik.http.services.grafana-service.loadbalancer.server.port=3000"
   node_exporter:
     image: "{{ registry_url }}/node_exporter"
     hostname: "{{ '{{' }}.Node.Hostname{{ '}}' }}-{{ '{{' }}.Service.Name{{ '}}' }}"
     networks:
-      - net
+      - monitoring-net
     ports:
       - "9100:9100"
       - target: 9100
@@ -71,32 +71,10 @@ services:
       mode: global
       labels:
         - "traefik.enable=false"
-  traefik:
-    image: "{{ registry_url }}/traefik"
-    networks:
-      - net
-      - traefik-public
-    ports:
-      - target: 80
-        published: 1080
-        mode: host
-        protocol: tcp
-      - target: 8080
-        published: 8090
-        mode: host
-        protocol: tcp
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    deploy:
-      placement:
-        constraints:
-          - "node.role == manager"
-      labels:
-        - "traefik.enable=true"
   cadvisor:
     image: "{{ registry_url }}/cadvisor"
     networks:
-      - net
+      - monitoring-net
     volumes:  # TODO: Using variables?
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/rootfs:ro
@@ -111,3 +89,5 @@ services:
         protocol: tcp
     deploy:
       mode: global
+      labels:
+        - "traefik.enable=false"

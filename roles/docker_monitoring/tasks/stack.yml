@@ -39,6 +39,7 @@
   docker_network:
     name: traefik-public
     driver: overlay
+    scope: swarm
 
 - name: "monitoring: Deploy the monitoring stack in Docker Swarm"
   docker_stack:

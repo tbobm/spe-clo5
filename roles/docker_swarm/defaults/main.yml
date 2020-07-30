@@ -7,6 +7,6 @@ docker_node_labels:
   - hostname: "vm1"
     labels:
       "should.have": "registry"
-  - hostname: "vm2"
-    labels:
-      "should.have": "traefik"
+      # - hostname: "vm2"
+      # labels:
+      # "should.have": "traefik"

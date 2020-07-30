@@ -1,0 +1,13 @@
+---
+- name: "traefik: Copy the template docker stack"
+  template:
+    src: 'stack.yml.j2'
+    dest: '/tmp/traefik.yml'
+
+- name: "traefik: Deploy the public stack in Docker Swarm"
+  docker_stack:
+    state: present
+    name: public
+    resolve_image: always
+    compose:
+      - /tmp/traefik.yml

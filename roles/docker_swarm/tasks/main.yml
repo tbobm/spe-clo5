@@ -11,3 +11,7 @@
 - name: "Configure node labels"
   include_tasks: "labels.yml"
   when: "'docker_swarm_manager' in group_names"
+
+- name: "Configure swam networks"
+  include_tasks: "networks.yml"
+  when: "'docker_swarm_manager' in group_names"
