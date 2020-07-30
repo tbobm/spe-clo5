@@ -7,6 +7,12 @@ import { join } from "path";
 import { json } from "body-parser";
 import morgan from "morgan";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { Period } from "./models/entities/Period";
+import { Person } from "./models/entities/Person";
+import { PolicyPrice } from "./models/entities/PolicyPrice";
+import { PolicyPriceEstablishment } from "./models/entities/PolicyPriceEstablishment";
+import { PolicyPricePeriod } from "./models/entities/PolicyPricePeriod";
+import { PolicyPricePerson } from "./models/entities/PolicyPricePerson";
 
 export class Application  {
 
@@ -41,7 +47,19 @@ export class Application  {
             if (process.env.NODE_ENV !== "test"){
                 const opts : PostgresConnectionOptions = {
                     type: "postgres",
-                    url: process.env.DB_URL
+                    url: process.env.DB_URL,
+                    entities : [
+                        Period,
+                        Person,
+                        PolicyPrice,
+                        PolicyPriceEstablishment,
+                        PolicyPricePeriod,
+                        PolicyPricePerson
+                    ],
+                    migrations: [
+                        "models/migrations/**/*.js",
+                        "src/models/migrations/**/*.ts"
+                    ]
                 };
                 connection = await createConnection(opts);
 

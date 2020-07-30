@@ -5,3 +5,4 @@ from .dao import BookingDAO
 from .models import BookingModel
 from .config import app_config
 from .views import ns
+from .services import serviceManager, roomManager, establishmentManager, policyPriceManager

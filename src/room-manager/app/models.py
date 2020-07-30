@@ -41,9 +41,6 @@ RoomCategoryModel.rooms = db.relationship(RoomModel, back_populates = "roomCateg
 RoomEstablishmentModel.room = db.relationship(RoomModel, back_populates = "establishments")
 
 
-if getenv("FLASK_ENV") != "test":
-    db.create_all()
-
 __all__ = [
     db, RoomModel, RoomCategoryModel, RoomEstablishmentModel
 ]

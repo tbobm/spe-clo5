@@ -11,11 +11,6 @@ export class PolicyPriceController {
         this.policyPriceService = policyPriceService;
     }
 
-    @Get("hello")
-    hello(){
-        return ("policy-price");
-    }
-
     @Get()
     async getAll(){
         const list = await this.policyPriceService.getAll();

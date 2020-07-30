@@ -3,11 +3,13 @@ from .api import api
 from .dao import BookingDAO
 from werkzeug.exceptions import HTTPException
 import datetime
+import requests
+from .services import serviceManager, roomManager, establishmentManager, policyPriceManager
 
 ns = Namespace("booking", description="Booking operations")
 
 booking = ns.model('Booking', {
-    "id": fields.Integer(min=0),
+    "id": fields.Integer(required=False),
     "roomId": fields.Integer(min=0),
     "userId": fields.Integer(min=0),
     "code": fields.String,
@@ -31,7 +33,7 @@ class Bookings(Resource):
             return {
                 "message": "no content",
                 "data": []
-            }, 204
+            }, 200
         ret = []
         for item in list:
             ret.append({
@@ -66,15 +68,21 @@ class Bookings(Resource):
             ]
             for key in keys:
                 api.payload[key] = datetime.datetime.now()
-            id = self.bookingDao.save(api.payload)
+            # r = requests.post(roomManager + "/" + api.payload['roomId'])
+            # o = r.json()
+            # print(o)
+            print("debug")
+            i = self.bookingDao.save(api.payload)
+            print("debug 2")
 
             return ({
-                "data": id,
+                "data": i,
                 "message": "Booking created"            
             }), 201
         except HTTPException as e:
             return ({ "message": e.description}), e.code
         except KeyError as e:
+            print(e)
             return ({
                 "message": f"fields in missing: {str(e)}"
             }), 400

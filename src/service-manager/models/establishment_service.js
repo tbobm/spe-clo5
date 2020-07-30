@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     class EstablishmentService extends Model {
         static associate(models) {
             // define association here
-            // EstablishmentService.belongsTo(models.Service, {foreignKey: 'service_id'});
+            EstablishmentService.belongsTo(models.Service, {foreignKey: 'service_id'});
         }
     };
     EstablishmentService.init({

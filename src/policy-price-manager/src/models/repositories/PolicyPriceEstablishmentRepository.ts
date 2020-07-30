@@ -12,7 +12,7 @@ export class PolicyPriceEstablishmentRepository extends Repository<PolicyPriceEs
         if (process.env.NODE_ENV === "test"){
             return;
         }
-        this.manager = getManager(process.env.NODE_ENV || "development");
-        this.metadata = getConnection(process.env.NODE_ENV || "development").getMetadata(PolicyPriceEstablishment);
+        this.manager = getManager();
+        this.metadata = getConnection().getMetadata(PolicyPriceEstablishment);
     }
 }

@@ -7,6 +7,7 @@ import { join } from "path";
 import { json } from "body-parser";
 import morgan from "morgan";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { Address } from "./models/entities/Address";
 
 export class Application  {
 
@@ -36,7 +37,7 @@ export class Application  {
                 });
             }
         });
-        this.app.use("/public", express.static(join(__dirname, "public")));
+        this.app.use("/public", express.static(`${__dirname}/public`));
         this.app.use("/swagger", express.static(absolutePath()));
         RegisterRoutes(this);
     }
@@ -48,7 +49,14 @@ export class Application  {
             if (process.env.NODE_ENV !== "test"){
                 const opts : PostgresConnectionOptions ={
                     type: "postgres",
-                    url: process.env.DB_URL
+                    url: process.env.DB_URL,
+                    entities: [
+                        Address
+                    ],
+                    migrations: [
+                        "models/migrations/**/*.js",
+                        "src/models/migrations/**/*.ts"
+                    ]
                 };
                 connection = await createConnection(opts);
     
@@ -71,4 +79,3 @@ export class Application  {
         }));
     }
 }
-

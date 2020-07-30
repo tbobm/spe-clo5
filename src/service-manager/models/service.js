@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     class Service extends Model {
         static associate(models) {
             // define association here
-            // Service.hasMany(models.EstablishmentService, {
-            //     as: 'establishments',
-            //     foreignKey: 'id'
-            // });
+            Service.hasMany(models.EstablishmentService, {
+                 as: 'establishments',
+                 foreignKey: 'id'
+            });
         }
     };
     Service.init({

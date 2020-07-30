@@ -1,9 +1,7 @@
-FROM node:10-alpine
-
-ADD package.json package.json
-
+FROM node:12
+WORKDIR /app
+COPY package.json package.json
+COPY . .
+COPY scripts /scripts
 RUN npm install
-
-ADD . .
-
 CMD ["npm","run", "start"]

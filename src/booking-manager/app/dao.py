@@ -14,16 +14,7 @@ class BookingDAO:
         return (list)
 
     def save(self, book):
-        model = BookingModel({
-            "userId": book["userId"],
-            "roomId": book["roomId"],
-            "code": book["code"],
-            "totalPrice": book["totalPrice"],
-            "from": book["from"],
-            "to": book["to"],
-            "createdAt": book["createdAt"],
-            "updatedAt": book["updatedAt"]
-        })
+        model = BookingModel(book)
 
         db.session.add(model)
         db.session.commit()

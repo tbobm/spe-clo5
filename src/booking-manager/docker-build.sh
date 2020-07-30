@@ -1,1 +1,3 @@
-docker build -t 172.16.228.42:443/booking-manager:test-rc .
+#! /bin/bash
+
+docker build -t registry.clo5.local/booking-manager:$CI_COMMIT_BRANCH-rc .

@@ -14,7 +14,7 @@ class BookingModel(db.Model):
     updatedAt = db.Column("updated_at", db.DateTime, nullable=False)
 
     def __init__(self, book):
-        self.id = book["id"]
+        # self.id = book["id"]
         self.userId = book["userId"]
         self.roomId = book["roomId"]
         self.code = book["code"]
@@ -24,5 +24,3 @@ class BookingModel(db.Model):
         self.createdAt = book["createdAt"]
         self.updatedAt = book["updatedAt"]
 
-if getenv("FLASK_ENV") != "test":
-    db.create_all()

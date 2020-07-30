@@ -24,7 +24,8 @@ def testBooking(mocker, client):
         data = file.read()
         o2 = json.loads(data)
         for key in o2:
-            assert o1[key] == o2[key]
+            if key != "id":
+                assert o1[key] == o2[key]
 
 def testBookings(mocker, client):
     def getBookings(self):
@@ -48,4 +49,5 @@ def testBookings(mocker, client):
         for i in range(len(o1)):
             item = o1[i]
             for key in item:
-                assert item[key] == o2[i][key]
+                if key != "id":
+                    assert item[key] == o2[i][key]

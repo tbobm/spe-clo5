@@ -1,1 +1,3 @@
-docker build -t 172.16.228.42:443/room-manager:test-rc .
+#! /bin/sh
+
+docker build -t registry.clo5.local/room-manager:test-rc .

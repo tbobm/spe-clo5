@@ -123,8 +123,4 @@ export class AddressController extends Controller {
             httpCode: 200
         });
     }
-
-    hello(){
-        return Promise.resolve("address");
-    }
 }

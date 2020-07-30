@@ -9,7 +9,7 @@ const routesPath = Path.normalize(__dirname + '/routes/users');
 const config = require(configPath);
 const routes = require(routesPath);
 
-const db = new Sequelize(config.CONNECTION_STRING);
+const db = new Sequelize(process.env.DB_URL);
 
 let app = Express();
 
