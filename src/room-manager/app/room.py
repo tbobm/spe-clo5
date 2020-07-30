@@ -243,20 +243,8 @@ class Rooms(Resource):
     roomCategoryDAO = RoomCategoryDAO()
 
     def get(self):
-        list = self.roomCategoryDAO.list()
-        ret = []
-
-        for item in list:
-            o = {
-                "id": item.id,
-                "key": item.key,
-                "basePrice": item.basePrice,
-                "maxLength": item.maxLength
-            }
-
-            ret.append(o)
         return ({
-            "data": ret,
+            "data": self.roomCategoryDAO.list(),
             "message": "Room category list"
         }), 200
 
@@ -265,17 +253,8 @@ class Rooms(Resource):
     roomEstablishmmentDAO = RoomEstablishmentDAO()
 
     def get(self):
-        list = self.roomEstablishmmentDAO.list()
-        ret = []
-
-        for item in list:
-            ret.append({
-                "roomId": item.roomId,
-                "establishmentId": item.establishmentId,
-                "overridePrice": item.overridePrice
-            })
         return ({
-            "data": ret,
+            "data": self.roomEstablishmmentDAO.list(),
             "message": "Room establishments list"
         }), 200
 
