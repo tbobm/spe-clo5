@@ -8,7 +8,7 @@ all:
           ansible_host: 172.16.228.42
           ansible_become: true
           registry_addr: 172.16.228.42
-          registry_url: 172.16.228.42:443
+          registry_url: registry.clo5.local
           gitlab_token: XedPjavJzTAjyuBo2-zt
     docker_swarm_worker:
       hosts:
@@ -17,11 +17,11 @@ all:
           ansible_host: 172.16.228.52
           ansible_become: true
           registry_addr: 172.16.228.42
-          registry_url: 172.16.228.42:443
+          registry_url: registry.clo5.local
         vm2:
           ansible_user: deploy
           ansible_host: 172.16.228.47
           ansible_become: true
           registry_addr: 172.16.228.42
-          registry_url: 172.16.228.42:443
+          registry_url: registry.clo5.local
 ...
