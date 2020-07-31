@@ -37,7 +37,7 @@ In order to use it in the `gitlab_runner` role, provide the flag `-e @vars/gitla
 
 ## Graphs
 
-### Technical infrastructure graph
+### Target technical infrastructure graph
 
 Traefik routing (shortened)
 
@@ -49,8 +49,7 @@ _source:_
 graph LR
   A[Client]-->|HTTP request| C{traefik}
   C -->|user-manager.beta.clo5.local/| D{staging user-manager}
-  subgraph staging
-    D -->|connect to corresponding database|DB[staging db user-manager]
+  subgraph staging D -->|connect to corresponding database|DB[staging db user-manager]
     D -->|contact other service|SE[staging establishment manager]
   end
   C -->|user-manager.clo5.local/| E[production user-manager]
@@ -73,4 +72,34 @@ graph LR
     P -->|scrape cadvisors|CB[cadvisor B]
     P -->|scrape cadvisors|CC[cadvisor C]
   end
+```
+
+### Current technical infrastructure graph
+
+Traefik routing
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcbiAgQVtDbGllbnRdLS0-fEhUVFAgcmVxdWVzdHwgQ3t0cmFlZmlrfVxuICBDIC0tPnx1c2VyLW1hbmFnZXIuYmV0YS5jbG81LmxvY2FsL3wgRHtzdGFnaW5nIHVzZXItbWFuYWdlcn1cbiAgc3ViZ3JhcGggc3RhZ2luZ1xuICAgIEQgLS0-fGNvbm5lY3QgdG8gc2hhcmVkIGRhdGFiYXNlfERCW3N0YWdpbmcgZGJdXG4gIGVuZFxuICBDIC0tPnxncmFmYW5hLmNsbzUubG9jYWx8IEdbZ3JhZmFuYV1cbiAgc3ViZ3JhcGggbW9uaXRvcmluZ1xuICAgIEcgLS0-fGNvbm5lY3QgdG8gcHJvbWV0aGV1c3xQW3Byb21ldGhldXNdXG4gICAgUCAtLT58c2NyYXBlIG5vZGVfZXhwb3J0ZXJzfE5FQVtub2RlX2V4cG9ydGVyIEFdXG4gICAgUCAtLT58c2NyYXBlIG5vZGVfZXhwb3J0ZXJzfE5FQltub2RlX2V4cG9ydGVyIEJdXG4gICAgUCAtLT58c2NyYXBlIG5vZGVfZXhwb3J0ZXJzfE5FQ1tub2RlX2V4cG9ydGVyIENdXG4gICAgUCAtLT58c2NyYXBlIGNhZHZpc29yc3xDQVtjYWR2aXNvciBBXVxuICAgIFAgLS0-fHNjcmFwZSBjYWR2aXNvcnN8Q0JbY2Fkdmlzb3IgQl1cbiAgICBQIC0tPnxzY3JhcGUgY2Fkdmlzb3JzfENDW2NhZHZpc29yIENdXG4gICAgUCAtLT58c2NyYXBlIGdpdGxhYi1ydW5uZXJzfEdBW2dpdGxhYi1ydW5uZXIgQV1cbiAgICBQIC0tPnxzY3JhcGUgZ2l0bGFiLXJ1bm5lcnN8R0JbZ2l0bGFiLXJ1bm5lciBCXVxuICAgIFAgLS0-fHNjcmFwZSBnaXRsYWItcnVubmVyc3xHQ1tnaXRsYWItcnVubmVyIENdXG4gIGVuZFxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZ3JhcGggTFJcbiAgQVtDbGllbnRdLS0-fEhUVFAgcmVxdWVzdHwgQ3t0cmFlZmlrfVxuICBDIC0tPnx1c2VyLW1hbmFnZXIuYmV0YS5jbG81LmxvY2FsL3wgRHtzdGFnaW5nIHVzZXItbWFuYWdlcn1cbiAgc3ViZ3JhcGggc3RhZ2luZ1xuICAgIEQgLS0-fGNvbm5lY3QgdG8gc2hhcmVkIGRhdGFiYXNlfERCW3N0YWdpbmcgZGJdXG4gIGVuZFxuICBDIC0tPnxncmFmYW5hLmNsbzUubG9jYWx8IEdbZ3JhZmFuYV1cbiAgc3ViZ3JhcGggbW9uaXRvcmluZ1xuICAgIEcgLS0-fGNvbm5lY3QgdG8gcHJvbWV0aGV1c3xQW3Byb21ldGhldXNdXG4gICAgUCAtLT58c2NyYXBlIG5vZGVfZXhwb3J0ZXJzfE5FQVtub2RlX2V4cG9ydGVyIEFdXG4gICAgUCAtLT58c2NyYXBlIG5vZGVfZXhwb3J0ZXJzfE5FQltub2RlX2V4cG9ydGVyIEJdXG4gICAgUCAtLT58c2NyYXBlIG5vZGVfZXhwb3J0ZXJzfE5FQ1tub2RlX2V4cG9ydGVyIENdXG4gICAgUCAtLT58c2NyYXBlIGNhZHZpc29yc3xDQVtjYWR2aXNvciBBXVxuICAgIFAgLS0-fHNjcmFwZSBjYWR2aXNvcnN8Q0JbY2Fkdmlzb3IgQl1cbiAgICBQIC0tPnxzY3JhcGUgY2Fkdmlzb3JzfENDW2NhZHZpc29yIENdXG4gICAgUCAtLT58c2NyYXBlIGdpdGxhYi1ydW5uZXJzfEdBW2dpdGxhYi1ydW5uZXIgQV1cbiAgICBQIC0tPnxzY3JhcGUgZ2l0bGFiLXJ1bm5lcnN8R0JbZ2l0bGFiLXJ1bm5lciBCXVxuICAgIFAgLS0-fHNjcmFwZSBnaXRsYWItcnVubmVyc3xHQ1tnaXRsYWItcnVubmVyIENdXG4gIGVuZFxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0)
+
+_source:_
+```markdown
+graph LR
+  A[Client]-->|HTTP request| C{traefik}
+  C -->|user-manager.beta.clo5.local/| D{staging user-manager}
+  subgraph staging
+    D -->|connect to shared database|DB[staging db]
+  end
+  C -->|grafana.clo5.local| G[grafana]
+  subgraph monitoring
+    G -->|connect to prometheus|P[prometheus]
+    P -->|scrape node_exporters|NEA[node_exporter A]
+    P -->|scrape node_exporters|NEB[node_exporter B]
+    P -->|scrape node_exporters|NEC[node_exporter C]
+    P -->|scrape cadvisors|CA[cadvisor A]
+    P -->|scrape cadvisors|CB[cadvisor B]
+    P -->|scrape cadvisors|CC[cadvisor C]
+    P -->|scrape gitlab-runners|GA[gitlab-runner A]
+    P -->|scrape gitlab-runners|GB[gitlab-runner B]
+    P -->|scrape gitlab-runners|GC[gitlab-runner C]
+  end
+
 ```
