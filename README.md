@@ -1,6 +1,6 @@
 # SPE-CLO5
 
-A special note to ETNA's students is available at the bottom of the README.
+A [special note to ETNA's students](#special-note) is available at the bottom of the README.
 
 ## Goal
 
