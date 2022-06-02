@@ -1,5 +1,7 @@
 # SPE-CLO5
 
+A special note to ETNA's students is available at the bottom of the README.
+
 ## Goal
 
 Setup a CI/CD infrastructure with the following components:
@@ -103,3 +105,13 @@ graph LR
   end
 
 ```
+
+## Special note
+
+If you ended up finding this _public_ project, congrats and welcome !
+
+First of all, feel free to leave a :star: if you liked my implementation.
+
+One tiny point to keep in mind if you're currently doing the SPE-CLO5 module: I am still a teacher at ETNA's and I might end up reviewing your project.
+The School's staff is aware of this repository and I don't want any of you to get into trouble because you were a bit curious !
+Think twice before "getting inspired" by the implementation made by someone that might end up grading your work. :wink:
